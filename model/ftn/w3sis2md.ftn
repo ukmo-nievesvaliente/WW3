@@ -728,14 +728,11 @@ ELSE
       GAMMA_TOY =  2 + log(0.9)/log(2.)
       ! Variables from Cole et al. 1995
       ALPHA_D=0.54
-      !B_COLE=1.205E-9 * EXP(0.55*1.60218E-19/(1.38064852e-23*263.15))
       B_COLE=1.205E-9 * EXP(IS2PARS(24)*1.60218E-19/(1.38064852e-23*268.15))
       TAU_D=B_COLE/0.07
-      S_D=LOG(SIG(:)*TAU_D)
-      !IF ((IX.EQ.50).AND.(IY.EQ.20)) WRITE(*,*) 'B', B_COLE, 'SD1' ,S_D(1), 'SD5', S_D(5), 'TAU_D', TAU_D
+      S_D=LOG(SIG(1:NK)*TAU_D)  
       DELTA_D=IS2PARS(21) 
-      !SIGMA_RATIO =1.
-      !
+!
       IF (IS2PARS(9).GT.0) ICEDMIN = IS2PARS(9)
       IF (IS2PARS(12).GT.0) THEN 
         B=IS2PARS(12)
@@ -968,9 +965,11 @@ ELSE
                                             /(CGRATIO(IK)**1*R(IK)**2)           &
                                             *SMOOTHD
               ELSE
-                DCREEP(1+(IK-1)*NTH:IK*NTH) =-4*4/3*SIG(IK)* DELTA_D*ALPHA_D *WN_I(IK)**4 * (YOUNG/MP2)**2         &
-                                             * (ICEH/2)**3/3 * 1/( EXP(ALPHA_D*S_D(IK)) + EXP(-ALPHA_D*S_D(IK))) &
+                DCREEP(1+(IK-1)*NTH:IK*NTH) =-4.*4./3.*SIG(IK)* DELTA_D*ALPHA_D *WN_I(IK)**4 * (YOUNG/MP2)**2         &
+                                             * (ICEH/2.)**3/3. * 1./( EXP(ALPHA_D*S_D(IK)) + EXP(-ALPHA_D*S_D(IK))) &
                                              * SMOOTHD /(R(IK)**2*CGRATIO(IK)) / (DWAT*GRAV) *TPIINV 
+
+
               END IF
             END IF
             S=S+DCREEP*CICE*A
