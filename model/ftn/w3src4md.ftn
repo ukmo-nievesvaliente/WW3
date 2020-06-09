@@ -1576,7 +1576,8 @@
 !       This codes does either one or the other of 
 !       Ardhuin et al. (JPO 2010)   
 !       Filipot & Ardhuin (JGR 2012)
-!       the choice depends on SDSBCK 
+!       Romero (GRL 2009)
+!       the choice depends on SDSBCHOICE
 !
 !  3. Parameters :
 !
@@ -1685,7 +1686,7 @@
 !/T0    REAL                    :: DOUT(NK,NTH)
       REAL                    :: QB(NK), S2(NK)
       REAL                    :: TSTR, TMAX, DT, T, MFT
-      REAL                    :: PB(NSPEC), PB2(NSPEC), BRM12(NK), BTOVER
+      REAL                    :: PB(NSPEC),  BRM12(NK), BTOVER
       REAL                    :: KO, LMODULATION(NTH)
 !/
 !/ ------------------------------------------------------------------- /
@@ -1705,7 +1706,7 @@
       BTH0=0.; BTH=0.; BTH0S=0.; DDIAG=0.; SRHS=0.; PB=0.
       BTHS=0.; MSSSUM(:,:)=0.
 !/T0  DOUT=0.
-      QB=0.; S2=0.;PB=0.; PB2=0.
+      QB=0.; S2=0.;PB=0.; 
       BRM12(:)=0.
 !
 ! 1.  Initialization and numerical factors
@@ -1939,7 +1940,6 @@
       HS = 0.  
       SRHS  = 0.
       DDIAG = 0.
-      PB2  = 0.
 !
 ! Computes Wavenumber spectrum E1 integrated over direction and computes dk
 !
@@ -2058,19 +2058,18 @@
         ASUM = (SUM(A(((IK-1)*NTH+1):(IK*NTH)))*DTH)
         IF (ASUM.GT.1.E-8) THEN
           FORALL (IS=1+(IK-1)*NTH:IK*NTH) DDIAG(IS)  = S1(IK)/ASUM
-          FORALL (IS=1+(IK-1)*NTH:IK*NTH) PB2(IS) = S2(IK)/ASUM
+          FORALL (IS=1+(IK-1)*NTH:IK*NTH) PB(IS) = S2(IK)/ASUM
         ELSE
           FORALL (IS=1+(IK-1)*NTH:IK*NTH) DDIAG(IS)  = 0.
-          FORALL (IS=1+(IK-1)*NTH:IK*NTH) PB2(IS) = 0.
+          FORALL (IS=1+(IK-1)*NTH:IK*NTH) PB(IS) = 0.
           END IF  
-        IF (PB2(1+(IK-1)*NTH).GT.0.001) THEN 
+        IF (PB(1+(IK-1)*NTH).GT.0.001) THEN 
           BTH0(IK) = 2.*SSDSBR
         ELSE
           BTH0(IK) = 0. 
           END IF
         END DO   
 !
-      PB = (1-SSDSC(1))*PB2*A + SSDSC(1)*PB
 ! Compute Lambda = PB* l(k,th) 
 ! with l(k,th)=1/(2*pi²)= the breaking crest density
       BRLAMBDA = PB / (2.*PI**2.)
