@@ -1016,7 +1016,7 @@
 ! Precomputes the weights for the cumulative effect (TEST 441 and 500)
 !
       DIKCUMUL = 0
-      IF (SSDSC(3).NE.0) THEN
+      IF (SSDSC(3).LT.0.) THEN
 !       DIKCUMUL is the integer difference in frequency bands
 !       between the "large breakers" and short "wiped-out waves"
         DIKCUMUL = NINT(SSDSBRF1/(XFR-1.))
@@ -1738,7 +1738,7 @@
                           SSDSISO, SSDSDTH, SSDSBM, AAIRCMIN,        &
                           SSDSBRFDF, SSDSBCK, IKTAB, DCKI,           &
                           SATINDICES, SATWEIGHTS, CUMULW, NKHS, NKD, &
-                          NDTAB, QBI
+                          NDTAB, QBI, DSIP
 #ifdef W3_IG1
       USE W3GDATMD, ONLY: IGPARS
 #endif
@@ -1778,7 +1778,7 @@
       INTEGER                 :: IK, IK1, ITH, IK2, JTH, ITH2,             & 
                                  IKHS, IKD, SDSNTH, IT, IKM, NKM
       INTEGER                 :: NSMOOTH(NK)
-      REAL                    :: C, COSWIND, ASUM, SDIAGISO
+      REAL                    :: C, C2, CUMULWISO, COSWIND, ASUM, SDIAGISO
       REAL                    :: COEF1, COEF2, COEF4(NK),      &
                                  COEF5(NK)
 
@@ -2271,16 +2271,29 @@
 !
     IF ( (SSDSC(3).NE.0.) .OR. (SSDSC(5).NE.0.) .OR. (SSDSC(21).NE.0.) ) THEN 
       DO  IK=IK1, NK
+        RENEWALFREQ = 0.
         FACTURB2=-2.*SIG(IK)*K(IK)*FACTURB
         DVISC=-4.*SSDSC(21)*K(IK)*K(IK)
+        C = SIG(IK)/K(IK) ! phase speed
 !
+        IF (SSDSC(3).GT.0 .AND. IK.GT.DIKCUMUL) THEN
+        ! this is the cheap isotropic version
+          DO IK2=IK1,IK-DIKCUMUL
+             C2 = SIG(IK2)/K(IK2)
+             IS2=(IK2-1)*NTH 
+             CUMULWISO=ABS(C2-C)*DSIP(IK2)/(0.5*C2) * DTH     
+             RENEWALFREQ=RENEWALFREQ-CUMULWISO*SUM(BRLAMBDA(IS2+1:IS2+NTH))
+            END DO
+          END IF
+
         DO ITH=1,NTH       
           IS=ITH+(IK-1)*NTH
 !
 ! Computes cumulative effect from Breaking probability
 !
+          IF (SSDSC(3).LT.0 .AND. IK.GT.DIKCUMUL) THEN
           RENEWALFREQ = 0.
-          IF (SSDSC(3).NE.0 .AND. IK.GT.DIKCUMUL) THEN
+          ! this is the expensive and largely useless version 
             DO IK2=IK1,IK-DIKCUMUL
               IF (BTH0(IK2).GT.SSDSBR) THEN
                 IS2=(IK2-1)*NTH
