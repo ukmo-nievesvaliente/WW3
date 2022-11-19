@@ -440,7 +440,7 @@
 !
 !     !/NL0   No nonlinear interactions.
 !     !/NL1   Discrete interaction approximation (DIA).
-!     !/NL2   Exact interactions (WRT).
+!     !/NL2   Exact interactions (WRT or GQM).
 !     !/NL3   Generalized Multiple DIA (GMD).
 !     !/NL4   Two Scale Approximation
 !     !/NL5   Generalized Kinetic Equation (GKE)
@@ -866,7 +866,7 @@
                                  SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-      INTEGER                 :: IQTYPE, NDEPTH
+      INTEGER                 :: IQTYPE, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
       REAL                    :: TAILNL
 #endif
 #ifdef W3_NL3
@@ -997,7 +997,7 @@
                       SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH
+      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
       NAMELIST /ANL2/ DEPTHS
 #endif
 #ifdef W3_NL3
@@ -1876,6 +1876,9 @@
       IQTYPE =  2
       TAILNL = -FACHF
       NDEPTH =  0
+      GQMNF1 = 14
+      GQMNT1 = 8 
+      GQMNQ_OM2=8
 #endif
 #ifdef W3_NL3
       NQDEF  =  0
@@ -1910,12 +1913,14 @@
       WRITE (NDSO,922) STATUS
       TAILNL = MIN ( MAX ( TAILNL, -5. ) , -4. )
       IF ( IQTYPE .EQ. 3 ) THEN
-          WRITE (NDSO,923) 'Shallow water', TAILNL
+          WRITE (NDSO,923) 'Shallow water WRT', TAILNL
         ELSE IF ( IQTYPE .EQ. 2 ) THEN
-          WRITE (NDSO,923) 'Deep water with scaling', TAILNL
+          WRITE (NDSO,923) 'Deep water WRT with scaling', TAILNL
+        ELSE  IF ( IQTYPE .EQ. 1 ) THEN
+          WRITE (NDSO,923) 'Deep water WRT', TAILNL
         ELSE
-          WRITE (NDSO,923) 'Deep water', TAILNL
-          IQTYPE = 1
+          WRITE (NDSO,923) 'Deep water GQM with scaling', TAILNL
+          IQTYPE = -2
         END IF
 #endif
 !
@@ -1944,6 +1949,9 @@
         END IF
       WRITE (NDST,*)
       IQTPE  = IQTYPE
+      GQNF1  = GQMNF1
+      GQNT1  = GQMNT1
+      GQNQ_OM2  = GQMNQ_OM2
       NDPTHS = NDEPTH
       NLTAIL = TAILNL
 #endif
@@ -3211,7 +3219,7 @@
                             SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH
+          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
           IF ( IQTYPE .EQ. 3 ) THEN
               IF ( NDEPTH .EQ. 1 ) THEN
                   WRITE (NDSO,3923) DPTHNL(1)
@@ -6290,7 +6298,9 @@
                '       Depths (m)                  :',5F7.1)
  2923 FORMAT ( '                                    ',5F7.1)
  2922 FORMAT ( '  &SNL2 IQTYPE =',I2,', TAILNL =',F5.1,',',      &
-                      ' NDEPTH =',I3,' /')
+                      ' NDEPTH =',I3,','/                        &
+               '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
+                      ' GQMNQ_OM2 =',I2,' /')
  3923 FORMAT ( '  &SNL2 DEPTHS =',F9.2,' /')
  4923 FORMAT ( '  &ANL2 DEPTHS =',F9.2,' ,')
  5923 FORMAT ( '                ',F9.2,' ,')

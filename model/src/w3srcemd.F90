@@ -1117,7 +1117,7 @@
         CALL W3SNL1 ( SPEC, CG1, WNMEAN*DEPTH,        VSNL, VDNL )
 #endif
 #ifdef W3_NL2
-        CALL W3SNL2 ( SPEC, CG1, DEPTH,               VSNL, VDNL )
+        CALL W3SNL2 ( SPEC, CG1, WN1, DEPTH,          VSNL, VDNL )
 #endif
 #ifdef W3_NL3
         CALL W3SNL3 ( SPEC, CG1, WN1, DEPTH,          VSNL, VDNL )

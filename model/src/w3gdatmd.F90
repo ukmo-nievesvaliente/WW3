@@ -434,6 +434,8 @@
 !                                1 : Deep water         
 !                                2 : Deep water / WAM scaling
 !                                3 : Finite water depth 
+!      GQNF1     Int.  Public   Gaussian quadrature resolution 
+!      GQNT1
 !      NDPTHS    Int.  Public   Number of depth for which integration
 !                               space needs to be computed.
 !      NLTAIL    Real  Public   Tail factor for parametric tail.
@@ -912,7 +914,7 @@
                                  SNLS1, SNLS2, SNLS3
 #endif
 #ifdef W3_NL2
-        INTEGER               :: IQTPE, NDPTHS
+        INTEGER               :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
         REAL                  :: NLTAIL
         REAL, POINTER         :: DPTHNL(:)
 #endif
@@ -1322,7 +1324,7 @@
                                  SNLS1, SNLS2, SNLS3
 #endif
 #ifdef W3_NL2
-      INTEGER, POINTER        :: IQTPE, NDPTHS
+      INTEGER, POINTER        :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
       REAL, POINTER           :: NLTAIL
       REAL, POINTER           :: DPTHNL(:)
 #endif
@@ -2084,7 +2086,10 @@
       SDSNTH  = MTH/2-1 !MIN(NINT(SSDSDTH/(DTH*RADE)),MTH/2-1)
       ALLOCATE( MPARS(IMOD)%SRCPS%SATINDICES(2*SDSNTH+1,MTH), &
                 MPARS(IMOD)%SRCPS%SATWEIGHTS(2*SDSNTH+1,MTH), &
-                MPARS(IMOD)%SRCPS%CUMULW(MSPEC,MSPEC),        &
+                 STAT=ISTAT                                   )
+      CHECK_ALLOC_STATUS ( ISTAT )
+!      IF (SSDSC(3).LT.0.)  &
+            ALLOCATE (MPARS(IMOD)%SRCPS%CUMULW(MSPEC,MSPEC),  &
                  STAT=ISTAT                                   )
       CHECK_ALLOC_STATUS ( ISTAT )
 #endif
@@ -2727,6 +2732,9 @@
 #endif
 #ifdef W3_NL2
       IQTPE  => MPARS(IMOD)%SNLPS%IQTPE
+      GQNF1  => MPARS(IMOD)%SNLPS%GQNF1
+      GQNT1  => MPARS(IMOD)%SNLPS%GQNT1
+      GQNQ_OM2  => MPARS(IMOD)%SNLPS%GQNQ_OM2
       NDPTHS => MPARS(IMOD)%SNLPS%NDPTHS
       NLTAIL => MPARS(IMOD)%SNLPS%NLTAIL
       IF ( NDPTHS .NE. 0 ) DPTHNL => MPARS(IMOD)%SNLPS%DPTHNL
