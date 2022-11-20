@@ -1341,11 +1341,13 @@
 !
 #ifdef W3_NL2
       IF ( WRITE ) THEN
-          WRITE (NDSM) IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1, GQNQ_OM2, GQTHRSAT
+          WRITE (NDSM) IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1,      &
+                       GQNQ_OM2, GQTHRSAT, GQTHRCOU
           WRITE (NDSM) DPTHNL
         ELSE
           READ (NDSM,END=801,ERR=802,IOSTAT=IERR)                &
-                       IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1, GQNQ_OM2, GQTHRSAT
+                       IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1,      &
+                       GQNQ_OM2, GQTHRSAT, GQTHRCOU
           ALLOCATE ( MPARS(IGRD)%SNLPS%DPTHNL(NDPTHS) )
           DPTHNL => MPARS(IGRD)%SNLPS%DPTHNL
           PINIT  = .TRUE.
@@ -1355,7 +1357,7 @@
 !
 #ifdef W3_NL2
       IF ( FLTEST ) WRITE (NDST,9051) IQTPE, NLTAIL, NDPTHS,     &
-                               GQNF1, GQNT1, GQNQ_OM2, GQTHRSAT
+                               GQNF1, GQNT1, GQNQ_OM2, GQTHRSAT, GQTHRCOU
       IF ( FLTEST ) WRITE (NDST,9151) DPTHNL
 #endif
 !
@@ -1818,7 +1820,7 @@
 !
 #ifdef W3_NL2
  9051 FORMAT (' TEST W3IOGR : MODULE W3GDATMD SNLP'/             &
-              '      DATA   : ',I4,F5.1,4I4)
+              '      DATA   : ',I4,F5.1,4I4,2E10.4)
  9151 FORMAT ('               ',5F7.1)
 #endif
 !

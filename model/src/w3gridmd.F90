@@ -867,7 +867,7 @@
 #endif
 #ifdef W3_NL2
       INTEGER                 :: IQTYPE, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
-      REAL                    :: TAILNL, GQMTHRSAT
+      REAL                    :: TAILNL, GQMTHRSAT, GQMTHRCOU
 #endif
 #ifdef W3_NL3
       INTEGER                 :: NQDEF
@@ -997,7 +997,8 @@
                       SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2, GQMTHRSAT
+      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1,         &
+                      GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU
       NAMELIST /ANL2/ DEPTHS
 #endif
 #ifdef W3_NL3
@@ -1880,6 +1881,7 @@
       GQMNT1 = 8 
       GQMNQ_OM2=8
       GQMTHRSAT=0.
+      GQMTHRCOU=0.015
 #endif
 #ifdef W3_NL3
       NQDEF  =  0
@@ -1954,6 +1956,7 @@
       GQNT1  = GQMNT1
       GQNQ_OM2  = GQMNQ_OM2
       GQTHRSAT  = GQMTHRSAT
+      GQTHRCOU  = GQMTHRCOU
       NDPTHS = NDEPTH
       NLTAIL = TAILNL
 #endif
@@ -6302,7 +6305,7 @@
  2922 FORMAT ( '  &SNL2 IQTYPE =',I2,', TAILNL =',F5.1,',',      &
                       ' NDEPTH =',I3,','/                        &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
-                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,' /')
+                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,' /')
  3923 FORMAT ( '  &SNL2 DEPTHS =',F9.2,' /')
  4923 FORMAT ( '  &ANL2 DEPTHS =',F9.2,' ,')
  5923 FORMAT ( '                ',F9.2,' ,')

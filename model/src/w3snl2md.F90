@@ -825,15 +825,48 @@
          q_dfac = 1.
       end if
       END SUBROUTINE q_dscale
-!=========================================================================================================
-!
-!
+
+!/ ------------------------------------------------------------------- /
       FUNCTION COUPLE(XK1 ,YK1 ,XK2 ,YK2 ,XK3 ,YK3 ,XK4 ,YK4)
+!/
+!/                  +-----------------------------------+
+!/                  | WAVEWATCH III           NOAA/NCEP |
+!/                  |      E. Gagnaire-Renou            |
+!/                  | Last update :         20-Nov-2022 |
+!/                  +-----------------------------------+
+!/
+!/    19-Nov-2022 : Transfer from TOMAWAC code          ( version 7.xx ) 
+!/
+!  1. Purpose :
 !
+!     Computes the 4-wave coupling coefficient used in Snl4 
 !
-!=========================================================================================================
-!.....VARIABLES IN ARGUMENT
-!     """""""""""""""""""""
+!  2. Method : 
+!     
+!     Uses theoretical expression by Webb (1978) 
+!
+!  3. Parameters :
+!
+!     Parameter list
+!     ----------------------------------------------------------------
+!       XK1     Real  I   x component of k1 wavenumber ... 
+!     ----------------------------------------------------------------
+!
+!  5. Called by :
+!
+!      Name      Type  Module   Description
+!     ----------------------------------------------------------------
+!      INNSLGQM  Subr. W3SNL2   Prepares source term integration.
+!     ----------------------------------------------------------------
+!
+!  6. Error messages :
+!
+!       None.
+!
+! 10. Source code :
+!
+!/ ------------------------------------------------------------------- /
+!
       DOUBLE PRECISION, INTENT(IN)    :: XK1   , YK1   , XK2   , YK2
       DOUBLE PRECISION, INTENT(IN)    :: XK3   , YK3
       DOUBLE PRECISION, INTENT(IN)    :: XK4   , YK4  
@@ -891,11 +924,11 @@
       NUME13=2.00D0*Q13*(RK1*RK3+S13)*(RK2*RK4+S24)
       IF (ABS(DENO13).LT.ZERO) THEN
         IF (ABS(NUME13).LT.ZERO) THEN
-          WRITE(*,*) 'WARNING DANS COUPLE : (1-3) ON A : 0/0 !'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3)  0/0 !'
         ELSE
-          WRITE(*,*) 'WARNING DANS COUPLE : (1-3) ON A : INFINI !'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3) inifinte value'
         ENDIF
-          WRITE(*,*) 'TERME (1-3) NON PRIS EN COMPTE DANS LE CALCUL.'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3) term not used'
       ELSE
         DDD=DDD+NUME13/DENO13
       ENDIF
@@ -903,11 +936,11 @@
       NUME14=2.00D0*Q14*(RK1*RK4+S14)*(RK2*RK3+S23)
       IF (ABS(DENO14).LT.ZERO) THEN
         IF (ABS(NUME14).LT.ZERO) THEN
-          WRITE(*,*) 'WARNING DANS COUPLE : (1-4) ON A : 0/0 !'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4)  0/0 !'
         ELSE
-          WRITE(*,*) 'WARNING DANS COUPLE : (1-4) ON A : INFINI !'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4) inifinte value'
         ENDIF
-          WRITE(*,*) 'TERME (1-4) NON PRIS EN COMPTE DANS LE CALCUL.'
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4) term not used'
       ELSE
         DDD=DDD+NUME14/DENO14
       ENDIF
@@ -921,16 +954,14 @@
 !/ ------------------------------------------------------------------- /
 !.....VARIABLES IN ARGUMENT
 !     """"""""""""""""""""
-      INTEGER ,INTENT(IN)             ::          NPOIN
+      INTEGER ,         INTENT(IN)    :: NPOIN
       DOUBLE PRECISION ,INTENT(INOUT) :: W_LEG(NPOIN) , X_LEG(NPOIN)
 !
 !.....LOCAL VARIABLES
 !     """""""""""""""""
-      INTEGER           I     , M     , J
-      DOUBLE PRECISION  EPS   , Z     , P1    , P2    , P3   &
-                     ,   PP    , Z1 , PI
+      INTEGER           I, M, J
+      DOUBLE PRECISION  EPS, Z, P1, P2, P3, PP, Z1, PI
       PARAMETER        (EPS=3.D-14)
-!
 !
       PI = ACOS(-1.)
       M=(NPOIN+1)/2
@@ -1113,6 +1144,7 @@
 !/
 !/                  +-----------------------------------+
 !/                  | WAVEWATCH III           NOAA/NCEP |
+!/                  |       E. Gagnaire-Renou &         |
 !/                  |       M. Benoit                   |
 !/                  |       S. Mostafa Siadatamousavi   |
 !/		    |       M. Beyramzadeh              |
@@ -1164,7 +1196,7 @@
 !
 !/ ------------------------------------------------------------------- /
       USE CONSTANTS, ONLY: GRAV
-      USE W3GDATMD,  ONLY: NK , NTH , XFR , FR1, GQNF1, GQNT1, GQNQ_OM2, NLTAIL
+      USE W3GDATMD,  ONLY: NK , NTH , XFR , FR1, GQNF1, GQNT1, GQNQ_OM2, NLTAIL, GQTHRCOU
 	  
 #ifdef W3_S
       CALL STRACE (IENT, 'INSNLGQM')
@@ -1198,11 +1230,10 @@
       GRAVIT = GRAV
       TWOPI  = 2.*PI
 !
-! Defines some threshold values 
+! Defines some threshold values for filtering (See Gagnaire-Renou Thesis,  p 52)
 !
       SEUIL1 = 1E10
-      SEUIL2 = 0.015
-      SEUIL  = 0.
+      SEUIL2 = GQTHRCOU
 
       IF(GQNF1.EQ.14) IQ_OM1=1
       IF(GQNF1.EQ.26) IQ_OM1=2
@@ -1741,10 +1772,9 @@
       ENDDO
       DEALLOCATE(MAXCLA)
 !
-!.....It counts the fraction of the eliminated configurations
-!     """"""""""""""""""""""""""""""""""""""""""""""""""""""
+!..... counts the fraction of the eliminated configurations
       ELIM=(1.D0-DBLE(NCONF)/DBLE(NCONFM))*100.D0
-
+!      WRITE(994,*) 'NCONF:',NCONF,ELIM
       END SUBROUTINE INSNLGQM
 !/
 !/ End of module W3SNL2MD -------------------------------------------- /
