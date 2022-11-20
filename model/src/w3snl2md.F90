@@ -442,14 +442,14 @@
 !==================================================================================
 !     This subroutine is same as qnlin3 in TOMWAC
       USE CONSTANTS, ONLY: TPI
-      USE W3GDATMD,  ONLY: SIG, NK ,  NTH , DTH, XFR, FR1
+      USE W3GDATMD,  ONLY: SIG, NK ,  NTH , DTH, XFR, FR1, GQTHRSAT
 	  
       REAL, intent(in) :: A(NTH,NK), CG(NK), WN(NK)
       REAL, intent(in) :: DEPTH
       REAL, intent(out) :: TSTOTn(NTH,NK), TSDERn(NTH,NK)
 	  
-      INTEGER :: ITH,IK,NT,NF
-      REAL :: q_dfac
+      INTEGER          :: ITH,IK,NT,NF
+      REAL             :: q_dfac, SATVAL
       DOUBLE PRECISION :: RAISF, FREQ(NK)
       DOUBLE PRECISION :: TSTOT(NTH,NK) , TSDER(NTH,NK), F(NTH,NK)
 
@@ -506,14 +506,15 @@
 !=======================================================================
 !     COMPUTES THE SPECTRUM THRESHOLD VALUES (BELOW WHICH QNL4 IS NOT
 !     CALCULATED). THE THRESHOLD IS SET WITHIN 0 AND 1.
+! This was commented by FA
 !=======================================================================
-        AUX00=0.0D0
-        DO JF=1,NF
-          DO JT=1,NT
-            IF (F(JT,JF).GT.AUX00) AUX00=F(JT,JF)
-          ENDDO
-        ENDDO
-        FSEUIL=AUX00*SEUIL
+!        AUX00=0.0D0
+!        DO JF=1,NF
+!          DO JT=1,NT
+!            IF (F(JT,JF).GT.AUX00) AUX00=F(JT,JF)
+!          ENDDO
+!        ENDDO
+!        FSEUIL=AUX00*SEUIL
         
         TSTOT = 0. 
         TSDER = 0.
@@ -559,6 +560,8 @@
 !       STARTS LOOP 2 OVER THE SPECTRUM FREQUENCIES
 !       = = = = = = = = = = = = = = = = = = = = = = = = =
         DO JF=JFMIN,JFMAX
+        SATVAL = SUM(F(:,JF))*DTH*FREQ(JF)**5
+        IF (SATVAL.GT.GQTHRSAT) THEN 
 !
 !.........Recovers the coefficient for the coupling factor
 !.........Computes the coupling coefficients for the case +Delta1 (SIG=1)
@@ -605,7 +608,7 @@
 !
               SP0=F(JT,JFM0)*CF0
 !
-              IF (SP0.GT.FSEUIL) THEN
+!              IF (SP0.GT.FSEUIL) THEN
 !
 !               Config. +Delta1 (SIG=1)
 !               =======================
@@ -715,13 +718,14 @@
                 TSDER(JT1M3M,JFM3)=TSDER(JT1M3M,JFM3)-Q2PD3M*CP3
                 TSDER(JT1M3P,JFM3)=TSDER(JT1M3P,JFM3)-Q2MD3P*CP3
 !
-              ENDIF
+!              ENDIF ! this was the test on SEUIL 
 !
           ENDDO
 !         -------------------------------------------------
 !         END OF LOOP 3 OVER THE SPECTRUM DIRECTIONS
 !         -------------------------------------------------
 !
+        ENDIF ! End of test on saturation level 
         ENDDO
 !       = = = = = = = = = = = = = = = = = = = = = = = = =
 !       END OF LOOP 2 OVER THE SPECTRUM FREQUENCIES
@@ -1160,7 +1164,7 @@
 !
 !/ ------------------------------------------------------------------- /
       USE CONSTANTS, ONLY: GRAV
-      USE W3GDATMD,  ONLY: NK , NTH , XFR , FR1, GQNF1, GQNT1, GQNQ_OM2
+      USE W3GDATMD,  ONLY: NK , NTH , XFR , FR1, GQNF1, GQNT1, GQNQ_OM2, NLTAIL
 	  
 #ifdef W3_S
       CALL STRACE (IENT, 'INSNLGQM')
@@ -1222,7 +1226,8 @@
          FREQ(IK) = FR1*RAISF**(IK-1)
       ENDDO
 
-      TAILF = 5.
+      TAILF = -NLTAIL
+
 !===============ALLOCATE MATRICES=============================================  
       if (Allocated(K_IF2) ) then
           deallocate(K_IF2)
@@ -1391,6 +1396,7 @@
 !
 !=======================================================================
 !     COMPUTES SCALE COEFFICIENTS FOR THE COUPLING COEFFICIENT
+!     Would be easier to pass these on from W3SRCE ??? 
 !=======================================================================
       DP2SG=TWOPI*TWOPI/GRAVIT
       DO JF=1,LBUF

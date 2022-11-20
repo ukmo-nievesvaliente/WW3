@@ -867,7 +867,7 @@
 #endif
 #ifdef W3_NL2
       INTEGER                 :: IQTYPE, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
-      REAL                    :: TAILNL
+      REAL                    :: TAILNL, GQMTHRSAT
 #endif
 #ifdef W3_NL3
       INTEGER                 :: NQDEF
@@ -997,7 +997,7 @@
                       SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
+      NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2, GQMTHRSAT
       NAMELIST /ANL2/ DEPTHS
 #endif
 #ifdef W3_NL3
@@ -1879,6 +1879,7 @@
       GQMNF1 = 14
       GQMNT1 = 8 
       GQMNQ_OM2=8
+      GQMTHRSAT=0.
 #endif
 #ifdef W3_NL3
       NQDEF  =  0
@@ -1911,7 +1912,7 @@
 #ifdef W3_NL2
       CALL READNL ( NDSS, 'SNL2', STATUS )
       WRITE (NDSO,922) STATUS
-      TAILNL = MIN ( MAX ( TAILNL, -5. ) , -4. )
+      TAILNL = MIN ( MAX ( TAILNL, -6. ) , -4. )
       IF ( IQTYPE .EQ. 3 ) THEN
           WRITE (NDSO,923) 'Shallow water WRT', TAILNL
         ELSE IF ( IQTYPE .EQ. 2 ) THEN
@@ -1952,6 +1953,7 @@
       GQNF1  = GQMNF1
       GQNT1  = GQMNT1
       GQNQ_OM2  = GQMNQ_OM2
+      GQTHRSAT  = GQMTHRSAT
       NDPTHS = NDEPTH
       NLTAIL = TAILNL
 #endif
@@ -3219,7 +3221,7 @@
                             SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
+          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2, GQMTHRSAT
           IF ( IQTYPE .EQ. 3 ) THEN
               IF ( NDEPTH .EQ. 1 ) THEN
                   WRITE (NDSO,3923) DPTHNL(1)
@@ -6300,7 +6302,7 @@
  2922 FORMAT ( '  &SNL2 IQTYPE =',I2,', TAILNL =',F5.1,',',      &
                       ' NDEPTH =',I3,','/                        &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
-                      ' GQMNQ_OM2 =',I2,' /')
+                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,' /')
  3923 FORMAT ( '  &SNL2 DEPTHS =',F9.2,' /')
  4923 FORMAT ( '  &ANL2 DEPTHS =',F9.2,' ,')
  5923 FORMAT ( '                ',F9.2,' ,')
