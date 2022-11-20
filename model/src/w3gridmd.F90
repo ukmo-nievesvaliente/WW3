@@ -3224,7 +3224,8 @@
                             SNLCS1, SNLCS2, SNLCS3
 #endif
 #ifdef W3_NL2
-          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2, GQMTHRSAT
+          WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1,      &
+                         GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU
           IF ( IQTYPE .EQ. 3 ) THEN
               IF ( NDEPTH .EQ. 1 ) THEN
                   WRITE (NDSO,3923) DPTHNL(1)
