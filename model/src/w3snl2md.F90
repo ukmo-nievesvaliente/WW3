@@ -402,7 +402,6 @@
       ELSE 
         IERR = 0
         CALL INSNLGQM
-	  WRITE(994,*) 'SNL1:',F_POIN,'##',T_POIN,'##',F_COEF
 
         END IF
 !
@@ -488,7 +487,6 @@
 	        F(ITH,IK) = DBLE(A(ITH,IK)*SIG(IK))*DBLE(TPI)/DBLE(CG(IK))
          ENDDO
       ENDDO
-	  WRITE(994,*) 'SNL2:',F_POIN,'##',T_POIN,'##',F_COEF
 !   CALL INSNLGQM
 	  ! it returns: F_POIN , T_POIN , F_COEF , F_PROJ, TB_SCA , K_IF1, K_1P, k_1M , K_IF2
 	  !             K_IF3, K_1P2P , K_1P3M , K_1P2M , K_1P3P , K_1M2P , K_1M3M ,  K_1M2M
@@ -1740,7 +1738,6 @@
 !.....It counts the fraction of the eliminated configurations
 !     """"""""""""""""""""""""""""""""""""""""""""""""""""""
       ELIM=(1.D0-DBLE(NCONF)/DBLE(NCONFM))*100.D0
-WRITE(994,*) 'ELIM:',ELIM
 
       END SUBROUTINE INSNLGQM
 !/

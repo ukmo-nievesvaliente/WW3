@@ -605,6 +605,9 @@
 
 ! 5.1 Loops on out_grd.ww3 to read the time and data
       DO
+! WARNING: if the users sets a TOUT far in the past ... 
+! then this takes for ever. Would be better to start at
+! first value of TIME
         DTEST  = DSEC21 ( TIME , TOUT )
         IF ( DTEST .GT. 0. ) THEN
           CALL W3IOGO ( 'READ', NDSOG, IOTEST )
