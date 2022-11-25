@@ -915,7 +915,7 @@
 #endif
 #ifdef W3_NL2
         INTEGER               :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
-        REAL                  :: NLTAIL, GQTHRSAT, GQTHRCOU
+        REAL                  :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(4)
         REAL, POINTER         :: DPTHNL(:)
 #endif
 #ifdef W3_NL3
@@ -1325,7 +1325,7 @@
 #endif
 #ifdef W3_NL2
       INTEGER, POINTER        :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
-      REAL, POINTER           :: NLTAIL, GQTHRSAT, GQTHRCOU
+      REAL, POINTER           :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(:)
       REAL, POINTER           :: DPTHNL(:)
 #endif
 #ifdef W3_NL3
@@ -2739,6 +2739,7 @@
       NLTAIL => MPARS(IMOD)%SNLPS%NLTAIL
       GQTHRSAT => MPARS(IMOD)%SNLPS%GQTHRSAT
       GQTHRCOU=> MPARS(IMOD)%SNLPS%GQTHRCOU
+      GQAMP=> MPARS(IMOD)%SNLPS%GQAMP
       IF ( NDPTHS .NE. 0 ) DPTHNL => MPARS(IMOD)%SNLPS%DPTHNL
 #endif
 #ifdef W3_NL3

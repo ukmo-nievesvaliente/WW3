@@ -867,7 +867,7 @@
 #endif
 #ifdef W3_NL2
       INTEGER                 :: IQTYPE, NDEPTH, GQMNF1, GQMNT1, GQMNQ_OM2
-      REAL                    :: TAILNL, GQMTHRSAT, GQMTHRCOU
+      REAL                    :: TAILNL, GQMTHRSAT, GQMTHRCOU, GQAMP1, GQAMP2, GQAMP3, GQAMP4
 #endif
 #ifdef W3_NL3
       INTEGER                 :: NQDEF
@@ -998,7 +998,7 @@
 #endif
 #ifdef W3_NL2
       NAMELIST /SNL2/ IQTYPE, TAILNL, NDEPTH, GQMNF1, GQMNT1,         &
-                      GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU
+                      GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU, GQAMP1, GQAMP2, GQAMP3, GQAMP4
       NAMELIST /ANL2/ DEPTHS
 #endif
 #ifdef W3_NL3
@@ -1882,6 +1882,10 @@
       GQMNQ_OM2=8
       GQMTHRSAT=0.
       GQMTHRCOU=0.015
+      GQAMP1=1.
+      GQAMP2=0.002
+      GQAMP3=1.
+      GQAMP4=1.
 #endif
 #ifdef W3_NL3
       NQDEF  =  0
@@ -1957,6 +1961,10 @@
       GQNQ_OM2  = GQMNQ_OM2
       GQTHRSAT  = GQMTHRSAT
       GQTHRCOU  = GQMTHRCOU
+      GQAMP(1)  = GQAMP1
+      GQAMP(2)  = GQAMP2
+      GQAMP(3)  = GQAMP3
+      GQAMP(4)  = GQAMP4
       NDPTHS = NDEPTH
       NLTAIL = TAILNL
 #endif
@@ -3225,7 +3233,7 @@
 #endif
 #ifdef W3_NL2
           WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1,      &
-                         GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU
+                         GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU, GQAMP1, GQAMP2, GQAMP3, GQAMP4
           IF ( IQTYPE .EQ. 3 ) THEN
               IF ( NDEPTH .EQ. 1 ) THEN
                   WRITE (NDSO,3923) DPTHNL(1)
@@ -6306,7 +6314,8 @@
  2922 FORMAT ( '  &SNL2 IQTYPE =',I2,', TAILNL =',F5.1,',',      &
                       ' NDEPTH =',I3,','/                        &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
-                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,' /')
+                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,','/ &
+               '        GQAMP1 =',F5.3,', GQAMP2 =',F5.3,', GQAMP3 =',F5.3,', GQAMP4 =',F5.3,' /')
  3923 FORMAT ( '  &SNL2 DEPTHS =',F9.2,' /')
  4923 FORMAT ( '  &ANL2 DEPTHS =',F9.2,' ,')
  5923 FORMAT ( '                ',F9.2,' ,')

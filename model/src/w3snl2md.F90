@@ -437,21 +437,23 @@
 
 !/ ------------------------------------------------------------------- /
       SUBROUTINE W3SNLGQM(A,CG,WN,DEPTH,TSTOTn,TSDERn)
-!
-!
+!  
+!/ Warning, contrary to the DIA routine, there is no extension to frequencies below IK=1
+!/ as a result the first two frequencies are not fully treated. 
 !==================================================================================
 !     This subroutine is same as qnlin3 in TOMWAC
       USE CONSTANTS, ONLY: TPI
-      USE W3GDATMD,  ONLY: SIG, NK ,  NTH , DTH, XFR, FR1, GQTHRSAT
+      USE W3GDATMD,  ONLY: SIG, NK ,  NTH , DTH, XFR, FR1, GQTHRSAT, GQAMP
 	  
       REAL, intent(in) :: A(NTH,NK), CG(NK), WN(NK)
       REAL, intent(in) :: DEPTH
       REAL, intent(out) :: TSTOTn(NTH,NK), TSDERn(NTH,NK)
 	  
       INTEGER          :: ITH,IK,NT,NF
-      REAL             :: q_dfac, SATVAL
+      REAL             :: q_dfac, SATVAL(NK), SUME, ACCVAL, ACCMAX, AMPFAC
       DOUBLE PRECISION :: RAISF, FREQ(NK)
       DOUBLE PRECISION :: TSTOT(NTH,NK) , TSDER(NTH,NK), F(NTH,NK)
+      DOUBLE PRECISION :: TEMP
 
 !.....LOCAL VARIABLES
       INTEGER             JF    , JT    , JF1   , JT1  , IQ_OM2 &
@@ -519,6 +521,15 @@
         TSTOT = 0. 
         TSDER = 0.
 !=======================================================================
+      ACCMAX=0.
+      DO JF=JFMIN,JFMAX
+        SUME=SUM(F(:,JF))*DTH
+        SATVAL(JF) = SUME*FREQ(JF)**5
+        ACCVAL = SUME*FREQ(JF)**4
+        IF (ACCVAL.GT.ACCMAX) ACCMAX=ACCVAL
+        END DO
+
+
 !     ==================================================
 !     STARTS LOOP 1 OVER THE SELECTED CONFIGURATIONS
 !     ==================================================
@@ -560,8 +571,7 @@
 !       STARTS LOOP 2 OVER THE SPECTRUM FREQUENCIES
 !       = = = = = = = = = = = = = = = = = = = = = = = = =
         DO JF=JFMIN,JFMAX
-        SATVAL = SUM(F(:,JF))*DTH*FREQ(JF)**5
-        IF (SATVAL.GT.GQTHRSAT) THEN 
+        IF (SATVAL(JF).GT.GQTHRSAT) THEN 
 !
 !.........Recovers the coefficient for the coupling factor
 !.........Computes the coupling coefficients for the case +Delta1 (SIG=1)
@@ -649,8 +659,8 @@
                 AUX10=Q2PD1+Q2MD1
 !
 !...............Sum of Qnl4 term in the table TSTOT
-                TSTOT(JT,JFM0)=TSTOT(JT,JFM0)+AUX00 *CP0
-                TSTOT(JT1P,JFM1)=TSTOT(JT1P,JFM1)+AUX00 *CP1
+                TSTOT(JT,JFM0    )=TSTOT(JT,JFM0    )+AUX00 *CP0
+                TSTOT(JT1P,JFM1  )=TSTOT(JT1P,JFM1  )+AUX00 *CP1
                 TSTOT(JT1P2P,JFM2)=TSTOT(JT1P2P,JFM2)-Q_2P3M*CP2
                 TSTOT(JT1P2M,JFM2)=TSTOT(JT1P2M,JFM2)-Q_2M3P*CP2
                 TSTOT(JT1P3M,JFM3)=TSTOT(JT1P3M,JFM3)-Q_2P3M*CP3
@@ -663,6 +673,25 @@
                 TSDER(JT1P2M,JFM2)=TSDER(JT1P2M,JFM2)-Q2MD2M*CP2
                 TSDER(JT1P3M,JFM3)=TSDER(JT1P3M,JFM3)-Q2PD3M*CP3
                 TSDER(JT1P3P,JFM3)=TSDER(JT1P3P,JFM3)-Q2MD3P*CP3
+#ifdef W3_TGQM
+! Test output to set up triplet method ... 
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT,    JFM0,AUX00 *CP0, F(JT,JFM0),TSTOT(JT    ,JFM0)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1P,  JFM1,AUX00 *CP1, F(JT1P,JFM1),TSTOT(JT1P,JFM1)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1P2P,JFM2,-Q_2P3M*CP2,F(JT1P2P,JFM2),TSTOT(JT1P2P,JFM2)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1P2M,JFM2,-Q_2M3P*CP2,F(JT1P2M,JFM2),TSTOT(JT1P2M,JFM2)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1P3M,JFM2,-Q_2P3M*CP3,F(JT1P3M,JFM3),TSTOT(JT1P3M,JFM3)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1P3P,JFM2,-Q_2M3P*CP3,F(JT1P3P,JFM3),TSTOT(JT1P3P,JFM3)
+  TEMP=(TB_TPM(IQ_OM2,JT1,JF1)*(( F(JT1P2P,JFM2)*CF2 *F(JT1P3M,JFM3)*CF3)* &
+                                 (F(JT,JFM0    )*CF0*TB_V14(JF1)+F(JT1P  ,JFM1)*CF1) &
+                                 -SP0*SP1P*(SP1P2P*V3_4+SP1P3M*V2_4))+T_2M3P*(AUX05*AUX01-AUX02*AUX06)) *CP0
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT, F(JT,JFM0)
+  TEMP=(Q_2P3M+Q_2M3P) *CP1
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT,JT1P,  JFM1,AUX00 *CP1, F(JT1P,JFM1),TSTOT(JT1P,JFM1)
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT,JT1P2P,JFM2,-Q_2P3M*CP2,F(JT1P2P,JFM2),TSTOT(JT1P2P,JFM2)
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT,JT1P2M,JFM2,-Q_2M3P*CP2,F(JT1P2M,JFM2),TSTOT(JT1P2M,JFM2)
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT,JT1P3M,JFM2,-Q_2P3M*CP3,F(JT1P3M,JFM3),TSTOT(JT1P3M,JFM3)
+  WRITE(995,'(5I3,3E12.3)') ICONF,JF,JT,JT1P3P,JFM2,-Q_2M3P*CP3,F(JT1P3P,JFM3),TSTOT(JT1P3P,JFM3)
+#endif
 !
 !               Config. -Delta1 (SIG=-1)
 !               ========================
@@ -688,7 +717,7 @@
                 S_2M3P=AUX05*AUX01-AUX02*AUX06
                 Q_2P3M=T_2M3P*S_2P3M
                 Q_2M3P=T_2P3M*S_2M3P
-                AUX00 =Q_2P3M+Q_2M3P
+                AUX00 =Q_2P3M+Q_2M3P   ! Same as in +Delta1, can be commented out
 !
 !...............Computes the derived terms components (dQ/dF)
                 Q2PD0 =T_2P3M*(AUX03*V1_4   - SP1M*AUX04)*CF0
@@ -718,6 +747,15 @@
                 TSDER(JT1M3M,JFM3)=TSDER(JT1M3M,JFM3)-Q2PD3M*CP3
                 TSDER(JT1M3P,JFM3)=TSDER(JT1M3P,JFM3)-Q2MD3P*CP3
 !
+#ifdef W3_TGQM
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT,    JFM0,AUX00 *CP0, F(JT,JFM0),TSTOT(JT    ,JFM0)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1M,  JFM1,AUX00 *CP1, F(JT1M,JFM1),TSTOT(JT1M,JFM1)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1M2P,JFM2,-Q_2P3M*CP2,F(JT1M2P,JFM2),TSTOT(JT1M2P,JFM2)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1M2M,JFM2,-Q_2M3P*CP2,F(JT1M2M,JFM2),TSTOT(JT1M2M,JFM2)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1M3M,JFM2,-Q_2P3M*CP3,F(JT1M3M,JFM3),TSTOT(JT1M3M,JFM3)
+  WRITE(994,'(5I3,3E12.3)') ICONF,JF,JT,JT1M3P,JFM2,-Q_2M3P*CP3,F(JT1M3P,JFM3),TSTOT(JT1M3P,JFM3)
+#endif
+!
 !              ENDIF ! this was the test on SEUIL 
 !
           ENDDO
@@ -737,20 +775,24 @@
 !     ==================================================
 ! Applying WAM DEPTH SCALING
       CALL q_dscale(F,WN,SIG,DTH,NK,NTH,DEPTH,q_dfac)
-      TSTOT = TSTOT*DBLE(q_dfac)
-      TSDER = TSDER*DBLE(q_dfac)
 
-! Replacing Double Precision with Simple Real
-      TSTOTn = TSTOT
-      TSDERn = TSDER
-	  
+! Amplification inspired by Lavrenov 2001, eq 10.
+      AMPFAC=GQAMP(4)*MIN(MAX(ACCMAX/GQAMP(2),1.)**GQAMP(1),GQAMP(3))
+!WRITE(991,*) ACCMAX,q_dfac,AMPFAC,GQAMP(1:3),SATVAL(10),SATVAL(30)
+     
+! Replacing Double Precision with Simple Real and scaling 
+      TSTOTn = TSTOT*q_dfac*AMPFAC
+      TSDERn = TSDER*q_dfac*AMPFAC
+
+   
 ! Converting Snl(theta,f) to Snl(theta,k)/sigma
       DO ITH = 1,NT
 	 DO IK = 1,NF
             TSTOTn(ITH,IK) = TSTOTn(ITH,IK)*CG(IK)/(TPI*SIG(IK))
          ENDDO
       ENDDO
-
+ !CLOSE(994)
+ !STOP
       END SUBROUTINE W3SNLGQM
 !==================================================================================
 !
@@ -1767,6 +1809,10 @@
               IDCONF(NCONF,2)=JT1
               IDCONF(NCONF,3)=IQ_OM2
             ENDIF
+#ifdef W3_TGQM
+      WRITE(993,*) NCONF,JF1,JT1,IQ_OM2,AAA,CCC,(AAA.GT.TEST1.OR.AAA.GT.TEST2), &
+                (CCC.GT.TEST1.OR.CCC.GT.TEST2)
+#endif
           ENDDO
         ENDDO
       ENDDO
