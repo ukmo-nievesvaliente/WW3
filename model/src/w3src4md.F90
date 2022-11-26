@@ -1738,7 +1738,7 @@
                           SSDSISO, SSDSDTH, SSDSBM, AAIRCMIN,        &
                           SSDSBRFDF, SSDSBCK, IKTAB, DCKI,           &
                           SATINDICES, SATWEIGHTS, CUMULW, NKHS, NKD, &
-                          NDTAB, QBI, DSIP
+                          NDTAB, QBI, DSIP, SSDSBRF1,XFR
 #ifdef W3_IG1
       USE W3GDATMD, ONLY: IGPARS
 #endif
@@ -1836,6 +1836,7 @@
 ! 1.  Initialization and numerical factors
 !
       FACTURB=SSDSC(5)*USTAR**2/GRAV*DAIR/DWAT
+      DIKCUMUL = NINT(SSDSBRF1/(XFR-1.))
       BREAKFRACTION=0.
       RENEWALFREQ=0.
       IK1=1
