@@ -1283,15 +1283,15 @@
                 ZZWND, AALPHA, ZZ0MAX, BBETA, SSINTHP, ZZALP,    &
                 TTAUWSHELTER, SSWELLFPAR, SSWELLF, SSINBR,       &
                 ZZ0RAT, SSDSC,                                   &
-                SSDSISO, SSDSBR, SSDSBT, SSDSBM, SSDSP,         &
+                SSDSISO, SSDSBR, SSDSBT, SSDSBM, SSDSP,          &
                 SSDSCOS, SSDSDTH, WWNMEANP, WWNMEANPTAIL,SSTXFTF,&
                 SSTXFTFTAIL, SSTXFTWN, SSTXFTF, SSTXFTWN,        &
                 SSDSBRF1, SSDSBRF2, SSDSBRFDF,SSDSBCK, SSDSABK,  &
-                SSDSPBK, SSDSBINT, FFXPM, FFXFM, FFXFA,   &
-                SSDSHCK, DELUST, DELTAIL, DELTAUW,        &
+                SSDSPBK, SSDSBINT, FFXPM, FFXFM, FFXFA,          &
+                SSDSHCK, DELUST, DELTAIL, DELTAUW,               &
                 DELU, DELALP, TAUT, TAUHFT, TAUHFT2,             &
                 IKTAB, DCKI, QBI, SATINDICES, SATWEIGHTS,        &
-                DIKCUMUL, CUMULW
+                DIKCUMUL, CUMULW, SINTAILPAR
         ELSE
           READ (NDSM,END=801,ERR=802,IOSTAT=IERR)                &
                 ZZWND, AALPHA, ZZ0MAX, BBETA, SSINTHP, ZZALP,    &
@@ -1305,7 +1305,7 @@
                  SSDSHCK, DELUST, DELTAIL, DELTAUW,        &
                 DELU, DELALP, TAUT, TAUHFT, TAUHFT2,             &
                 IKTAB, DCKI, QBI, SATINDICES, SATWEIGHTS,        &
-                DIKCUMUL, CUMULW
+                DIKCUMUL, CUMULW, SINTAILPAR
         END IF
 #endif
 !

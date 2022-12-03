@@ -300,7 +300,6 @@
       CALL W3FLX5 ( ZZWND, U, UDIR, TAUA, TAUADIR, DAIR,  & 
                                         USTAR, USDIR, Z0, CD, CHARN )
 #else
-      Z0=0.
       CALL CALC_USTAR(U,TAUW,USTAR,Z0,CHARN) 
       UNZ    = MAX ( 0.01 , U )
       CD     = (USTAR/UNZ)**2
@@ -415,7 +414,7 @@
       USE W3GDATMD, ONLY: NK, NTH, NSPEC, DDEN, SIG, SIG2, TH,         &
                           ESIN, ECOS, EC2, ZZWND, AALPHA, BBETA, ZZALP,&
                           TTAUWSHELTER, SSWELLF, DDEN2, DTH, SSINTHP,  &
-                          ZZ0RAT, SSINBR
+                          ZZ0RAT, SSINBR, SINTAILPAR
 #ifdef W3_S
       USE W3SERVMD, ONLY: STRACE
 #endif
@@ -466,13 +465,19 @@
       REAL XI,DELI1,DELI2
       REAL XJ,DELJ1,DELJ2
       REAL XK,DELK1,DELK2
-      REAL                    :: CONST, CONST0, CONST2, TAU1
+      REAL                    :: CONST, CONST0, CONST2, TAU1, TAU1NT, ZINF, TENSK 
       REAL X,ZARG,ZLOG,UST
       REAL                    :: COSWIND, XSTRESS, YSTRESS, TAUHF
       REAL TEMP, TEMP2
       INTEGER IND,J,I,ISTAB
       REAL DSTAB(3,NSPEC), DVISC, DTURB
       REAL STRESSSTAB(3,2),STRESSSTABN(3,2)
+!
+      INTEGER, PARAMETER      :: JTOT=50
+      REAL   , PARAMETER      :: KM=363  ! K at phase speed minimum in rad/m 
+      REAL                    :: OMEGACC, OMEGA, ZZ0, ZX, ZBETA, USTR, TAUR,  &
+                                 CONST1, LEVTAIL, X0, Y, DELY, YC, ZMU, CGTAIL
+      REAL, ALLOCATABLE       :: W(:)
 #ifdef W3_T0
       REAL                    :: DOUT(NK,NTH)
 #endif
@@ -495,6 +500,11 @@
       DSTAB =0.
       STRESSSTAB =0. 
       STRESSSTABN =0.
+!
+! Coupling coefficient times density ratio DRAT
+!
+      CONST1=BBETA/KAPPA**2  ! needed for the tail 
+      CONST0=CONST1*DRAT     ! needed for the resolved spectrum 
 !
 ! 1.a  estimation of surface roughness parameters
 !
@@ -520,7 +530,7 @@
 !  At this point UORB and AORB are the variances of the orbital velocity and surface elevation
 !
         UORB = UORB + EB *SIG(IK)**2 * DDEN(IK) / CG(IK)
-        AORB = AORB + EB             * DDEN(IK) / CG(IK)  !deep water only
+        AORB = AORB + EB             * DDEN(IK) / CG(IK)  !correct for deep water only
         END DO
 
       UORB  = 2*SQRT(UORB)                  ! significant orbital amplitude
@@ -588,10 +598,6 @@
 !
       STRESSSTAB(ISTAB,:)=0.
       STRESSSTABN(ISTAB,:)=0.
-!
-! Coupling coefficient times density ratio DRAT
-!
-      CONST0=BBETA*DRAT/(kappa**2)
 !
       DO IK=1, NK
         TAUPX=TAUX-ABS(TTAUWSHELTER)*STRESSSTAB(ISTAB,1)
@@ -715,6 +721,15 @@
       CALL OUTMAT (NDST, D, NTH, NTH, NK, 'diag Sin')
 #endif
 !
+      TAUPX=TAUX-ABS(TTAUWSHELTER)*XSTRESS
+      TAUPY=TAUY-ABS(TTAUWSHELTER)*YSTRESS
+      USTP=(TAUPX**2+TAUPY**2)**0.25
+      USDIRP=ATAN2(TAUPY,TAUPX)
+
+      UST=USTP
+!
+! Computes HF tail 
+!
       ! Computes the high-frequency contribution
       ! the difference in spectal density (kx,ky) to (f,theta)
       ! is integrated in this modified CONST0
@@ -726,38 +741,112 @@
          COSWIND=(ECOS(IS)*COSU+ESIN(IS)*SINU)
          TEMP=TEMP+A(IS)*(MAX(COSWIND,0.))**3
          END DO
+!
+      IF (SINTAILPAR(1).LT.0.5) THEN
+        ALLOCATE(W(JTOT))
+        W(2:JTOT-1)=1.
+        W(1)=0.5
+        W(JTOT)=0.5
+        X0 = 0.05
+!
+        USTR= UST
+        ZZ0=Z0
+        LEVTAIL= CONST0*TEMP  ! this is sum of A(k,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)*2*pi*SIG/CG
+        OMEGACC  = MAX(SIG(NK),X0*GRAV/UST)
+        YC       = OMEGACC*SQRT(ZZ0/GRAV)
+	! DELY     = MAX((1.-YC)/REAL(JTOT),0.)
+        ! Changed integration variable from Y to LOG(Y) and to log(K)     
+        !ZINF      = LOG(YC)
+        !DELY     = MAX((1.-ZINF)/REAL(JTOT),0.)
+        ZINF = LOG(SIG(NK)**2/GRAV)
+        DELY = (LOG(TPI/0.005)-ZINF)/REAL(JTOT)
 
-      TAUPX=TAUX-ABS(TTAUWSHELTER)*XSTRESS
-      TAUPY=TAUY-ABS(TTAUWSHELTER)*YSTRESS
-      USTP=(TAUPX**2+TAUPY**2)**0.25
-      USDIRP=ATAN2(TAUPY,TAUPX)
+        TAUR=UST**2
+        TAU1=0.
 
-      UST=USTP
+! Integration loop over the tail wavenumbers or frequencies ... 
+        DO J=1,JTOT
+           !Y        = YC+REAL(J-1)*DELY
+           !OMEGA    = Y*SQRT(GRAV/ZZ0)
+           !OMEGA    = SQRT(GRAV*Y)
+           ! This is the deep water phase speed... No surface tension !!
+           !CM       = GRAV/OMEGA   
+! With this form, Y is the wavenumber in the tail; 
+           Y= EXP(ZINF+REAL(J-1)*DELY)
+           TENSK    =1+(Y/KM)**2
+           OMEGA    = SQRT(GRAV*Y*TENSK)
+           CM       = SQRT(GRAV*TENSK/Y)
+           CGTAIL   = 0.5*(3*(Y/KM)**2+1)*SQRT(GRAV/(Y*TENSK))
+           !this is the inverse wave age, shifted by ZZALP (tuning)
+           ZX       = USTR/CM +ZZALP
+           ZARG     = MIN(KAPPA/ZX,20.)
+           ! ZMU corresponds to EXP(ZCN)
+           ZMU      = MIN(GRAV*ZZ0/CM**2*EXP(ZARG),1.)
+           ZLOG     = MIN(ALOG(ZMU),0.)
+           ZBETA        = CONST1*ZMU*ZLOG**4
+           ! 
+           !TAU1=TAU1+W(J)*ZBETA*(USTR/UST)**2/Y*DELY              ! integration over LOG(Y)
+           TAU1=TAU1+W(J)*ZBETA*USTR**2*LEVTAIL*DELY*CGTAIL/CM       ! integration over LOG(K) 
+
+           ! NB: the factor ABS(TTAUWSHELTER) was forgotten in the TAUHFT2 table
+           !TAUR=TAUR-W(J)*ABS(TTAUWSHELTER)*USTR**2*ZBETA*LEVTAIL/Y*DELY
+           !TAUR=TAUR-W(J)*USTR**2*ZBETA*LEVTAIL*DELY    ! integration over LOG(Y)
+           TAUR=TAUR-W(J)*USTR**2*ZBETA*LEVTAIL*DELY*CGTAIL/CM   ! DK/K*CG/C = D OMEGA / OMEGA
+           USTR=SQRT(MAX(TAUR,0.))
+           END DO
+        DEALLOCATE(W)  
+        TAU1NT=TAU1
+        TAUHF = TAU1
+  
+!if us < cm
+!   alpha_m=1e-2*(1+log(us/cm));
+!else
+!   alpha_m=1e-2*(1+3*log(us/cm));
+!   end
+!if alpha_m < 0 
+!  alpha_m=0;
+!end
+!
+!Fm=exp(-(k/km-1).^2/4);
+!
+!Bh=0.5*alpha_m*cm./c.*Fm;
+!
+!B=(Bl+LPM.*Bh);
+!B=3E-3*(1-tanh((k-4)/10))+0.5*(1+tanh((k-4)/10)).*LPM.*Bh;
+
+
+
+      ELSE   
       ! finds the values in the tabulated stress TAUHFT
-      XI=UST/DELUST
-      IND  = MAX(1,MIN (IUSTAR-1, INT(XI)))
-      DELI1= MAX(MIN (1. ,XI-FLOAT(IND)),0.)
-      DELI2= 1. - DELI1
-      XJ=MAX(0.,(GRAV*Z0/MAX(UST,0.00001)**2-AALPHA) / DELALP)
-      J    = MAX(1 ,MIN (IALPHA-1, INT(XJ)))
-      DELJ1= MAX(0.,MIN (1.      , XJ-FLOAT(J)))
-      DELJ2=1. - DELJ1
-      IF (TTAUWSHELTER.GT.0) THEN 
-        XK = CONST0*TEMP / DELTAIL
-         I = MIN (ILEVTAIL-1, INT(XK))
-         DELK1= MIN (1. ,XK-FLOAT(I))
-         DELK2=1. - DELK1
-         TAU1 =((TAUHFT2(IND,J,I)*DELI2+TAUHFT2(IND+1,J,I)*DELI1 )*DELJ2 &
-               +(TAUHFT2(IND,J+1,I)*DELI2+TAUHFT2(IND+1,J+1,I)*DELI1)*DELJ1)*DELK2 &
-              +((TAUHFT2(IND,J,I+1)*DELI2+TAUHFT2(IND+1,J,I+1)*DELI1 )*DELJ2 &
-               +(TAUHFT2(IND,J+1,I+1)*DELI2+TAUHFT2(IND+1,J+1,I+1)*DELI1)*DELJ1)*DELK1 
-      ELSE
-        TAU1 =(TAUHFT(IND,J)*DELI2+TAUHFT(IND+1,J)*DELI1 )*DELJ2 &
-         +(TAUHFT(IND,J+1)*DELI2+TAUHFT(IND+1,J+1)*DELI1)*DELJ1
-        END IF
-      TAUHF = CONST0*TEMP*UST**2*TAU1
+        XI=UST/DELUST
+        IND  = MAX(1,MIN (IUSTAR-1, INT(XI)))
+        DELI1= MAX(MIN (1. ,XI-FLOAT(IND)),0.)
+        DELI2= 1. - DELI1
+        XJ=MAX(0.,(GRAV*Z0/MAX(UST,0.00001)**2-AALPHA) / DELALP)
+        J    = MAX(1 ,MIN (IALPHA-1, INT(XJ)))
+        DELJ1= MAX(0.,MIN (1.      , XJ-FLOAT(J)))
+        DELJ2=1. - DELJ1
+        IF (TTAUWSHELTER.GT.0) THEN 
+          XK = LEVTAIL / DELTAIL
+          I = MIN (ILEVTAIL-1, INT(XK))
+          DELK1= MIN (1. ,XK-FLOAT(I))
+          DELK2=1. - DELK1
+          TAU1 =((TAUHFT2(IND,J,I)*DELI2+TAUHFT2(IND+1,J,I)*DELI1 )*DELJ2 &
+                +(TAUHFT2(IND,J+1,I)*DELI2+TAUHFT2(IND+1,J+1,I)*DELI1)*DELJ1)*DELK2 &
+               +((TAUHFT2(IND,J,I+1)*DELI2+TAUHFT2(IND+1,J,I+1)*DELI1 )*DELJ2 &
+                +(TAUHFT2(IND,J+1,I+1)*DELI2+TAUHFT2(IND+1,J+1,I+1)*DELI1)*DELJ1)*DELK1 
+        ELSE
+          TAU1 =(TAUHFT(IND,J)*DELI2+TAUHFT(IND+1,J)*DELI1 )*DELJ2 &
+           +(TAUHFT(IND,J+1)*DELI2+TAUHFT(IND+1,J+1)*DELI1)*DELJ1
+          END IF
+!
+        TAUHF = LEVTAIL*UST**2*TAU1
+        END IF ! End of test on use of table 
+
       TAUWX = XSTRESS+TAUHF*COS(USDIRP)
       TAUWY = YSTRESS+TAUHF*SIN(USDIRP)
+
+WRITE(991,*) 'TESZ SIN4:',SINTAILPAR(1),UST,TAU1
 !      
 ! Reduces tail effect to make sure that wave-supported stress 
 ! is less than total stress, this is borrowed from ECWAM Stresso.F      
@@ -1127,7 +1216,7 @@
 ! ----------------------------------------------------------------------
       INTEGER I,J,ITER
       REAL ZTAUW,UTOP,CDRAG,WCD,USTOLD,TAUOLD
-      REAL X,UST,ZZ0,ZNU,F,DELF,ZZ00
+      REAL X,UST,ZZ0,F,DELF,ZZ00
 !
 !
       DELU    = UMAX/FLOAT(JUMAX)
@@ -1611,7 +1700,7 @@
 ! 10. Source code :
 !-----------------------------------------------------------------------------!
       USE CONSTANTS, ONLY: GRAV, KAPPA
-      USE W3GDATMD,  ONLY: ZZWND, AALPHA
+      USE W3GDATMD,  ONLY: ZZWND, AALPHA, ZZ0MAX, SINTAILPAR
 #ifdef W3_T
       USE W3ODATMD, ONLY: NDST
 #endif
@@ -1619,22 +1708,60 @@
       REAL, intent(in) :: WINDSPEED,TAUW
       REAL, intent(out) :: USTAR, Z0, CHARN
       ! local variables
-      REAL SQRTCDM1
-      REAL XI,DELI1,DELI2,XJ,delj1,delj2
-      REAL TAUW_LOCAL
-      INTEGER IND,J
+      REAL             :: SQRTCDM1
+      REAL             :: XI,DELI1,DELI2,XJ,delj1,delj2  ! used for table version 
+      INTEGER          :: IND,J
+      REAL             :: TAUW_LOCAL
+      REAL             :: TAUOLD,CDRAG,WCD,USTOLD,X,UST,ZZ0,ZZ00,F,DELF
+      INTEGER, PARAMETER      :: NITER=10
+      REAL   , PARAMETER      :: XM=0.50, EPS1=0.00001
+      INTEGER                 :: ITER
+!     VARIABLE.   TYPE.     PURPOSE.
+!      *XM*        REAL      POWER OF TAUW/TAU IN ROUGHNESS LENGTH.
+!      *XNU*       REAL      KINEMATIC VISCOSITY OF AIR.
+!      *NITER*     INTEGER   NUMBER OF ITERATIONS TO OBTAIN TOTAL STRESS
+!      *EPS1*      REAL      SMALL NUMBER TO MAKE SURE THAT A SOLUTION
+!                            IS OBTAINED IN ITERATION WITH TAU>TAUW.
+
 !
-      TAUW_LOCAL=MAX(MIN(TAUW,TAUWMAX),0.)
-      XI      = SQRT(TAUW_LOCAL)/DELTAUW
-      IND     = MIN ( ITAUMAX-1, INT(XI)) ! index for stress table
-      DELI1   = MIN(1.,XI - REAL(IND))  !interpolation coefficient for stress table
-      DELI2   = 1. - DELI1
-      XJ      = WINDSPEED/DELU
-      J       = MIN ( JUMAX-1, INT(XJ) )
-      DELJ1   = MIN(1.,XJ - REAL(J))
-      DELJ2   = 1. - DELJ1
-      USTAR=(TAUT(IND,J)*DELI2+TAUT(IND+1,J  )*DELI1)*DELJ2 &
-       + (TAUT(IND,J+1)*DELI2+TAUT(IND+1,J+1)*DELI1)*DELJ1
+      IF (SINTAILPAR(1).GT.0.5) THEN 
+        TAUW_LOCAL=MAX(MIN(TAUW,TAUWMAX),0.)
+        XI      = SQRT(TAUW_LOCAL)/DELTAUW
+        IND     = MIN ( ITAUMAX-1, INT(XI)) ! index for stress table
+        DELI1   = MIN(1.,XI - REAL(IND))  !interpolation coefficient for stress table
+        DELI2   = 1. - DELI1
+        XJ      = WINDSPEED/DELU
+        J       = MIN ( JUMAX-1, INT(XJ) )
+        DELJ1   = MIN(1.,XJ - REAL(J))
+        DELJ2   = 1. - DELJ1
+        USTAR=(TAUT(IND,J)*DELI2+TAUT(IND+1,J  )*DELI1)*DELJ2 &
+            + (TAUT(IND,J+1)*DELI2+TAUT(IND+1,J+1)*DELI1)*DELJ1
+      ELSE
+! This max is for comparison ... to be removed later 
+!        TAUW_LOCAL=MAX(MIN(TAUW,TAUWMAX),0.) 
+        TAUW_LOCAL=TAUW
+        CDRAG   = 0.0012875
+        WCD     = SQRT(CDRAG)
+        USTOLD  = WINDSPEED*WCD
+        TAUOLD  = MAX(USTOLD**2, TAUW_LOCAL+EPS1)
+! Newton method to solve for ustar in U=ustar*log(Z/Z0)
+        DO ITER=1,NITER
+          X   = TAUW_LOCAL/TAUOLD
+          UST = SQRT(TAUOLD)
+          ZZ00=AALPHA*TAUOLD/GRAV
+          IF (ZZ0MAX.NE.0) ZZ00=MIN(ZZ00,ZZ0MAX)
+          ! Corrects roughness ZZ00 for quasi-linear effect
+          ZZ0 = ZZ00/(1.-X)**XM
+          !ZNU = 0.1*nu_air/UST  ! This was removed by Bidlot in 1996
+          !ZZ0 = MAX(ZNU,ZZ0)
+          F   = UST-KAPPA*WINDSPEED/(ALOG(ZZWND/ZZ0))
+          DELF= 1.-KAPPA*WINDSPEED/(ALOG(ZZWND/ZZ0))**2*2./UST &
+                  *(1.-(XM+1)*X)/(1.-X)  
+          UST = UST-F/DELF
+          TAUOLD= MAX(UST**2., TAUW_LOCAL+EPS1)
+          END DO
+        USTAR=UST 
+        END IF
 !
 ! Determines roughness length
 !
@@ -1651,6 +1778,7 @@
         END IF 
         CHARN = AALPHA
       END IF
+  WRITE(991,*) 'CALC_USTAR:',WINDSPEED,TAUW,AALPHA,CHARN,Z0,USTAR
 !
       RETURN
       END SUBROUTINE CALC_USTAR

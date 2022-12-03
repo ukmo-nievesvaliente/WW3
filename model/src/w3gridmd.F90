@@ -835,7 +835,7 @@
 #endif
 !
 #ifdef W3_ST4
-      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF
+      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE
       REAL 		   :: SDSBCHOICE
       REAL                    :: ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP,&
                                  ZALP, Z0RAT, TAUWSHELTER, SWELLF,    &
@@ -851,7 +851,8 @@
                                  SDSBRF1,                             &
                                  SDSBM0, SDSBM1, SDSBM2, SDSBM3,      &
                                  SDSBM4, SDSFACMTF, SDSCUMP,  SDSNUW, &
-                                 SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF
+                                 SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF, &
+                                 SINTAIL1, SINTAIL2
 #endif
 !
 #ifdef W3_ST6
@@ -990,7 +991,7 @@
       NAMELIST /SIN4/ ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP, &
                       TAUWSHELTER, SWELLFPAR, SWELLF,                 &
                       SWELLF2, SWELLF3, SWELLF4, SWELLF5, SWELLF6,    &
-                      SWELLF7, Z0RAT, SINBR
+                      SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2
 #endif
 #ifdef W3_NL1
       NAMELIST /SNL1/ LAMBDA, NLPROP, KDCONV, KDMIN,                  &
@@ -1718,6 +1719,7 @@
       TAUWSHELTER = 0.3
       ZALP   = 0.006
       SINBR   = 0.
+      SINTABLE = 1.
 #endif
 !
 #ifdef W3_ST6
@@ -1801,6 +1803,11 @@
       SSWELLF(6) = SWELLF6
       SSWELLF(7) = SWELLF7
       SSWELLFPAR = SWELLFPAR
+      SINTAIL1 = 0. ! 
+      SINTAIL2 = 0. ! 
+      SINTAILPAR(1) = FLOAT(SINTABLE)
+      SINTAILPAR(2) = SINTAIL1
+      SINTAILPAR(3) = SINTAIL2
 #endif
 !
 #ifdef W3_ST6
@@ -2111,12 +2118,12 @@
       SDSBR     = 0.90E-3     ! 0.005 for Romero                                
       SDSBRFDF  = 0
       SDSBRF1   = 0.5
-      SDSP      = 2.   ! this is now fixed in w3sds4, should be cleaned up 
+      SDSP      = 2.          ! this is now fixed in w3sds4, should be cleaned up 
       SDSDTH    = 80.
       SDSCOS    = 2.
       SDSISO    = 2
-      SDSBM0    = 1.
-      SDSBM1    = 0.
+      SDSBM0    = 1.          ! All these parameters are related to finite depth
+      SDSBM1    = 0.          ! scaling of breaking
       SDSBM2    = 0.
       SDSBM3    = 0.
       SDSBM4    = 0.
@@ -2220,8 +2227,8 @@
       SSDSC(7)   = WHITECAPWIDTH
       SSDSC(8)   = SDSSTRAIN   ! Straining constant ... 
       SSDSC(9)   = SDSL
-      SSDSC(10)  = SDSSTRAINA*NTH/360. ! angle Aor enhanced straining
-      SSDSC(11)  = SDSSTRAIN2  ! straining constant for directional part 
+      SSDSC(10)  = SDSSTRAINA*NTH/360. ! angle for enhanced straining
+      SSDSC(11)  = SDSSTRAIN2          ! straining constant for directional part 
       SSDSC(12)  = SDSBT
       SSDSC(13)  = SDSMWD
       SSDSC(14)  = SPMSS
@@ -2232,9 +2239,6 @@
       SSDSC(19)  = SDSNMTF 
       SSDSC(20)  = SDSCUMP 
       SSDSC(21)  = SDSNUW 
-#endif
-!
-#ifdef W3_ST4
       SSDSBR   = SDSBR
       SSDSBRF1 = SDSBRF1
       SSDSBRFDF= SDSBRFDF
@@ -3222,7 +3226,7 @@
 #ifdef W3_ST4
           WRITE (NDSO,2920) ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP,   &
             TAUWSHELTER, SWELLFPAR, SWELLF, SWELLF2, SWELLF3, SWELLF4, &
-            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR
+            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2
 #endif
 #ifdef W3_ST6
           WRITE (NDSO,2920) SINA0, SINWS, SINFC
@@ -6272,7 +6276,8 @@
               '        SWELLF =',F8.5,', SWELLF2 =',F8.5,             &
               ', SWELLF3 =',F8.5,', SWELLF4 =',F9.1,','/              &
               '        SWELLF5 =',F8.5,', SWELLF6 =',F8.5,            &
-              ', SWELLF7 =',F12.2,', Z0RAT =',F8.5,', SINBR =',F8.5,'  /')
+              ', SWELLF7 =',F12.2,', Z0RAT =',F8.5,', SINBR =',F8.5,','/              &
+              '        SINTABLE =',I2,', SINTAIL1 =',F8.5', SINTAIL2 =',F8.5,'  /')
 #endif
 !
 #ifdef W3_ST6

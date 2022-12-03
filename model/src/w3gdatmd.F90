@@ -886,12 +886,12 @@
         INTEGER               :: SSWELLFPAR, SSDSISO, SSDSBRFDF
         INTEGER,  POINTER     :: IKTAB(:,:), SATINDICES(:,:)
         REAL,     POINTER     :: DCKI(:,:), SATWEIGHTS(:,:),CUMULW(:,:),QBI(:,:)
-        REAL                  :: AALPHA, BBETA, ZZ0MAX, ZZ0RAT, ZZALP,&
-                                 SSINTHP, TTAUWSHELTER, SSWELLF(1:7), &
-                                 SSDSC(1:21), SSDSBR,                 &
-                                 SSDSP, WWNMEANP, SSTXFTF, SSTXFTWN,  &
-                                 FFXPM, FFXFM, FFXFA,   &
-                                 SSDSBRF1, SSDSBRF2, SSDSBINT,SSDSBCK,&
+        REAL                  :: AALPHA, BBETA, ZZ0MAX, ZZ0RAT, ZZALP, &
+                                 SSINTHP, TTAUWSHELTER, SSWELLF(1:7),  &
+                                 SINTAILPAR(1:10), SSDSC(1:21), SSDSBR,&
+                                 SSDSP, WWNMEANP, SSTXFTF, SSTXFTWN,   &
+                                 FFXPM, FFXFM, FFXFA,                  &
+                                 SSDSBRF1, SSDSBRF2, SSDSBINT,SSDSBCK, &
                                  SSDSHCK, SSDSABK, SSDSPBK, SSINBR
         REAL                  :: ZZWND
         REAL                  :: SSDSCOS, SSDSDTH, SSDSBT, SSDSBM(0:4)
@@ -1305,7 +1305,7 @@
                                  FFXFM, FFXPM, SSDSBRF1, SSDSBRF2,    &
                                  SSDSBINT, SSDSBCK, SSDSHCK, SSDSABK, &
                                  SSDSPBK, SSINBR,SSINTHP,TTAUWSHELTER,&
-                                 SSWELLF(:), SSDSC(:), SSDSBR,        &
+                                 SINTAILPAR(:), SSWELLF(:), SSDSC(:), SSDSBR,        &
                                  SSDSP, WWNMEANP, SSTXFTF, SSTXFTWN,  &
                                  SSDSBT, SSDSCOS, SSDSDTH, SSDSBM(:)
 #endif
@@ -2672,6 +2672,7 @@
       ZZ0RAT   => MPARS(IMOD)%SRCPS%ZZ0RAT
       ZZALP    => MPARS(IMOD)%SRCPS%ZZALP
       TTAUWSHELTER  => MPARS(IMOD)%SRCPS%TTAUWSHELTER
+      SINTAILPAR  => MPARS(IMOD)%SRCPS%SINTAILPAR
       SSWELLFPAR  => MPARS(IMOD)%SRCPS%SSWELLFPAR
       SSWELLF  => MPARS(IMOD)%SRCPS%SSWELLF
       SSDSC    => MPARS(IMOD)%SRCPS%SSDSC
