@@ -65,11 +65,9 @@
       !air kinematic viscosity (used in WAM)
       INTEGER, PARAMETER      :: ITAUMAX=200,JUMAX=200
       INTEGER, PARAMETER      :: IUSTAR=100,IALPHA=200, ILEVTAIL=50
-      REAL                    :: TAUT(0:ITAUMAX,0:JUMAX), DELTAUW, DELU
-      ! Table for H.F. stress as a function of 2 variables
-      REAL                    :: TAUHFT(0:IUSTAR,0:IALPHA), DELUST, DELALP
-      ! Table for H.F. stress as a function of 3 variables
-      REAL                    :: TAUHFT2(0:IUSTAR,0:IALPHA,0:ILEVTAIL)
+      ! Tables for total stress and H.F. stress as a function of 2 or 3 variables
+      REAL, ALLOCATABLE       :: TAUT(:,:),TAUHFT(:,:),TAUHFT2(:,:,:)
+      REAL                    :: DELUST, DELALP,DELTAUW, DELU
       ! Table for swell damping 
       REAL                    :: DELTAIL
       REAL,    PARAMETER      :: UMAX    = 50.
@@ -742,6 +740,7 @@
          TEMP=TEMP+A(IS)*(MAX(COSWIND,0.))**3
          END DO
 !
+      LEVTAIL= CONST0*TEMP  ! this is sum of A(k,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)*2*pi*SIG/CG
       IF (SINTAILPAR(1).LT.0.5) THEN
         ALLOCATE(W(JTOT))
         W(2:JTOT-1)=1.
@@ -751,7 +750,6 @@
 !
         USTR= UST
         ZZ0=Z0
-        LEVTAIL= CONST0*TEMP  ! this is sum of A(k,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)*2*pi*SIG/CG
         OMEGACC  = MAX(SIG(NK),X0*GRAV/UST)
         YC       = OMEGACC*SQRT(ZZ0/GRAV)
 	! DELY     = MAX((1.-YC)/REAL(JTOT),0.)
@@ -845,8 +843,6 @@
 
       TAUWX = XSTRESS+TAUHF*COS(USDIRP)
       TAUWY = YSTRESS+TAUHF*SIN(USDIRP)
-
-WRITE(991,*) 'TESZ SIN4:',SINTAILPAR(1),UST,TAU1
 !      
 ! Reduces tail effect to make sure that wave-supported stress 
 ! is less than total stress, this is borrowed from ECWAM Stresso.F      
@@ -934,7 +930,8 @@ WRITE(991,*) 'TESZ SIN4:',SINTAILPAR(1),UST,TAU1
                            SSDSDTH, SSDSCOS, TH, DTH, XFR, ECOS, ESIN,   &
                            SSDSC,  SSDSBRF1, SSDSBCK, SSDSBINT, SSDSPBK, &
                            SSDSABK, SSDSHCK, IKTAB, DCKI, SATINDICES,    &
-                           SATWEIGHTS, CUMULW, NKHS, NKD, NDTAB, QBI
+                           SATWEIGHTS, CUMULW, NKHS, NKD, NDTAB, QBI,    &
+                           SINTAILPAR
 #ifdef W3_S
       USE W3SERVMD, ONLY: STRACE
 #endif
@@ -975,11 +972,15 @@ WRITE(991,*) 'TESZ SIN4:',SINTAILPAR(1),UST,TAU1
 !
 ! These precomputed tables are written in mod_def.ww3 
 !
-      IF (FLTABS) THEN   
-        CALL TABU_STRESS
-        CALL TABU_TAUHF(SIG(NK) )      !tabulate high-frequency stress: 2D table
+      IF (SINTAILPAR(1).GT.0.5) THEN  
+        ALLOCATE(TAUT(0:ITAUMAX,0:JUMAX), TAUHFT(0:IUSTAR,0:IALPHA))
+        IF (FLTABS) THEN 
+          CALL TABU_STRESS
+          CALL TABU_TAUHF(SIG(NK) )      !tabulate high-frequency stress: 2D table
+          END IF
         IF (TTAUWSHELTER.GT.0) THEN
-          CALL TABU_TAUHF2(SIG(NK) )   !tabulate high-frequency stress: 3D table
+          ALLOCATE(TAUHFT2(0:IUSTAR,0:IALPHA,0:ILEVTAIL))
+          IF (FLTABS) CALL TABU_TAUHF2(SIG(NK) )   !tabulate high-frequency stress: 3D table
           END IF
         END IF
 !
@@ -1778,7 +1779,7 @@ WRITE(991,*) 'TESZ SIN4:',SINTAILPAR(1),UST,TAU1
         END IF 
         CHARN = AALPHA
       END IF
-  WRITE(991,*) 'CALC_USTAR:',WINDSPEED,TAUW,AALPHA,CHARN,Z0,USTAR
+  WRITE(6,*) 'CALC_USTAR:',WINDSPEED,TAUW,AALPHA,CHARN,Z0,USTAR
 !
       RETURN
       END SUBROUTINE CALC_USTAR
