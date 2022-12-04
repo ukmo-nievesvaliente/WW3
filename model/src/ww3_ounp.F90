@@ -2152,7 +2152,7 @@
                               RHOAIR, USTAR, USTD, Z0, CD, CHARN )
 #endif
 !
-            DO ITT=1, 3
+            DO ITT=1, 4
 #ifdef W3_ST2
                   CALL W3SIN2 (A, CG, WN2, UABS, UDIRR, CD, Z0,    &
                                                  FPI, XIN, DIA )

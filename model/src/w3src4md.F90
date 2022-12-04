@@ -472,9 +472,11 @@
       REAL STRESSSTAB(3,2),STRESSSTABN(3,2)
 !
       INTEGER, PARAMETER      :: JTOT=50
-      REAL   , PARAMETER      :: KM=363  ! K at phase speed minimum in rad/m 
+      REAL   , PARAMETER      :: KM=363.,CMM=0.2325  ! K and C at phase speed minimum in rad/m 
       REAL                    :: OMEGACC, OMEGA, ZZ0, ZX, ZBETA, USTR, TAUR,  &
-                                 CONST1, LEVTAIL, X0, Y, DELY, YC, ZMU, CGTAIL
+                                 CONST1, LEVTAIL0, X0, Y, DELY, YC, ZMU,      &
+                                 LEVTAIL, CGTAIL, ALPHAM, FM, ALPHAT, FMEAN
+
       REAL, ALLOCATABLE       :: W(:)
 #ifdef W3_T0
       REAL                    :: DOUT(NK,NTH)
@@ -530,7 +532,7 @@
         UORB = UORB + EB *SIG(IK)**2 * DDEN(IK) / CG(IK)
         AORB = AORB + EB             * DDEN(IK) / CG(IK)  !correct for deep water only
         END DO
-
+!      FMEAN = SQRT((UORB+1E-6)/(AORB+1E-6))
       UORB  = 2*SQRT(UORB)                  ! significant orbital amplitude
       AORB1 = 2*AORB**(1-0.5*SSWELLF(6))    ! half the significant wave height ... if SWELLF(6)=1
       RE = 4*UORB*AORB1 / NU_AIR           ! Reynolds number 
@@ -740,7 +742,9 @@
          TEMP=TEMP+A(IS)*(MAX(COSWIND,0.))**3
          END DO
 !
-      LEVTAIL= CONST0*TEMP  ! this is sum of A(k,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)*2*pi*SIG/CG
+      LEVTAIL0= CONST0*TEMP  ! LEVTAIL is sum of A(k,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)*2*pi*SIG/CG
+!                            ! which is the same as sum of E(f,theta)*cos^3(theta-wind)*DTH*SIG^5/(g^2*2pi)
+                             ! reminder:  sum of E(f,theta)*DTH*SIG^5/(g^2*2pi) is 2*k^3*E(k) 
       IF (SINTAILPAR(1).LT.0.5) THEN
         ALLOCATE(W(JTOT))
         W(2:JTOT-1)=1.
@@ -752,6 +756,7 @@
         ZZ0=Z0
         OMEGACC  = MAX(SIG(NK),X0*GRAV/UST)
         YC       = OMEGACC*SQRT(ZZ0/GRAV)
+        
 	! DELY     = MAX((1.-YC)/REAL(JTOT),0.)
         ! Changed integration variable from Y to LOG(Y) and to log(K)     
         !ZINF      = LOG(YC)
@@ -764,56 +769,58 @@
 
 ! Integration loop over the tail wavenumbers or frequencies ... 
         DO J=1,JTOT
-           !Y        = YC+REAL(J-1)*DELY
-           !OMEGA    = Y*SQRT(GRAV/ZZ0)
-           !OMEGA    = SQRT(GRAV*Y)
-           ! This is the deep water phase speed... No surface tension !!
-           !CM       = GRAV/OMEGA   
+          !Y        = YC+REAL(J-1)*DELY
+          !OMEGA    = Y*SQRT(GRAV/ZZ0)
+          !OMEGA    = SQRT(GRAV*Y)
+          ! This is the deep water phase speed... No surface tension !!
+          !CM       = GRAV/OMEGA   
 ! With this form, Y is the wavenumber in the tail; 
-           Y= EXP(ZINF+REAL(J-1)*DELY)
-           TENSK    =1+(Y/KM)**2
-           OMEGA    = SQRT(GRAV*Y*TENSK)
-           CM       = SQRT(GRAV*TENSK/Y)
-           CGTAIL   = 0.5*(3*(Y/KM)**2+1)*SQRT(GRAV/(Y*TENSK))
-           !this is the inverse wave age, shifted by ZZALP (tuning)
-           ZX       = USTR/CM +ZZALP
-           ZARG     = MIN(KAPPA/ZX,20.)
-           ! ZMU corresponds to EXP(ZCN)
-           ZMU      = MIN(GRAV*ZZ0/CM**2*EXP(ZARG),1.)
-           ZLOG     = MIN(ALOG(ZMU),0.)
-           ZBETA        = CONST1*ZMU*ZLOG**4
-           ! 
+          Y= EXP(ZINF+REAL(J-1)*DELY)
+          TENSK    =1+(Y/KM)**2
+          OMEGA    = SQRT(GRAV*Y*TENSK)
+          CM       = SQRT(GRAV*TENSK/Y)
+          CGTAIL   = 0.5*(3*(Y/KM)**2+1)*SQRT(GRAV/(Y*TENSK))
+          !this is the inverse wave age, shifted by ZZALP (tuning)
+          ZX       = USTR/CM +ZZALP
+          ZARG     = MIN(KAPPA/ZX,20.)
+          ! ZMU corresponds to EXP(ZCN)
+          ZMU      = MIN(GRAV*ZZ0/CM**2*EXP(ZARG),1.)
+          ZLOG     = MIN(ALOG(ZMU),0.)
+          ZBETA        = CONST1*ZMU*ZLOG**4
+!
+! Optional addition of capillary wave peak
+!       
+          IF (SINTAILPAR(3).GT.0) THEN 
+            IF (USTR.LT.CM) THEN 
+              ALPHAM=MAX(0.,0.01*(1.+ALOG(USTR/CM)))
+            ELSE
+              ALPHAM=0.01*(1+3.*ALOG(USTR/CM))
+              END IF
+            FM=EXP(-0.25*(Y/KM-1)**2)
+
+            ALPHAT=ALPHAM*(CMM/CM)*FM  ! equivalent to 2*Bh in Elfouhaily et al. 
+            LEVTAIL=LEVTAIL0*0.5*(1-tanh((Y-20)/5))+SINTAILPAR(3)*0.5*(1+TANH((Y-20)/5))*ALPHAT
+            LEVTAIL=LEVTAIL0
+          ELSE 
+            LEVTAIL=LEVTAIL0
+            END IF
+!WRITE(991,*) 'TAIL??',SINTAILPAR(3),LEVTAIL0,LEVTAIL,ALPHAT,Y,Y/KM
+
            !TAU1=TAU1+W(J)*ZBETA*(USTR/UST)**2/Y*DELY              ! integration over LOG(Y)
            TAU1=TAU1+W(J)*ZBETA*USTR**2*LEVTAIL*DELY*CGTAIL/CM       ! integration over LOG(K) 
 
            ! NB: the factor ABS(TTAUWSHELTER) was forgotten in the TAUHFT2 table
            !TAUR=TAUR-W(J)*ABS(TTAUWSHELTER)*USTR**2*ZBETA*LEVTAIL/Y*DELY
            !TAUR=TAUR-W(J)*USTR**2*ZBETA*LEVTAIL*DELY    ! integration over LOG(Y)
-           TAUR=TAUR-W(J)*USTR**2*ZBETA*LEVTAIL*DELY*CGTAIL/CM   ! DK/K*CG/C = D OMEGA / OMEGA
+           TAUR=TAUR-W(J)*SINTAILPAR(2)*USTR**2*ZBETA*LEVTAIL*DELY*CGTAIL/CM   ! DK/K*CG/C = D OMEGA / OMEGA
            USTR=SQRT(MAX(TAUR,0.))
            END DO
         DEALLOCATE(W)  
         TAU1NT=TAU1
         TAUHF = TAU1
-  
-!if us < cm
-!   alpha_m=1e-2*(1+log(us/cm));
-!else
-!   alpha_m=1e-2*(1+3*log(us/cm));
-!   end
-!if alpha_m < 0 
-!  alpha_m=0;
-!end
 !
-!Fm=exp(-(k/km-1).^2/4);
+! In this case, uses tables for high frequency contribution to TAUW. 
 !
-!Bh=0.5*alpha_m*cm./c.*Fm;
-!
-!B=(Bl+LPM.*Bh);
-!B=3E-3*(1-tanh((k-4)/10))+0.5*(1+tanh((k-4)/10)).*LPM.*Bh;
-
-
-
       ELSE   
       ! finds the values in the tabulated stress TAUHFT
         XI=UST/DELUST
@@ -838,7 +845,7 @@
            +(TAUHFT(IND,J+1)*DELI2+TAUHFT(IND+1,J+1)*DELI1)*DELJ1
           END IF
 !
-        TAUHF = LEVTAIL*UST**2*TAU1
+        TAUHF = LEVTAIL0*UST**2*TAU1
         END IF ! End of test on use of table 
 
       TAUWX = XSTRESS+TAUHF*COS(USDIRP)
@@ -1779,7 +1786,7 @@
         END IF 
         CHARN = AALPHA
       END IF
-  WRITE(6,*) 'CALC_USTAR:',WINDSPEED,TAUW,AALPHA,CHARN,Z0,USTAR
+!  WRITE(6,*) 'CALC_USTAR:',WINDSPEED,TAUW,AALPHA,CHARN,Z0,USTAR
 !
       RETURN
       END SUBROUTINE CALC_USTAR

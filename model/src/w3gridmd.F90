@@ -835,7 +835,7 @@
 #endif
 !
 #ifdef W3_ST4
-      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE
+      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE, TAUWBUG
       REAL 		   :: SDSBCHOICE
       REAL                    :: ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP,&
                                  ZALP, Z0RAT, TAUWSHELTER, SWELLF,    &
@@ -991,7 +991,7 @@
       NAMELIST /SIN4/ ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP, &
                       TAUWSHELTER, SWELLFPAR, SWELLF,                 &
                       SWELLF2, SWELLF3, SWELLF4, SWELLF5, SWELLF6,    &
-                      SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2
+                      SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2, TAUWBUG
 #endif
 #ifdef W3_NL1
       NAMELIST /SNL1/ LAMBDA, NLPROP, KDCONV, KDMIN,                  &
@@ -1719,7 +1719,11 @@
       TAUWSHELTER = 0.3
       ZALP   = 0.006
       SINBR   = 0.
-      SINTABLE = 1.
+      SINTABLE = 1
+      SINTAIL1 = 0. !  TAUWSHELTER FOR TAIL (no table)
+      SINTAIL2 = 0. !  additional peak in capillary range
+      TAUWBUG  = 1  !  TAUWBUG is 1 is the bug is kept: 
+                    !  initializes TAUWX/Y to zero in W3SRCE
 #endif
 !
 #ifdef W3_ST6
@@ -1803,11 +1807,10 @@
       SSWELLF(6) = SWELLF6
       SSWELLF(7) = SWELLF7
       SSWELLFPAR = SWELLFPAR
-      SINTAIL1 = 0. ! 
-      SINTAIL2 = 0. ! 
       SINTAILPAR(1) = FLOAT(SINTABLE)
       SINTAILPAR(2) = SINTAIL1
       SINTAILPAR(3) = SINTAIL2
+      SINTAILPAR(4) = FLOAT(TAUWBUG)
 #endif
 !
 #ifdef W3_ST6
@@ -3226,7 +3229,7 @@
 #ifdef W3_ST4
           WRITE (NDSO,2920) ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP,   &
             TAUWSHELTER, SWELLFPAR, SWELLF, SWELLF2, SWELLF3, SWELLF4, &
-            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2
+            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR, SINTABLE, TAUWBUG, SINTAIL1, SINTAIL2
 #endif
 #ifdef W3_ST6
           WRITE (NDSO,2920) SINA0, SINWS, SINFC
@@ -6277,7 +6280,7 @@
               ', SWELLF3 =',F8.5,', SWELLF4 =',F9.1,','/              &
               '        SWELLF5 =',F8.5,', SWELLF6 =',F8.5,            &
               ', SWELLF7 =',F12.2,', Z0RAT =',F8.5,', SINBR =',F8.5,','/              &
-              '        SINTABLE =',I2,', SINTAIL1 =',F8.5', SINTAIL2 =',F8.5,'  /')
+              '        SINTABLE =',I2,', TAUWBUG =',I2,', SINTAIL1 =',F8.5', SINTAIL2 =',F8.5,'  /')
 #endif
 !
 #ifdef W3_ST6
