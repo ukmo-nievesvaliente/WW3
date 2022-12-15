@@ -6,8 +6,9 @@
 !/                  | WAVEWATCH III           NOAA/NCEP |
 !/                  |           H. L. Tolman            |
 !/                  |        G. Ph. van Vledder         |
+!/                  |           M. Benoit               |
 !/                  |                        FORTRAN 90 |
-!/                  | Last update :         29-May-2009 |
+!/                  | Last update :         20-Nov-2022 |
 !/                  +-----------------------------------+
 !/
 !/    14-Feb-2000 : Origination.                        ( version 2.01 )
@@ -26,7 +27,8 @@
 !/
 !  1. Purpose :
 !
-!     Interface module to exact nonlinear interactions.
+!     Interface module to exact nonlinear interactions (WRT method see separate module) 
+!      and GQM method as implemented by M. Benoit (self-contained in this module)  
 !
 !  2. Variables and types :
 !
@@ -36,6 +38,8 @@
 !     ----------------------------------------------------------------
 !      W3SNL2    Subr. Public   Interface to Xnl calculation routines.
 !      INSNL2    Subr. Public   Initialization of Xnl routines.
+!      W3SNLGQM  Subr. Public   Snl computation using GQM 
+!      INSNLGQM  Subr. Public   precomputation of Xnl-GQM tables
 !     ----------------------------------------------------------------
 !
 !  4. Subroutines and functions used :
@@ -437,6 +441,37 @@
 
 !/ ------------------------------------------------------------------- /
       SUBROUTINE W3SNLGQM(A,CG,WN,DEPTH,TSTOTn,TSDERn)
+! This and the following routines are adapted to WW3 from TOMAWAC qnlin3.f
+!***********************************************************************
+! TOMAWAC   V6P1                                   24/06/2011
+!***********************************************************************
+!
+!brief    COMPUTES THE CONTRIBUTION OF THE NON-LINEAR INTERACTIONS
+!+                SOURCE TERM BETWEEN QUADRUPLETS USING THE GQM METHOD
+!+                ("GAUSSIAN QUADRATURE METHOD") PROPOSED BY LAVRENOV
+!+                (2001)
+!+
+!+            PROCEDURE SPECIFIC TO THE CASE WHERE THE FREQUENCIES
+!+                FOLLOW A GEOMETRICAL PROGRESSION AND THE DIRECTIONS
+!+                ARE EVENLY DISTRIBUTED OVER [0;2.PI].
+!
+!note     THIS SUBROUTINE USES THE OUTPUT FROM 'PRENL3' TO OPTIMISE
+!+          THE COMPUTATIONS FOR DIA.
+!
+!reference  LAVRENOV, I.V. (2001):
+!+           "EFFECT OF WIND WAVE PARAMETER FLUCTUATION ON THE NONLINEAR
+!+           SPECTRUM EVOLUTION". J. PHYS. OCEANOGR. 31, 861-873.
+!
+!history  E. GAGNAIRE-RENOU
+!+        04/2011
+!+        V6P1
+!+   CREATED
+!
+!history  G.MATTAROLO (EDF - LNHE)
+!+        24/06/2011
+!+        V6P1
+!+   Translation of French names of the variables in argument
+
 !  
 !/ Warning, contrary to the DIA routine, there is no extension to frequencies below IK=1
 !/ as a result the first two frequencies are not fully treated. 
@@ -501,6 +536,7 @@
 !     JFMAX IS GIVEN BY Fmax=FREQ(NF)*Gamma_max
 !     TESTS HAVE SHOWN THAT IT CAN BE ASSUMED Gamma_min=1. (JFMIN=1) AND
 !     Gamma_max=1.3 (JFMAX>NF) TO OBTAIN IMPROVED RESULTS
+!     Note by Fabrice Ardhuin: this appears to give the difference in tail benaviour with Gerbrant's WRT
 !=======================================================================
       JFMIN= 1-INT(LOG(1.0D0)/LOG(RAISF))
       JFMAX=NF+INT(LOG(1.3D0)/LOG(RAISF))
@@ -873,7 +909,7 @@
 !/
 !/                  +-----------------------------------+
 !/                  | WAVEWATCH III           NOAA/NCEP |
-!/                  |      E. Gagnaire-Renou            |
+!/                  | M. Benoit & E. Gagnaire-Renou     |
 !/                  | Last update :         20-Nov-2022 |
 !/                  +-----------------------------------+
 !/

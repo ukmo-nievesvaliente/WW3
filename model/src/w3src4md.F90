@@ -800,11 +800,10 @@
 
             ALPHAT=ALPHAM*(CMM/CM)*FM  ! equivalent to 2*Bh in Elfouhaily et al. 
             LEVTAIL=LEVTAIL0*0.5*(1-tanh((Y-20)/5))+SINTAILPAR(3)*0.5*(1+TANH((Y-20)/5))*ALPHAT
-            LEVTAIL=LEVTAIL0
           ELSE 
             LEVTAIL=LEVTAIL0
             END IF
-!WRITE(991,*) 'TAIL??',SINTAILPAR(3),LEVTAIL0,LEVTAIL,ALPHAT,Y,Y/KM
+! WRITE(991,*) 'TAIL??',SINTAILPAR(3),LEVTAIL0,LEVTAIL,ALPHAT,Y,Y/KM,OMEGA/(TPI)
 
            !TAU1=TAU1+W(J)*ZBETA*(USTR/UST)**2/Y*DELY              ! integration over LOG(Y)
            TAU1=TAU1+W(J)*ZBETA*USTR**2*LEVTAIL*DELY*CGTAIL/CM       ! integration over LOG(K) 
