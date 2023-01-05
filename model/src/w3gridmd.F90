@@ -848,7 +848,7 @@
                                  SDSBR, SDSP, SDSBT, SDS4A, SDKOF,    &
                                  SDSCOS, SDSDTH, SDSBCK, SDSABK,      &
                                  SDSPBK, SDSBINT, SDSHCK,             &               
-                                 SDSBRF1,                             &
+                                 SDSBRF1, CUMSIGP,                    &
                                  SDSBM0, SDSBM1, SDSBM2, SDSBM3,      &
                                  SDSBM4, SDSFACMTF, SDSCUMP,  SDSNUW, &
                                  SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF, &
@@ -1032,7 +1032,7 @@
                       SDSC5, SDSC6, SDSBR, SDSBT, SDSP, SDSISO,       &
                       SDSBCK, SDSABK, SDSPBK, SDSBINT, SDSHCK,        &
                       SDSDTH, SDSCOS, SDSBRF1, SDSBRFDF,  SDSNUW,     &
-                      SDSBM0, SDSBM1, SDSBM2, SDSBM3, SDSBM4,         &
+                      SDSBM0, SDSBM1, SDSBM2, SDSBM3, SDSBM4, CUMSIGP,&
                       WHITECAPWIDTH, WHITECAPDUR, SDSMWD, SDSMWPOW, SDKOF
 #endif
 
@@ -2138,6 +2138,7 @@
       WHITECAPWIDTH = 0.3
       SDSSTRAIN = 0.       
       SDSFACMTF =  400    ! MTF factor for Lambda , Romero (2019)
+      CUMSIGP   = 0.
       SDSSTRAINA = 15.
       SDSSTRAIN2 = 0.
       WHITECAPDUR   = 0.56 ! breaking duration factor 
@@ -2232,7 +2233,7 @@
       SSDSC(9)   = SDSL
       SSDSC(10)  = SDSSTRAINA*NTH/360. ! angle for enhanced straining
       SSDSC(11)  = SDSSTRAIN2          ! straining constant for directional part 
-      SSDSC(12)  = SDSBT
+      SSDSC(12)  = CUMSIGP
       SSDSC(13)  = SDSMWD
       SSDSC(14)  = SPMSS
       SSDSC(15)  = SDSMWPOW 
@@ -3292,7 +3293,7 @@
                     SDSBT, SDSP, SDSISO, SDSCOS, SDSDTH, SDSBRF1,     &
                     SDSBRFDF, SDSBM0, SDSBM1, SDSBM2, SDSBM3, SDSBM4, &
                     SPMSS, SDKOF, SDSMWD, SDSFACMTF, SDSNMTF,SDSMWPOW,&
-                    SDSCUMP, SDSNUW, WHITECAPWIDTH, WHITECAPDUR
+                    SDSCUMP, CUMSIGP, SDSNUW, WHITECAPWIDTH, WHITECAPDUR
 #endif
 #ifdef W3_ST6
           WRITE (NDSO,2924) SDSET, SDSA1, SDSA2, SDSP1, SDSP2
@@ -6452,7 +6453,7 @@
                '        SPMSS = ',F5.2, ', SDKOF =',F5.2,        &
                ', SDSMWD =',F5.2,', SDSFACMTF =',F5.1,', '/      &
                '        SDSMWPOW =',F3.1,', SDSNMTF =', F5.2,    &
-               ', SDSCUMP =', F3.1,', SDSNUW =', E8.3,', '/,     &
+               ', SDSCUMP =', F3.1,', CUMSIGP =', F3.1,', SDSNUW =', E8.3,', '/,     &
                '        WHITECAPWIDTH =',F5.2, ' WHITECAPDUR =',F5.2,' /')
 #endif
 !

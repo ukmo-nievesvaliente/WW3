@@ -171,7 +171,7 @@
       USE W3GDATMD, ONLY: NK, NTH, NSPEC, SIG, DTH, DDEN, WWNMEANP, &
                           WWNMEANPTAIL, FTE, FTF, SSTXFTF, SSTXFTWN,&
                           SSTXFTFTAIL, SSWELLF, ESIN, ECOS, AAIRCMIN, &
-                          AAIRGB, AALPHA, ZZWND
+                          AAIRGB, AALPHA, ZZWND, SSDSC
 #ifdef W3_S
       USE W3SERVMD, ONLY: STRACE
 #endif
@@ -207,7 +207,7 @@
 #endif
 
       REAL                    :: TAUW, EBAND, EMEANWS,UNZ,            &
-                                 EB(NK),EB2(NK),ELCS, ELSN 
+                                 EB(NK),EB2(NK),ELCS, ELSN, SIGFAC
 !/
 !/ ------------------------------------------------------------------- /
 !/
@@ -234,17 +234,18 @@
       DO IK=1, NK
         EB(IK)  = 0.
         EB2(IK) = 0.
+        SIGFAC=SIG(IK)**SSDSC(12) * DDEN(IK) / CG(IK)
         DO ITH=1, NTH
           IS=ITH+(IK-1)*NTH
           EB(IK) = EB(IK) + A(ITH,IK)
-          ELCS = ELCS + A(ITH,IK)*ECOS(IS)*DDEN(IK) / CG(IK)
-          ELSN = ELSN + A(ITH,IK)*ESIN(IS)*DDEN(IK) / CG(IK)
+          ELCS = ELCS + A(ITH,IK)*ECOS(IS)*SIGFAC
+          ELSN = ELSN + A(ITH,IK)*ESIN(IS)*SIGFAC
           IF (LLWS(IS)) EB2(IK) = EB2(IK) + A(ITH,IK)
           AMAX   = MAX ( AMAX , A(ITH,IK) )
           END DO
         END DO
-
-        DLWMEAN=ATAN2(ELSN,ELCS);
+!
+        DLWMEAN=ATAN2(ELSN,ELCS)
 !
 ! 2.  Integrate over directions -------------------------------------- *
 !
