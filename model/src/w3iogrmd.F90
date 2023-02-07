@@ -327,6 +327,7 @@ CONTAINS
     INTEGER                 :: IK, ITH, IK2, ITH2
 #endif
     INTEGER, ALLOCATABLE    :: MAPTMP(:,:)
+    LOGICAL, ALLOCATABLE    :: MASK(:,:)
 #ifdef W3_MPI
     INTEGER                 :: IERR_MPI, IP
 #endif
@@ -711,7 +712,8 @@ CONTAINS
     ! Parameters in modules  --------------------------------------------- *
     !                                                   Module W3GDAT GRID
     !
-    ALLOCATE ( MAPTMP(NY,NX) )
+    ALLOCATE ( MAPTMP(NY,NX), MASK(NY,NX) )
+    MASK = .FALSE.
     !
     IF ( WRITE ) THEN
       MAPTMP = MAPSTA + 8*MAPST2
@@ -863,7 +865,11 @@ CONTAINS
 
       END SELECT !GTYPE
       !
-      IF (GTYPE.NE.UNGTYPE) CALL W3GNTX ( IGRD, NDSE, NDST )
+      IF (GTYPE.NE.UNGTYPE) THEN
+        WHERE(MAPSTA.EQ.0) MASK = .TRUE.
+        CALL W3GNTX ( IGRD, NDSE, NDST, MASK )
+      END IF
+
       READ (NDSM,END=801,ERR=802,IOSTAT=IERR)   &
            ZB, MAPTMP, MAPFS, MAPSF, TRFLAG
       !

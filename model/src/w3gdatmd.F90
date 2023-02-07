@@ -2828,7 +2828,7 @@ CONTAINS
     !/
   END SUBROUTINE W3SETG
   !/ ------------------------------------------------------------------- /
-  SUBROUTINE W3GNTX ( IMOD, NDSE, NDST )
+  SUBROUTINE W3GNTX ( IMOD, NDSE, NDST, MASK )
     !/
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH-III           NOAA/NCEP |
@@ -2902,11 +2902,12 @@ CONTAINS
     !/ Parameter list
     !/
     INTEGER, INTENT(IN)     :: IMOD, NDSE, NDST
+    LOGICAL, INTENT(IN), OPTIONAL :: MASK(NY,NX)
     !/
     !/ ------------------------------------------------------------------- /
     !/ Local parameters
     !/
-    INTEGER, PARAMETER :: NFD    = 4
+    INTEGER, PARAMETER :: NFD    = 2
     LOGICAL, PARAMETER :: PTILED = .FALSE.
     LOGICAL, PARAMETER :: QTILED = .FALSE.
     LOGICAL, PARAMETER :: IJG    = .FALSE.
@@ -2982,7 +2983,7 @@ CONTAINS
     CASE ( RLGTYPE, SMCTYPE )
       CALL W3CGDM( IJG, FLAGLL, ICLOSE, PTILED, QTILED,            &
            PRANGE, QRANGE, LBI, UBI, LBO, UBO, REAL(XGRD), REAL(YGRD), &
-           NFD=NFD, SPHERE=SPHERE, DX=SX, DY=SY,           &
+           MASK=MASK, NFD=NFD, SPHERE=SPHERE, DX=SX, DY=SY,           &
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &
@@ -2997,7 +2998,7 @@ CONTAINS
     CASE ( CLGTYPE )
       CALL W3CGDM( IJG, FLAGLL, ICLOSE, PTILED, QTILED,            &
            PRANGE, QRANGE, LBI, UBI, LBO, UBO, REAL(XGRD), REAL(YGRD), &
-           NFD=NFD, SPHERE=SPHERE,                         &
+           MASK=MASK, NFD=NFD, SPHERE=SPHERE,                         &
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &

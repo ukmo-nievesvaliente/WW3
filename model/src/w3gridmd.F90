@@ -617,6 +617,7 @@ MODULE W3GRIDMD
 #endif
   !
   INTEGER, ALLOCATABLE    :: TMPSTA(:,:), TMPMAP(:,:), READMP(:,:)
+  LOGICAL, ALLOCATABLE    :: MASK(:,:)
 #ifdef W3_T
   INTEGER, ALLOCATABLE    :: MAPOUT(:,:)
 #endif
@@ -3948,8 +3949,9 @@ CONTAINS
     !
     ! 7.f Set up temporary map
     !
-    ALLOCATE ( TMPSTA(NY,NX), TMPMAP(NY,NX) )
+    ALLOCATE ( TMPSTA(NY,NX), TMPMAP(NY,NX), MASK(NY,NX) )
     TMPSTA = 0
+    MASK = .FALSE.
     !
     IF (GTYPE .EQ. UNGTYPE) THEN
       TMPSTA = 1
@@ -4810,7 +4812,8 @@ CONTAINS
         END DO
       END DO
       DEALLOCATE ( XGRDIN, YGRDIN )
-      CALL W3GNTX ( 1, 6, 6 )
+      WHERE(TMPSTA.EQ.0) MASK = .TRUE.
+      CALL W3GNTX ( 1, 6, 6, MASK )
     ELSE
     END IF   ! GTYPE
     !
