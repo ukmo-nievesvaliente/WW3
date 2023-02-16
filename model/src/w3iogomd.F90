@@ -1123,6 +1123,9 @@
       CASE('QP')
         I = 8
         J = 5
+      CASE('BKK')
+        I = 8
+        J = 6
 !
 ! Group 9
 !
@@ -1294,7 +1297,7 @@
                           TH2M, STH2M, HSIG, STMAXE, STMAXD,          &
                           HCMAXE, HMAXE, HCMAXD, HMAXD, USSP, QP, PQP,&
                           PTHP0, PPE, PGW, PSW, PTM1, PT1, PT2, PEP,  &
-                          WBT
+                          WBT, BKK 
       USE W3ODATMD, ONLY: NDST, UNDEF, IAPROC, NAPROC, NAPFLD,        &
                           ICPRT, DTPRT, WSCUT, NOSWLL, FLOGRD, FLOGR2,&
                           NOGRP, NGRPP
@@ -1353,7 +1356,8 @@
                                  STMAXDL(NSEAL), TLPHI(NSEAL),        &
                                  WL02X(NSEAL), WL02Y(NSEAL),          &
                                  ALPXT(NSEAL), ALPYT(NSEAL),          &
-                                 ALPXY(NSEAL), SCREST(NSEAL)
+                                 ALPXY(NSEAL), SCREST(NSEAL),         &
+                                 BK1(NSEAL), BK2(NSEAL)
       REAL                       USSCO, FT1
       REAL, SAVE              :: HSMIN = 0.01
       LOGICAL                 :: FLOLOC(NOGRP,NGRPP)
@@ -1429,6 +1433,7 @@
       TLPHI  = 0.
       STMAXEL = 0.
       STMAXDL = 0.
+      BK2 = 0.
 !
       HS     = UNDEF
       WLM    = UNDEF
@@ -1445,6 +1450,7 @@
       ALPXY  = UNDEF
       ALPXT  = UNDEF
       ALPYT  = UNDEF
+      BKK    = UNDEF
       THMP = UNDEF
       T02P = UNDEF
       SCREST = UNDEF
@@ -1481,6 +1487,7 @@
         ABXY   = 0.
         ABYX   = 0.
         ABST   = 0.
+        BK1    = 0.
 !
 ! 2.b Integrate energy in band
 !
@@ -1503,6 +1510,7 @@
             AB2X(JSEA) = AB2X(JSEA) + A(ITH,IK,JSEA)*(2*EC2(ITH) - 1)
             AB2Y(JSEA) = AB2Y(JSEA) + A(ITH,IK,JSEA)*(2*ESC(ITH))
             ABYX(JSEA) = ABYX(JSEA) + A(ITH,IK,JSEA)*ESC(ITH)
+            BK1 (JSEA) = BK1(JSEA) + A(ITH,IK,JSEA)**2
             IF (ITH.LE.NTH/2) THEN
               ABST(JSEA) = ABST(JSEA) +                               &
                               A(ITH,IK,JSEA)*A(ITH+NTH/2,IK,JSEA)
@@ -1550,6 +1558,8 @@
           TUSY(JSEA)  = TUSY(JSEA) + ABY(JSEA)*FACTOR               &
                      *GRAV*WN(IK,ISEA)/SIG(IK)
           ETXX(JSEA) = ETXX(JSEA) + ABX2(JSEA) * FACTOR* WN(IK,ISEA)**2
+! NB:     BK1 (JSEA) = BK1(JSEA) + A(ITH,IK,JSEA)**2
+          BK2 (JSEA) = BK2 (JSEA) + BK1(JSEA)  * FACTOR* SIG(IK) /WN(IK,ISEA) 
           ETYY(JSEA) = ETYY(JSEA) + ABY2(JSEA) * FACTOR* WN(IK,ISEA)**2
           ETXY(JSEA) = ETXY(JSEA) + ABYX(JSEA) * FACTOR* WN(IK,ISEA)**2
           IF (SIG(IK)*0.5*(1+XFR).LT.0.4*TPI) THEN
@@ -1986,6 +1996,9 @@
                 THS(JSEA) = RADE * SQRT ( MAX ( 0. , 2. * ( 1. - SQRT ( &
                 MAX(0.,(ETX(JSEA)**2+ETY(JSEA)**2)/ET(JSEA)**2) ) ) ) )
                 IF ( THS(JSEA) .LT. 0.01*RADE*DTH ) THS(JSEA) = 0.
+! NB:           BK1 (JSEA) = BK1(JSEA) + A(ITH,IK,JSEA)**2
+!               BK2 (JSEA) = BK2 (JSEA) + BK1(JSEA)  * FACTOR* SIG(IK) /WN(IK,ISEA) 
+                BKK (JSEA) = ET(JSEA) / SQRT(0.5*BK2 (JSEA))
               ELSE
                 WLM(JSEA) = 0.
                 T0M1(JSEA) = TPI / SIG(NK)
@@ -2498,7 +2511,7 @@
                           CFLXYMAX, CFLTHMAX, CFLKMAX, P2SMS, US3D,    &
                           TH1M, STH1M, TH2M, STH2M, HSIG, PHICE, TAUICE,&
                           STMAXE, STMAXD, HMAXE, HCMAXE, HMAXD, HCMAXD,&
-                          USSP, TAUOCX, TAUOCY
+                          USSP, TAUOCX, TAUOCY, BKK
 !/
       USE W3ODATMD, ONLY: NOGRP, NGRPP, IDOUT, UNDEF, NDST, NDSE,     &
                           FLOGRD, IPASS => IPASS1, WRITE => WRITE1,   &
@@ -2874,6 +2887,7 @@
                 IF ( FLOGRD( 8, 3) ) MSSD (ISEA) = UNDEF
                 IF ( FLOGRD( 8, 4) ) MSCD (ISEA) = UNDEF
                 IF ( FLOGRD( 8, 5) ) QP   (ISEA) = UNDEF
+                IF ( FLOGRD( 8, 6) ) BKK  (ISEA) = UNDEF
 !
                 IF ( FLOGRD( 9, 1) ) DTDYN (ISEA) = UNDEF
                 IF ( FLOGRD( 9, 2) ) FCUT  (ISEA) = UNDEF
@@ -3228,6 +3242,8 @@
                     WRITE ( NDSOG ) MSCD(1:NSEA)
                   ELSE IF ( IFI .EQ. 8 .AND. IFJ .EQ. 5 ) THEN
                     WRITE ( NDSOG ) QP(1:NSEA)
+                  ELSE IF ( IFI .EQ. 8 .AND. IFJ .EQ. 6 ) THEN
+                    WRITE ( NDSOG ) BKK(1:NSEA)
 !
 !     Section 9)
 !
@@ -3560,6 +3576,8 @@
                                                        MSCD(1:NSEA)
                   ELSE IF ( IFI .EQ. 8 .AND. IFJ .EQ. 5 ) THEN
                      READ (NDSOG,END=801,ERR=802,IOSTAT=IERR) QP(1:NSEA)
+                  ELSE IF ( IFI .EQ. 8 .AND. IFJ .EQ. 6 ) THEN
+                     READ (NDSOG,END=801,ERR=802,IOSTAT=IERR) BKK(1:NSEA)
 !
 !     Section 9)
 !

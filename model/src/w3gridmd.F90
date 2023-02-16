@@ -6565,12 +6565,12 @@
  947 FORMAT  (/'  Ice scattering ',A,/ &
               ' --------------------------------------------------')
  948 FORMAT  ('  IS2 Scattering ... '/&
-              '        scattering coefficient       : ',E9.3/ &
-              '        0: no back-scattering        : ',E9.3/ &
+              '        scattering coefficient       : ',E10.3/ &
+              '        0: no back-scattering        : ',E10.3/ &
               '     TRUE: istropic back-scattering  : ',L3/   &
               '     TRUE: update of ICEDMAX         : ',L3/   &
               '     TRUE: keeps updated ICEDMAX     : ',L3/   &
-              '        flexural strength            : ',E9.3/ &
+              '        flexural strength            : ',E10.3/ &
               '     TRUE: uses Robinson-Palmer disp.: ',L3/   &
               '        attenuation                  : ',F5.2/ &
               '        fragility                    : ',F5.2/ &
@@ -6578,7 +6578,7 @@
               '        pack scattering coef 1       : ',F5.2/ &
               '        pack scattering coef 2       : ',F5.2/ &
               '        scaling by concentration     : ',F5.2/ &
-              '        creep B coefficient          : ',E9.3/ &
+              '        creep B coefficient          : ',E10.3/ &
               '        creep C coefficient          : ',F5.2/ &
               '        creep D coefficient          : ',F5.2/ &
               '        creep N power                : ',F5.2/ &
@@ -6589,7 +6589,7 @@
               '        energy of activation         : ',F5.2/ &
               '        anelastic coefficient        : ',E11.3/ &
               '        anelastic exponent           : ',F5.2)
- 2948 FORMAT ( '  &SIS2 ISC1 =',E9.3,', IS2BACKSCAT =',E9.3,   &
+ 2948 FORMAT ( '  &SIS2 ISC1 =',E10.3,', IS2BACKSCAT =',E10.3,   &
                ', IS2ISOSCAT =',L3,', IS2BREAK =',L3,          &
                ', IS2DUPDATE =',L3,','/                        &
                '       IS2FLEXSTR =',E11.3,', IS2DISP =',L3,   &
