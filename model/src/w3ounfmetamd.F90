@@ -3963,19 +3963,19 @@
       META(1)%VARNC='Goda wave peakedness parameter'
       META(1)%VMIN = 0
       META(1)%VMAX = 32
-! IFI=8, IFJ=6, BKK
+! IFI=8, IFJ=6, QKK
       META => GROUP(8)%FIELD(6)%META
-      META(1)%FSC    = 0.0001
-      META(1)%UNITS  = 'rad/m'
-      META(1)%ENAME  = '.bkk'
-      META(1)%VARNM='bkk'
-      META(1)%VARNL='bandwidth'
+      META(1)%FSC    = 0.05
+      META(1)%UNITS  = 'm/rad'
+      META(1)%ENAME  = '.qkk'
+      META(1)%VARNM='qkk'
+      META(1)%VARNL='k-peakedness'
       !META(1)%VARNS='sea_surface_wave_peakedness'
       META(1)%VARNS=''
-      META(1)%VARNG='wavenumber_bandwidth'
-      META(1)%VARNC='2D wavenumber bandwidth'
+      META(1)%VARNG='wavenumber_peakedness'
+      META(1)%VARNC='2D wavenumber peakedness'
       META(1)%VMIN = 0
-      META(1)%VMAX = 5
+      META(1)%VMAX = 1600
 !
 !---------- GROUP 9 ----------------
 !

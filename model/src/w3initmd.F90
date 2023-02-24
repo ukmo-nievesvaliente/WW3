@@ -2342,7 +2342,7 @@
                           STMAXE, STMAXD, HMAXE, HCMAXE, HMAXD,  &
                           HCMAXD, QP, PTHP0, PQP, PPE, PGW, PSW, &
                           PTM1, PT1, PT2, PEP, WBT, CX, CY,      &
-                          TAUOCX, TAUOCY, WNMEAN, BKK
+                          TAUOCX, TAUOCY, WNMEAN, QKK
 #endif
 
 #ifdef W3_MPI
@@ -3759,7 +3759,7 @@
               IF ( FLGRDALL( 8, 6) ) THEN
                   IH     = IH + 1
                   IT     = IT + 1
-      CALL MPI_SEND_INIT (BKK  (1),NSEALM , MPI_REAL, IROOT,   &
+      CALL MPI_SEND_INIT (QKK  (1),NSEALM , MPI_REAL, IROOT,   &
                                 IT, MPI_COMM_WAVE, IRQGO(IH), IERR)
 #endif
 #ifdef W3_MPIT
@@ -5171,6 +5171,20 @@
 #endif
 #ifdef W3_MPIT
       WRITE (NDST,9011) IH, ' 8/05', IFROM, IT, IRQGO2(IH), IERR
+#endif
+#ifdef W3_MPI
+                  END IF
+#endif
+!
+#ifdef W3_MPI
+                IF ( FLGRDALL( 8, 6) ) THEN
+                    IH     = IH + 1
+                    IT     = IT + 1
+      CALL MPI_RECV_INIT (QKK  (I0),1,WW3_FIELD_VEC, IFROM, IT,  &
+                               MPI_COMM_WAVE, IRQGO2(IH), IERR )
+#endif
+#ifdef W3_MPIT
+      WRITE (NDST,9011) IH, ' 8/06', IFROM, IT, IRQGO2(IH), IERR
 #endif
 #ifdef W3_MPI
                   END IF

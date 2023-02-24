@@ -2136,9 +2136,9 @@
       SDSBINT   = 0.3
       SDSHCK    = 1.5
       WHITECAPWIDTH = 0.3
-      SDSSTRAIN = 0.       
       SDSFACMTF =  400    ! MTF factor for Lambda , Romero (2019)
       CUMSIGP   = 0.
+      SDSSTRAIN = 0.       
       SDSSTRAINA = 15.
       SDSSTRAIN2 = 0.
       WHITECAPDUR   = 0.56 ! breaking duration factor 
@@ -2149,7 +2149,7 @@
 ! MTF
       SPMSS     = 0.5    ! cmss^SPMSS 
       SDSNMTF   = 1.5    ! MTF power 
-      SDSCUMP   = 2.
+      SDSCUMP   = 2.     ! moment of spectrum for direction definition
 ! MW
       SDSMWD    = .9  ! new AFo
       SDSMWPOW  = 1.  ! (k )^pow
@@ -6453,7 +6453,7 @@
                '        SPMSS = ',F5.2, ', SDKOF =',F5.2,        &
                ', SDSMWD =',F5.2,', SDSFACMTF =',F5.1,', '/      &
                '        SDSMWPOW =',F3.1,', SDSNMTF =', F5.2,    &
-               ', SDSCUMP =', F3.1,', CUMSIGP =', F3.1,', SDSNUW =', E8.3,', '/,     &
+               ', SDSCUMP =', F3.1,', CUMSIGP =', F3.1,', SDSNUW =', E10.3,', '/,     &
                '        WHITECAPWIDTH =',F5.2, ' WHITECAPDUR =',F5.2,' /')
 #endif
 !

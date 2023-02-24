@@ -894,7 +894,7 @@
       IDOUT( 8, 3)  = 'Slope direction     '
       IDOUT( 8, 4)  = 'Tail slope direction'
       IDOUT( 8, 5)  = 'Goda peakedness parm'
-      IDOUT( 8, 6)  = 'wavenumber bandwidth'
+      IDOUT( 8, 6)  = 'kxky-peakdness      '
 !      IDOUT( 8, 3)  = 'Lx-Ly mean wvlength'
 !      IDOUT( 8, 4)  = 'Surf grad correl XT'
 !      IDOUT( 8, 5)  = 'Surf grad correl YT'
