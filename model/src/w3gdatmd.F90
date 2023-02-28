@@ -912,6 +912,8 @@
 #ifdef W3_NL1
         REAL                  :: SNLC1, LAM, KDCON, KDMN,             &
                                  SNLS1, SNLS2, SNLS3
+        INTEGER               :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
+        REAL                  :: GQTHRSAT, GQTHRCOU, GQAMP(4)
 #endif
 #ifdef W3_NL2
         INTEGER               :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
@@ -1320,6 +1322,8 @@
 !/ Data aliasses for structure SNLP(S)
 !/
 #ifdef W3_NL1
+      INTEGER, POINTER        :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
+      REAL, POINTER           :: GQTHRSAT, GQTHRCOU, GQAMP(:)
       REAL, POINTER           :: SNLC1, LAM, KDCON, KDMN,             &
                                  SNLS1, SNLS2, SNLS3
 #endif
@@ -2730,6 +2734,14 @@
       SNLS1  => MPARS(IMOD)%SNLPS%SNLS1
       SNLS2  => MPARS(IMOD)%SNLPS%SNLS2
       SNLS3  => MPARS(IMOD)%SNLPS%SNLS3
+      IQTPE  => MPARS(IMOD)%SNLPS%IQTPE
+      GQNF1  => MPARS(IMOD)%SNLPS%GQNF1
+      GQNT1  => MPARS(IMOD)%SNLPS%GQNT1
+      GQNQ_OM2  => MPARS(IMOD)%SNLPS%GQNQ_OM2
+      GQTHRSAT => MPARS(IMOD)%SNLPS%GQTHRSAT
+      GQTHRCOU=> MPARS(IMOD)%SNLPS%GQTHRCOU
+      GQAMP=> MPARS(IMOD)%SNLPS%GQAMP
+
 #endif
 #ifdef W3_NL2
       IQTPE  => MPARS(IMOD)%SNLPS%IQTPE

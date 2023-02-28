@@ -56,7 +56,22 @@
 !
 !/ ------------------------------------------------------------------- /
 !/
+!/
       PUBLIC
+!/
+!/ These are the arrays and variables used for GQM method
+!/	  
+      INTEGER              :: NCONF
+      INTEGER, ALLOCATABLE :: K_IF2 (:,:,:) , K_IF3 (:,:,:) , K_1P2P(:,:,:) , &
+                              K_1P3M(:,:,:) , K_1P2M(:,:,:) , K_1P3P(:,:,:) , &
+                              K_1M2P(:,:,:) , K_1M3M(:,:,:) , K_1M2M(:,:,:) , &
+                              K_1M3P(:,:,:)		  
+      INTEGER, ALLOCATABLE :: F_POIN(:) , T_POIN(:) , K_IF1(:) , K_1P(:,:) ,  &
+                              K_1M(:,:) , IDCONF(:,:)
+      DOUBLE PRECISION, ALLOCATABLE :: F_COEF(:) , F_PROJ(:) , TB_SCA(:) , TB_V14(:)
+      DOUBLE PRECISION, ALLOCATABLE :: TB_V24(:,:,:) , TB_V34(:,:,:) ,        &
+                                       TB_TPM(:,:,:) , TB_TMP(:,:,:) , TB_FAC(:,:,:)
+	  
 !/
       CONTAINS
 !/ ------------------------------------------------------------------- /
