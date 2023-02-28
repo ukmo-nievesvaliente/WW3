@@ -1120,8 +1120,9 @@
 !     ==================================================
 !     END OF LOOP 1 OVER THE SELECTED CONFIGURATIONS
 !     ==================================================
-! Applying WAM DEPTH SCALING
-      CALL q_dscale(F,WN,SIG,DTH,NK,NTH,DEPTH,q_dfac)
+! Applying WAM DEPTH SCALING ! to be added later ... 
+!      CALL q_dscale(F,WN,SIG,DTH,NK,NTH,DEPTH,q_dfac)
+      q_dfac=1 
 
 ! Amplification inspired by Lavrenov 2001, eq 10.
       AMPFAC=GQAMP(4)*MIN(MAX(ACCMAX/GQAMP(2),1.)**GQAMP(1),GQAMP(3))
@@ -1141,6 +1142,320 @@
  !CLOSE(994)
  !STOP
       END SUBROUTINE W3SNLGQM
+
+!/ ------------------------------------------------------------------- /
+      FUNCTION COUPLE(XK1 ,YK1 ,XK2 ,YK2 ,XK3 ,YK3 ,XK4 ,YK4)
+!/
+!/                  +-----------------------------------+
+!/                  | WAVEWATCH III           NOAA/NCEP |
+!/                  | M. Benoit & E. Gagnaire-Renou     |
+!/                  | Last update :         20-Nov-2022 |
+!/                  +-----------------------------------+
+!/
+!/    19-Nov-2022 : Transfer from TOMAWAC code          ( version 7.xx ) 
+!/
+!  1. Purpose :
+!
+!     Computes the 4-wave coupling coefficient used in Snl4 
+!
+!  2. Method : 
+!     
+!     Uses theoretical expression by Webb (1978) 
+!
+!  3. Parameters :
+!
+!     Parameter list
+!     ----------------------------------------------------------------
+!       XK1     Real  I   x component of k1 wavenumber ... 
+!     ----------------------------------------------------------------
+!
+!  5. Called by :
+!
+!      Name      Type  Module   Description
+!     ----------------------------------------------------------------
+!      INNSLGQM  Subr. W3SNL2   Prepares source term integration.
+!     ----------------------------------------------------------------
+!
+!  6. Error messages :
+!
+!       None.
+!
+! 10. Source code :
+!
+!/ ------------------------------------------------------------------- /
+!
+      DOUBLE PRECISION, INTENT(IN)    :: XK1   , YK1   , XK2   , YK2
+      DOUBLE PRECISION, INTENT(IN)    :: XK3   , YK3
+      DOUBLE PRECISION, INTENT(IN)    :: XK4   , YK4  
+      DOUBLE PRECISION COUPLE
+!
+!.....LOCAL VARIABLES
+!     """"""""""""""""""
+      DOUBLE PRECISION RK1   , RK2   , RK3   , RK4   , WK1   , WK2
+      DOUBLE PRECISION WK3   , WK4   , S12   , S13   , S14   , S23
+      DOUBLE PRECISION S24   , S34   , W1P2  , Q12   , W1M3  , Q13
+      DOUBLE PRECISION W1M4  , Q14   , DDD   , COEF  , DENO13, NUME13
+      DOUBLE PRECISION DENO14, NUME14, ZERO, GRAVIT, PI
+	  
+!
+      GRAVIT      = 9.806 
+	  PI = ACOS(-1.)
+      COEF=PI*GRAVIT*GRAVIT/4.D0
+      ZERO=1.D-10
+!
+      RK1=SQRT(XK1*XK1+YK1*YK1)
+      RK2=SQRT(XK2*XK2+YK2*YK2)
+      RK3=SQRT(XK3*XK3+YK3*YK3)
+      RK4=SQRT(XK4*XK4+YK4*YK4)
+!
+      WK1=SQRT(RK1)
+      WK2=SQRT(RK2)
+      WK3=SQRT(RK3)
+      WK4=SQRT(RK4)
+!
+      S12=XK1*XK2+YK1*YK2
+      S13=XK1*XK3+YK1*YK3
+      S14=XK1*XK4+YK1*YK4
+      S23=XK2*XK3+YK2*YK3
+      S24=XK2*XK4+YK2*YK4
+      S34=XK3*XK4+YK3*YK4
+!
+      W1P2=SQRT((XK1+XK2)*(XK1+XK2)+(YK1+YK2)*(YK1+YK2))
+      W1M3=SQRT((XK1-XK3)*(XK1-XK3)+(YK1-YK3)*(YK1-YK3))
+      W1M4=SQRT((XK1-XK4)*(XK1-XK4)+(YK1-YK4)*(YK1-YK4))
+      Q12=(WK1+WK2)*(WK1+WK2)
+      Q13=(WK1-WK3)*(WK1-WK3)
+      Q14=(WK1-WK4)*(WK1-WK4)
+!
+!.....COMPUTES THE D COEFFICIENT OF WEBB (1978)
+!     """"""""""""""""""""""""""""""""""""""
+      DDD=2.00D0*Q12*(RK1*RK2-S12)*(RK3*RK4-S34)/(W1P2-Q12) &
+        +0.50D0*(S12*S34+S13*S24+S14*S23) &
+        +0.25D0*(S13+S24)*Q13*Q13 &
+        -0.25D0*(S12+S34)*Q12*Q12 &
+        +0.25D0*(S14+S23)*Q14*Q14 &
+        +2.50D0*RK1*RK2*RK3*RK4 &
+        +Q12*Q13*Q14*(RK1+RK2+RK3+RK4)
+
+      DENO13=W1M3-Q13
+      NUME13=2.00D0*Q13*(RK1*RK3+S13)*(RK2*RK4+S24)
+      IF (ABS(DENO13).LT.ZERO) THEN
+        IF (ABS(NUME13).LT.ZERO) THEN
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3)  0/0 !'
+        ELSE
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3) inifinte value'
+        ENDIF
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-3) term not used'
+      ELSE
+        DDD=DDD+NUME13/DENO13
+      ENDIF
+      DENO14=W1M4-Q14
+      NUME14=2.00D0*Q14*(RK1*RK4+S14)*(RK2*RK3+S23)
+      IF (ABS(DENO14).LT.ZERO) THEN
+        IF (ABS(NUME14).LT.ZERO) THEN
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4)  0/0 !'
+        ELSE
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4) inifinte value'
+        ENDIF
+          WRITE(*,*) 'W3SNL2 error for coupling coefficient : (1-4) term not used'
+      ELSE
+        DDD=DDD+NUME14/DENO14
+      ENDIF
+      
+      COUPLE=COEF*DDD*DDD/(WK1*WK2*WK3*WK4)
+!      RETURN
+      END FUNCTION COUPLE 
+
+!/ ------------------------------------------------------------------- /
+      SUBROUTINE GAULEG (W_LEG ,X_LEG ,NPOIN)
+!/ ------------------------------------------------------------------- /
+!.....VARIABLES IN ARGUMENT
+!     """"""""""""""""""""
+      INTEGER ,         INTENT(IN)    :: NPOIN
+      DOUBLE PRECISION ,INTENT(INOUT) :: W_LEG(NPOIN) , X_LEG(NPOIN)
+!
+!.....LOCAL VARIABLES
+!     """""""""""""""""
+      INTEGER           I, M, J
+      DOUBLE PRECISION  EPS, Z, P1, P2, P3, PP, Z1, PI
+      PARAMETER        (EPS=3.D-14)
+!
+      PI = ACOS(-1.)
+      M=(NPOIN+1)/2
+      DO I=1,M
+        Z=COS(PI*(DBLE(I)-0.25D0)/(DBLE(NPOIN)+0.5D0))
+    1   CONTINUE
+        P1=1.0D0
+        P2=0.0D0
+        DO J=1,NPOIN
+          P3=P2
+          P2=P1
+          P1=((2.D0*DBLE(J)-1.D0)*Z*P2-(DBLE(J)-1.D0)*P3)/DBLE(J)
+        ENDDO
+        PP=DBLE(NPOIN)*(Z*P1-P2)/(Z*Z-1.D0)
+        Z1=Z
+        Z=Z-P1/PP
+        IF (ABS(Z-Z1).GT.EPS) GOTO 1
+        X_LEG(I)=-Z
+        X_LEG(NPOIN+1-I)=Z
+        W_LEG(I)=2.D0/((1.D0-Z**2)*PP**2)
+        W_LEG(NPOIN+1-I)=W_LEG(I)
+      ENDDO
+      END SUBROUTINE GAULEG
+
+!/ ------------------------------------------------------------------- /
+      SUBROUTINE F1F1F1(F1SF,NF1,IQ_OM1)
+! TOMAWAC   V6P3                                   15/06/2011
+!***********************************************************************
+!
+!brief   SUBROUTINE CALLED BY PRENL3
+!+         COMPUTES VALUES OF RATIO F1/F AS FUNCTION OF THE IQ_OM1
+!+         INDICATOR
+!
+!history  E. GAGNAIRE-RENOU
+!+        04/2011
+!+        V6P1
+!+   CREATED
+!
+!history  G.MATTAROLO (EDF - LNHE)
+!+        15/06/2011
+!+        V6P1
+!+   Translation of French names of the variables in argument
+!
+!history  E. GAGNAIRE-RENOU
+!+        12/03/2013
+!+        V6P3
+!+   Better formatted: WRITE(LU,*), etc.
+!/ ------------------------------------------------------------------- /
+      IMPLICIT NONE
+      INTEGER,          INTENT(IN)    :: IQ_OM1
+      INTEGER,          INTENT(INOUT) :: NF1
+      DOUBLE PRECISION, INTENT(INOUT) :: F1SF(*)
+!
+      INTEGER I,M
+      DOUBLE PRECISION RAISON
+!
+      IF(IQ_OM1.EQ.1) THEN
+        IF(NF1.NE.14) THEN
+           WRITE(*,*) '#1 Incorrect value for NF1',NF1
+        ENDIF
+        F1SF( 1)=0.30D0
+        F1SF( 2)=0.40D0
+        F1SF( 3)=0.50D0
+        F1SF( 4)=0.60D0
+        F1SF( 5)=0.70D0
+        F1SF( 6)=0.80D0
+        F1SF( 7)=0.90D0
+        F1SF( 8)=1.00D0
+        F1SF( 9)=1.11D0
+        F1SF(10)=1.25D0
+        F1SF(11)=1.42D0
+        F1SF(12)=1.67D0
+        F1SF(13)=2.00D0
+        F1SF(14)=2.50D0
+        F1SF(15)=3.30D0
+      ELSEIF(IQ_OM1.EQ.2) THEN
+        IF (NF1.NE.26) THEN
+           WRITE(*,*) '#2 Incorrect value for NF1', NF1
+        ENDIF
+        F1SF( 1)=0.32D0
+        F1SF( 2)=0.35D0
+        F1SF( 3)=0.39D0
+        F1SF( 4)=0.44D0
+        F1SF( 5)=0.50D0
+        F1SF( 6)=0.56D0
+        F1SF( 7)=0.63D0
+        F1SF( 8)=0.70D0
+        F1SF( 9)=0.78D0
+        F1SF(10)=0.86D0
+        F1SF(11)=0.92D0
+        F1SF(12)=0.97D0
+        F1SF(13)=1.00D0
+        F1SF(14)=1.03D0
+        F1SF(15)=1.08D0
+        F1SF(16)=1.13D0
+        F1SF(17)=1.20D0
+        F1SF(18)=1.28D0
+        F1SF(19)=1.37D0
+        F1SF(20)=1.48D0
+        F1SF(21)=1.50D0
+        F1SF(22)=1.65D0
+        F1SF(23)=1.85D0
+        F1SF(24)=2.10D0
+        F1SF(25)=2.40D0
+        F1SF(26)=2.70D0
+        F1SF(27)=3.20D0
+      ELSEIF(IQ_OM1.EQ.3) THEN
+        IF(NF1.NE.11) THEN
+           WRITE(*,*) 'Incorrect value for NF1', NF1
+        ENDIF
+        F1SF( 1)=0.30D0
+        F1SF( 2)=0.48D0
+        F1SF( 3)=0.64D0
+        F1SF( 4)=0.78D0
+        F1SF( 5)=0.90D0
+        F1SF( 6)=1.00D0
+        F1SF( 7)=1.12D0
+        F1SF( 8)=1.28D0
+        F1SF( 9)=1.50D0
+        F1SF(10)=1.80D0
+        F1SF(11)=2.40D0
+        F1SF(12)=3.40D0
+      ELSEIF(IQ_OM1.EQ.4) THEN
+        IF(NF1.NE.40) THEN
+           WRITE(*,*) 'Incorrect value for NF1', NF1
+        ENDIF
+        NF1=20
+        M=10
+        RAISON=9.D0**(1.D0/DBLE(NF1))
+        F1SF(M+1)=1.0D0/3.0D0
+        NF1=2*M+NF1
+        DO I=M+2,NF1+1
+          F1SF(I)=F1SF(I-1)*RAISON
+        ENDDO
+        DO I=M,1,-1
+          F1SF(I)=F1SF(I+1)/RAISON
+        ENDDO
+      ELSEIF(IQ_OM1.EQ.5) THEN
+        RAISON=9.D0**(1.D0/DBLE(NF1))
+        F1SF(1)=1.D0/3.D0
+        DO I=2,NF1+1
+          F1SF(I)=F1SF(I-1)*RAISON
+        ENDDO
+      ELSEIF(IQ_OM1.EQ.6) THEN
+        RAISON=(3.D0-1.D0/3.D0)/DBLE(NF1)
+        F1SF(1)=1.D0/3.D0
+        DO I=2,NF1+1
+          F1SF(I)=F1SF(I-1)+RAISON
+        ENDDO
+      ELSEIF(IQ_OM1.EQ.7) THEN
+        IF(NF1.NE.20) THEN
+           WRITE(*,*) 'Incorrect value for NF1', NF1
+        ENDIF
+        F1SF( 1)=1.D0/3.D0
+        F1SF( 2)=0.40D0
+        F1SF( 3)=0.46D0
+        F1SF( 4)=0.52D0
+        F1SF( 5)=0.60D0
+        F1SF( 6)=0.70D0
+        F1SF( 7)=0.79D0
+        F1SF( 8)=0.86D0
+        F1SF( 9)=0.92D0
+        F1SF(10)=0.97D0
+        F1SF(11)=1.00D0
+        F1SF(12)=1.04D0
+        F1SF(13)=1.10D0
+        F1SF(14)=1.18D0
+        F1SF(15)=1.28D0
+        F1SF(16)=1.42D0
+        F1SF(17)=1.60D0
+        F1SF(18)=1.84D0
+        F1SF(19)=2.14D0
+        F1SF(20)=2.52D0
+        F1SF(21)=3.00D0
+      ENDIF
+!
+      END SUBROUTINE F1F1F1	
 !/ ------------------------------------------------------------------- /
       SUBROUTINE INSNLGQM
 !/

@@ -1542,6 +1542,7 @@
 #endif
 #ifdef W3_NL1
       USE W3SNL1MD
+      USE W3GDATMD, ONLY: IQTPE
 #endif
 #ifdef W3_NL2
       USE W3SNL2MD
@@ -2416,7 +2417,11 @@
             END IF
             IF ( FLSRCE(3) ) THEN
 #ifdef W3_NL1
-                    CALL W3SNL1 ( A, CG, WNMEAN*DEPTH,  XNL, DIA )
+                    IF (IQTPE.GT.0) THEN 
+                      CALL W3SNL1 ( A, CG, WNMEAN*DEPTH,  XNL, DIA )
+                    ELSE 
+                      CALL W3SNL1 ( A, CG, WN, DEPTH,  XNL, DIA )
+                      END IF
 #endif
 #ifdef W3_NL2
                     CALL W3SNL2 ( A, CG, WN, DEPTH,     XNL, DIA )

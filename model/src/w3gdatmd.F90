@@ -913,7 +913,7 @@
         REAL                  :: SNLC1, LAM, KDCON, KDMN,             &
                                  SNLS1, SNLS2, SNLS3
         INTEGER               :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
-        REAL                  :: GQTHRSAT, GQTHRCOU, GQAMP(4)
+        REAL                  :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(4)
 #endif
 #ifdef W3_NL2
         INTEGER               :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
@@ -1323,7 +1323,7 @@
 !/
 #ifdef W3_NL1
       INTEGER, POINTER        :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
-      REAL, POINTER           :: GQTHRSAT, GQTHRCOU, GQAMP(:)
+      REAL, POINTER           :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(:)
       REAL, POINTER           :: SNLC1, LAM, KDCON, KDMN,             &
                                  SNLS1, SNLS2, SNLS3
 #endif
@@ -2738,6 +2738,7 @@
       GQNF1  => MPARS(IMOD)%SNLPS%GQNF1
       GQNT1  => MPARS(IMOD)%SNLPS%GQNT1
       GQNQ_OM2  => MPARS(IMOD)%SNLPS%GQNQ_OM2
+      NLTAIL => MPARS(IMOD)%SNLPS%NLTAIL
       GQTHRSAT => MPARS(IMOD)%SNLPS%GQTHRSAT
       GQTHRCOU=> MPARS(IMOD)%SNLPS%GQTHRCOU
       GQAMP=> MPARS(IMOD)%SNLPS%GQAMP
