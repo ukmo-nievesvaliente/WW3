@@ -1333,12 +1333,12 @@
       IF ( WRITE ) THEN
           WRITE (NDSM)                                           &
                 SNLC1, LAM, KDCON, KDMN, SNLS1, SNLS2, SNLS3,    &
-                IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1,             &
+                IQTPE, NLTAIL, GQNF1, GQNT1,                     &
                 GQNQ_OM2, GQTHRSAT, GQTHRCOU, GQAMP
         ELSE
           READ (NDSM,END=801,ERR=802,IOSTAT=IERR)                &
                 SNLC1, LAM, KDCON, KDMN, SNLS1, SNLS2, SNLS3,    &
-                IQTPE, NLTAIL, NDPTHS, GQNF1, GQNT1,             &
+                IQTPE, NLTAIL, GQNF1, GQNT1,                     &
                 GQNQ_OM2, GQTHRSAT, GQTHRCOU, GQAMP
         END IF
 #endif

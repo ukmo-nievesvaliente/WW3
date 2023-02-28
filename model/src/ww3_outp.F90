@@ -1943,7 +1943,7 @@
                     IF (IQTPE.GT.0) THEN 
                       CALL W3SNL1 ( A, CG, WNMEAN*DEPTH,  XNL, DIA )
                     ELSE 
-                      CALL W3SNL1 ( A, CG, WN, DEPTH,  XNL, DIA )
+                      CALL W3SNLGQM ( A, CG, WN, DEPTH,  XNL, DIA )
                       END IF
 #endif
 #ifdef W3_NL2

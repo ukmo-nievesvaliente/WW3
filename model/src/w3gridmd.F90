@@ -3266,7 +3266,10 @@
 #endif
 #ifdef W3_NL1
           WRITE (NDSO,2922) LAMBDA, NLPROP, KDCONV, KDMIN,       &
-                            SNLCS1, SNLCS2, SNLCS3
+                            SNLCS1, SNLCS2, SNLCS3,              &
+                            IQTYPE, TAILNL, GQMNF1,              &
+                         GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU,&
+                         GQAMP1, GQAMP2, GQAMP3, GQAMP4
 #endif
 #ifdef W3_NL2
           WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1,      &
@@ -6339,8 +6342,7 @@
                ', KDCONV =',F7.3,', KDMIN =',F7.3,','/           &
                '        SNLCS1 =',F7.3,', SNLCS2 =',F7.3,        &
                ', SNLCS3 = ',F7.3','/                            &
-               '        IQTYPE =',I2,', TAILNL =',F5.1,',',      &
-                      ' NDEPTH =',I3,','/                        &
+               '        IQTYPE =',I2,', TAILNL =',F5.1,','/      &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
                       ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,','/ &
                '        GQAMP1 =',F5.3,', GQAMP2 =',F5.3,', GQAMP3 =',F5.3,', GQAMP4 =',F5.3,' /')

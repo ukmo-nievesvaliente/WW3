@@ -425,6 +425,7 @@
 #endif
 #ifdef W3_NL1
       USE W3SNL1MD
+      USE W3GDATMD, ONLY: IQTPE
 #endif
 #ifdef W3_NL2
       USE W3SNL2MD
@@ -2269,9 +2270,6 @@
 !/ ------------------------------------------------------------------- /
       USE CONSTANTS
       USE W3GDATMD, ONLY: NK, NTH, NSPEC, XFR, DDEN, SIG,FTE, FTTR
-#ifdef W3_NL1
-      USE W3GDATMD, ONLY: IQTPE
-#endif
 #ifdef W3_S
       USE W3SERVMD, ONLY: STRACE
 #endif
