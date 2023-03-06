@@ -1709,7 +1709,7 @@
 !
 ! 10. Source code :
 !-----------------------------------------------------------------------------!
-      USE CONSTANTS, ONLY: GRAV, KAPPA
+      USE CONSTANTS, ONLY: GRAV, KAPPA, NU_AIR
       USE W3GDATMD,  ONLY: ZZWND, AALPHA, ZZ0MAX, SINTAILPAR
 #ifdef W3_T
       USE W3ODATMD, ONLY: NDST
@@ -1722,7 +1722,7 @@
       REAL             :: XI,DELI1,DELI2,XJ,delj1,delj2  ! used for table version 
       INTEGER          :: IND,J
       REAL             :: TAUW_LOCAL
-      REAL             :: TAUOLD,CDRAG,WCD,USTOLD,X,UST,ZZ0,ZZ00,F,DELF
+      REAL             :: TAUOLD,CDRAG,WCD,USTOLD,X,UST,ZZ0,ZNU,ZZ00,F,DELF
       INTEGER, PARAMETER      :: NITER=10
       REAL   , PARAMETER      :: XM=0.50, EPS1=0.00001
       INTEGER                 :: ITER
