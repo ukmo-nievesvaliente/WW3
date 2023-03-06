@@ -1672,6 +1672,7 @@
 !  2. Method :
 !
 !     Computation of u* based on Quasi-linear theory
+!     uses Charnock relation with modified roughness Z1=Z0/SQRT(1-TAUW/TAU)
 !
 !  3. Parameters :
 !
@@ -1761,8 +1762,8 @@
           IF (ZZ0MAX.NE.0) ZZ00=MIN(ZZ00,ZZ0MAX)
           ! Corrects roughness ZZ00 for quasi-linear effect
           ZZ0 = ZZ00/(1.-X)**XM
-          !ZNU = 0.1*nu_air/UST  ! This was removed by Bidlot in 1996
-          !ZZ0 = MAX(ZNU,ZZ0)
+          ZNU = 0.11*nu_air/MAX(UST,1E-6)  
+          ZZ0 = SINTAILPAR(5)*ZNU+ZZ0
           F   = UST-KAPPA*WINDSPEED/(ALOG(ZZWND/ZZ0))
           DELF= 1.-KAPPA*WINDSPEED/(ALOG(ZZWND/ZZ0))**2*2./UST &
                   *(1.-(XM+1)*X)/(1.-X)  
@@ -2056,7 +2057,8 @@
             MICHE=1.
           ELSE
             X=TANH(MIN(K(IK)*DEPTH,10.))
-            MICHE=(X*(SSDSBM(1)+X*(SSDSBM(2)+X*(SSDSBM(3)+X*SSDSBM(4)))))**2 ! Correction of saturation level for shallow-water kinematics
+            ! Correction of saturation threshold for shallow-water kinematics       
+            MICHE=(X*(SSDSBM(1)+X*(SSDSBM(2)+X*(SSDSBM(3)+X*SSDSBM(4)))))**2 
             END IF
           COEF1=(SSDSBR*MICHE)
 !

@@ -836,7 +836,7 @@
 #endif
 !
 #ifdef W3_ST4
-      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE, TAUWBUG
+      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE, TAUWBUG, VISCSTRESS
       REAL 		   :: SDSBCHOICE
       REAL                    :: ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP,&
                                  ZALP, Z0RAT, TAUWSHELTER, SWELLF,    &
@@ -994,7 +994,7 @@
       NAMELIST /SIN4/ ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP, &
                       TAUWSHELTER, SWELLFPAR, SWELLF,                 &
                       SWELLF2, SWELLF3, SWELLF4, SWELLF5, SWELLF6,    &
-                      SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2, TAUWBUG
+                      SWELLF7, Z0RAT, SINBR, SINTABLE, SINTAIL1, SINTAIL2, TAUWBUG, VISCSTRESS
 #endif
 #ifdef W3_NL1
       NAMELIST /SNL1/ LAMBDA, NLPROP, KDCONV, KDMIN,                  &
@@ -1729,6 +1729,7 @@
       SINTAIL2 = 0. !  additional peak in capillary range
       TAUWBUG  = 1  !  TAUWBUG is 1 is the bug is kept: 
                     !  initializes TAUWX/Y to zero in W3SRCE
+      VISCSTRESS =0
 #endif
 !
 #ifdef W3_ST6
@@ -1816,6 +1817,7 @@
       SINTAILPAR(2) = SINTAIL1
       SINTAILPAR(3) = SINTAIL2
       SINTAILPAR(4) = FLOAT(TAUWBUG)
+      SINTAILPAR(5) = VISCSTRESS
 #endif
 !
 #ifdef W3_ST6
@@ -2272,19 +2274,19 @@
       SSDSC(19)  = SDSNMTF 
       SSDSC(20)  = SDSCUMP 
       SSDSC(21)  = SDSNUW 
-      SSDSBR   = SDSBR
-      SSDSBRF1 = SDSBRF1
-      SSDSBRFDF= SDSBRFDF
-      SSDSBM(0)   = SDSBM0
-      SSDSBM(1)   = SDSBM1
-      SSDSBM(2)   = SDSBM2
-      SSDSBM(3)   = SDSBM3
-      SSDSBM(4)   = SDSBM4
-      SSDSBT   = SDSBT
-      SSDSISO  = SDSISO
-      SSDSCOS  = SDSCOS
-      SSDSP    = SDSP
-      SSDSDTH  = SDSDTH
+      SSDSBR   =   SDSBR
+      SSDSBRF1 =   SDSBRF1
+      SSDSBRFDF=   SDSBRFDF
+      SSDSBM(0)  = SDSBM0
+      SSDSBM(1)  = SDSBM1
+      SSDSBM(2)  = SDSBM2
+      SSDSBM(3)  = SDSBM3
+      SSDSBM(4)  = SDSBM4
+      SSDSBT     = SDSBT
+      SSDSISO    = SDSISO
+      SSDSCOS    = SDSCOS
+      SSDSP      = SDSP
+      SSDSDTH    = SDSDTH
       WWNMEANP   = WNMEANP
       FFXFM = FXFM3 * TPI
       FFXFA = FXFMAGE * TPI
@@ -3259,7 +3261,7 @@
 #ifdef W3_ST4
           WRITE (NDSO,2920) ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP, ZALP,   &
             TAUWSHELTER, SWELLFPAR, SWELLF, SWELLF2, SWELLF3, SWELLF4, &
-            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR, SINTABLE, TAUWBUG, SINTAIL1, SINTAIL2
+            SWELLF5, SWELLF6, SWELLF7, Z0RAT, SINBR, SINTABLE, TAUWBUG, VISCSTRESS, SINTAIL1, SINTAIL2
 #endif
 #ifdef W3_ST6
           WRITE (NDSO,2920) SINA0, SINWS, SINFC
@@ -6313,7 +6315,8 @@
               ', SWELLF3 =',F8.5,', SWELLF4 =',F9.1,','/              &
               '        SWELLF5 =',F8.5,', SWELLF6 =',F8.5,            &
               ', SWELLF7 =',F12.2,', Z0RAT =',F8.5,', SINBR =',F8.5,','/              &
-              '        SINTABLE =',I2,', TAUWBUG =',I2,', SINTAIL1 =',F8.5', SINTAIL2 =',F8.5,'  /')
+              '        SINTABLE =',I2,', TAUWBUG =',I2,               &
+              ', VISCSTRESS =',F8.5,', SINTAIL1 =',F8.5,', SINTAIL2 =',F8.5,'  /')
 #endif
 !
 #ifdef W3_ST6
@@ -6344,7 +6347,7 @@
                ', SNLCS3 = ',F7.3','/                            &
                '        IQTYPE =',I2,', TAILNL =',F5.1,','/      &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
-                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,','/ &
+                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E11.4,', GQMTHRCOU =',F4.3,','/ &
                '        GQAMP1 =',F5.3,', GQAMP2 =',F5.3,', GQAMP3 =',F5.3,', GQAMP4 =',F5.3,' /')
 #endif
 !
@@ -6359,7 +6362,7 @@
  2922 FORMAT ( '  &SNL2 IQTYPE =',I2,', TAILNL =',F5.1,',',      &
                       ' NDEPTH =',I3,','/                        &
                '        GQMNF1 =',I2,', GQMNT1 =',I2,',',        &
-                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E10.4,', GQMTHRCOU =',F4.3,','/ &
+                      ' GQMNQ_OM2 =',I2,', GQMTHRSAT =',E11.4,', GQMTHRCOU =',F4.3,','/ &
                '        GQAMP1 =',F5.3,', GQAMP2 =',F5.3,', GQAMP3 =',F5.3,', GQAMP4 =',F5.3,' /')
  3923 FORMAT ( '  &SNL2 DEPTHS =',F9.2,' /')
  4923 FORMAT ( '  &ANL2 DEPTHS =',F9.2,' ,')
