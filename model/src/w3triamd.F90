@@ -2735,9 +2735,9 @@ CONTAINS
          NK, NTH, DTH, XFR, MAPSTA, COUNTRI,         &
          ECOS, ESIN, IEN, NTRI, TRIGP,               &
          IOBP,IOBPD, IOBPA,                          &
-         #ifdef W3_REF1
+#ifdef W3_REF1
     REFPARS, REFLC, REFLD,                      &
-         #endif
+#endif
     ANGLE0, ANGLE
 
     USE W3ODATMD, ONLY: TBPI0, TBPIN, FLBPI

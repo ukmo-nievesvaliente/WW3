@@ -1560,10 +1560,10 @@ CONTAINS
   END SUBROUTINE W3NMOD
   !/ ------------------------------------------------------------------- /
   SUBROUTINE W3DIMX  ( IMOD, MX, MY, MSEA, NDSE, NDST   &
-       #ifdef W3_SMC
+#ifdef W3_SMC
     , MCel, MUFc, MVFc, MRLv, MBSMC    &
          , MARC, MBAC, MSPEC                &
-         #endif
+#endif
     )
 #ifdef W3_SMC
     !!Li    A few dimensional numbers for SMC grid.
@@ -1718,9 +1718,9 @@ CONTAINS
          GRIDS(IMOD)%MAPFS(MY,MX),   &
          GRIDS(IMOD)%MAPSF(MSEA,3),  &
          GRIDS(IMOD)%FLAGST(MSEA),   &
-         #ifdef W3_RTD
+#ifdef W3_RTD
     GRIDS(IMOD)%AnglD(MSEA),    &
-         #endif
+#endif
     GRIDS(IMOD)%CLATS(0:MSEA),  &
          GRIDS(IMOD)%CLATIS(0:MSEA), &
          GRIDS(IMOD)%CTHG0S(0:MSEA), &
@@ -3050,9 +3050,9 @@ CONTAINS
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &
-           #if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
+#if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
       COSA=COSA,                                      &
-           #endif
+#endif
       RC=ISTAT )
       IF ( ISTAT.NE.0 ) THEN
         WRITE (NDSE,1004) GTYPE
@@ -3065,9 +3065,9 @@ CONTAINS
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &
-           #if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
+#if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
       COSA=COSA,                                      &
-           #endif
+#endif
       RC=ISTAT )
       IF ( ISTAT.NE.0 ) THEN
         WRITE (NDSE,1004) GTYPE

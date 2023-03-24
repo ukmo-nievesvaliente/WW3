@@ -2612,7 +2612,7 @@ CONTAINS
              MPI_COMM_BCT, IERR_MPI )
         IF ( MPI_COMM_GRD .EQ. MPI_COMM_NULL )               &
              CALL W3DIMX  ( I, NX, NY, NSEA, MDSE, MDST      &
-             #endif
+#endif
 #ifdef W3_SMC
              !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
              !!  so all dimensions are minimised to 1.  JGLi29Mar2021
@@ -2622,7 +2622,7 @@ CONTAINS
              !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
              !!Li        , NARC, NBAC, NSPEC              &
         , 1, 1, 1, 1, 1, 1, 1, 1         &
-             #endif
+#endif
         )
         CALL MPI_BCAST ( HQFAC, NX*NY, MPI_REAL, 0,          &
              MPI_COMM_BCT, IERR_MPI )
@@ -5736,7 +5736,7 @@ CONTAINS
              MPI_COMM_BCT, IERR_MPI )
         IF ( MPI_COMM_GRD .EQ. MPI_COMM_NULL )               &
              CALL W3DIMX  ( I, NX, NY, NSEA, MDSE, MDST      &
-             #endif
+#endif
 #ifdef W3_SMC
              !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
              !!  so all dimensions are minimised to 1.  JGLi29Mar2021
@@ -5746,7 +5746,7 @@ CONTAINS
              !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
              !!Li        , NARC, NBAC, NSPEC              &
         , 1, 1, 1, 1, 1, 1, 1, 1         &
-             #endif
+#endif
         )
         CALL MPI_BCAST ( HQFAC, NX*NY, MPI_REAL, 0,          &
              MPI_COMM_BCT, IERR_MPI )
