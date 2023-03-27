@@ -981,13 +981,14 @@
 ! These precomputed tables are written in mod_def.ww3 
 !
       IF (SINTAILPAR(1).GT.0.5) THEN  
-        ALLOCATE(TAUT(0:ITAUMAX,0:JUMAX), TAUHFT(0:IUSTAR,0:IALPHA))
+        IF (.NOT. ALLOCATED(TAUT)) ALLOCATE(TAUT(0:ITAUMAX,0:JUMAX))
+        IF (.NOT. ALLOCATED(TAUHFT)) ALLOCATE(TAUHFT(0:IUSTAR,0:IALPHA))
         IF (FLTABS) THEN 
           CALL TABU_STRESS
           CALL TABU_TAUHF(SIG(NK) )      !tabulate high-frequency stress: 2D table
           END IF
         IF (TTAUWSHELTER.GT.0) THEN
-          ALLOCATE(TAUHFT2(0:IUSTAR,0:IALPHA,0:ILEVTAIL))
+          IF (.NOT. ALLOCATED(TAUHFT2)) ALLOCATE(TAUHFT2(0:IUSTAR,0:IALPHA,0:ILEVTAIL))
           IF (FLTABS) CALL TABU_TAUHF2(SIG(NK) )   !tabulate high-frequency stress: 3D table
           END IF
         END IF
