@@ -2044,7 +2044,7 @@
               END DO
 
               BTH0(IK)=MAXVAL(BTH(IS0+1:IS0+NTH))
-              END IF
+            END IF
 !
           END DO !IK=NK  
 ! 
@@ -2253,7 +2253,7 @@
         BTH0(IK)=sum(BTH(1:NTH)*DTH)   
         IF (SSDSC(18).GT.0) THEN ! Applies modulation factor on Lambda
           DO ITH=1,NTH
-              FACSTRAINL=1.+SSDSC(18)*((MSSSUM(IK,1)*KLOC)**SSDSC(14) *      &   ! Romero
+            FACSTRAINL=1.+SSDSC(18)*((MSSSUM(IK,1)*KLOC)**SSDSC(14) *      &   ! Romero
                 (ECOS(ITH)*COS(DIRFORCUM)+ESIN(ITH)*SIN(DIRFORCUM))**2)  
             LMODULATION(ITH)= FACSTRAINL**SSDSC(19) 
             END DO

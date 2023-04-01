@@ -2180,7 +2180,7 @@
 ! MTF
       SPMSS     = 0.5    ! cmss^SPMSS 
       SDSNMTF   = 1.5    ! MTF power 
-      SDSCUMP   = 2.     ! moment of spectrum for direction definition
+      SDSCUMP   = 2.     ! 2 for cumulative mss, 1 for cumulative orb. vel. 
 ! MW
       SDSMWD    = .9  ! new AFo
       SDSMWPOW  = 1.  ! (k )^pow
@@ -2274,14 +2274,14 @@
       SSDSC(19)  = SDSNMTF 
       SSDSC(20)  = SDSCUMP 
       SSDSC(21)  = SDSNUW 
-      SSDSBR   = SDSBR
-      SSDSBRF1 = SDSBRF1
-      SSDSBRFDF= SDSBRFDF
-      SSDSBM(0)   = SDSBM0
-      SSDSBM(1)   = SDSBM1
-      SSDSBM(2)   = SDSBM2
-      SSDSBM(3)   = SDSBM3
-      SSDSBM(4)   = SDSBM4
+      SSDSBR     = SDSBR
+      SSDSBRF1   = SDSBRF1
+      SSDSBRFDF  = SDSBRFDF
+      SSDSBM(0)  = SDSBM0
+      SSDSBM(1)  = SDSBM1
+      SSDSBM(2)  = SDSBM2
+      SSDSBM(3)  = SDSBM3
+      SSDSBM(4)  = SDSBM4
       SSDSBT   = SDSBT
       SSDSISO  = SDSISO
       SSDSCOS  = SDSCOS
