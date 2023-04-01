@@ -14,7 +14,7 @@ $F(f_r,\theta)$ instead of $N(k,\theta)$, using the conversion
 (\ref{eq:jac_fr}).
 
 Resonant nonlinear interactions occur between four wave components
-(quadruplets) with wavenumber vector $\bk_1$ through $\bk_4$. In the \dia, it
+(quadruplets) with wavenumber vector $\bk$, $\bk_1$, $\bk_2$ and $\bk_3$. In the \dia, it
 is assumed that $\bk_1 = \bk_2$. Resonance conditions then require that
 %--------------------------%
 % Resonance conditions DIA %
@@ -22,10 +22,10 @@ is assumed that $\bk_1 = \bk_2$. Resonance conditions then require that
 % eq:resonance
 \begin{equation} \left .
 \begin{array}{ccc}
-  \bk_1 + \bk_2 & = & \bk_3 + \bk_4          \\
-  \sigma_2  & = & \sigma_1                   \\
-  \sigma_3  & = & (1+\lambda_{nl})\sigma_1   \\
-  \sigma_4  & = & (1-\lambda_{nl})\sigma_1
+  \bk + \bk_1 & = & \bk_2 + \bk_3          \\
+  \sigma_1  & = & \sigma                   \\
+  \sigma_2  & = & (1+\lambda_{nl})\sigma_1   \\
+  \sigma_3  & = & (1-\lambda_{nl})\sigma_1
 \end{array} \:\:\: \right \rbrace \:\:\: , \label{eq:resonance}
 \end{equation}
 where $\lambda_{nl}$ is a constant. For these quadruplets, the contribution
@@ -131,4 +131,16 @@ intermediate depths only. For this reason the mean relative depth
 $\bar{k}d$ is not allowed to become smaller than 0.5 (as in \wam). All
 above constants can be reset by the user in the input files of the
 model (see \para\ref{sub:ww3grid}).
+
+\vsssub
+\subsubsection{~$S_{nl}$: Gaussian Quadrature Method  (\dia)} \label{sec:GQM}
+\vsssub
+
+\opthead{NL1}{TOMAWAC model}{M. Benoit}
+
+\noindent
+Changing the namelist parameter IQTYPE to a negative value replaces the
+DIA parameterization with the possibility to perform an exact but fast cal-
+culation of $S_{\mathrm{nl}}$ using the Gaussian Quadrature Method of \cite{Lavrenov2001}.
+More details can be found in \cite{Gagnaire-Renou2009}.
 
