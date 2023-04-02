@@ -59,10 +59,9 @@ the wind and should possibly be resolution-dependent. For reference, this
 parameter was not properly set in early versions of the SWAN model, as
 discovered by R. Lalbeharry.}.  If the friction velocity $u_\star$ is known, 
 it gives the roughness $z_1$ and the wind speed at altitude $z_u$ (by default $z_u=10$~m),  
-
 \begin{eqnarray}
-z_1&=&\alpha_0 \frac{\tau}{ \sqrt{1-\tau_w/u_\star^2}},
-U(z_u)&=&\frac{u_\star}{\kappa} \log\left(\frac{z_u}{z_1}\right) \\
+z_1&=&\alpha_0 \frac{\tau}{ \sqrt{1-\tau_w/u_\star^2}}, \\
+U(z_u)&=&\frac{u_\star}{\kappa} \log\left(\frac{z_u}{z_1}\right) 
 \end{eqnarray}
 
 \noindent
