@@ -836,7 +836,8 @@ MODULE W3GRIDMD
 #endif
   !
 #ifdef W3_ST4
-  INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF
+  INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE,&
+                             TAUWBUG, VISCSTRESS
   REAL 		   :: SDSBCHOICE
   REAL                    :: ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP,&
        ZALP, Z0RAT, TAUWSHELTER, SWELLF,    &
@@ -852,7 +853,8 @@ MODULE W3GRIDMD
        SDSBRF1,                             &
        SDSBM0, SDSBM1, SDSBM2, SDSBM3,      &
        SDSBM4, SDSFACMTF, SDSCUMP,  SDSNUW, &
-       SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF
+       SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF, SINTAIL1, SINTAIL2, &
+       CUMSIGP
 #endif
   !
 #ifdef W3_ST6

@@ -2287,7 +2287,6 @@ CONTAINS
         IF (IOBP(IX).EQ.0) THEN
 #endif
           !AR: this can be further simplified let's do some simple tests 1st ...
-#ifdef W3_REF1
           IF (IOBP(IX).EQ.0) THEN
             DO IK=1, NK
               DO ITH=1, NTH
@@ -2307,7 +2306,10 @@ CONTAINS
         ELSE
           SPEC(:) = SPEC(:) + DTG * VREF(:)
         END IF
+      ELSE
+       SPEC(:) = SPEC(:) + DTG * VREF(:)
       END IF
+    END IF
 #endif
 
     !

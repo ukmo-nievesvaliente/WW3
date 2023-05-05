@@ -3394,7 +3394,6 @@ CONTAINS
 #ifdef W3_MPI
         END IF
         !
-#ifdef W3_MPI
         IF ( FLGRDALL( 8, 6) ) THEN
           IH     = IH + 1
           IT     = IT + 1
@@ -4642,7 +4641,6 @@ CONTAINS
 #ifdef W3_MPI
           END IF
           !
-#ifdef W3_MPI
           IF ( FLGRDALL( 8, 6) ) THEN
             IH     = IH + 1
             IT     = IT + 1
