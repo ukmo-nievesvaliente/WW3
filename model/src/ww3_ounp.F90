@@ -252,9 +252,9 @@ PROGRAM W3OUNP
   INTEGER                 :: NDSTAB
 #endif
 #if defined W3_NCO && !defined W3_T
-     INTEGER                 :: NDST
+  INTEGER                 :: NDST
 #endif
-     !
+  !
   INTEGER, ALLOCATABLE    :: INDREQ(:), INDREQTMP(:)
   INTEGER,ALLOCATABLE     :: NCID(:)
   !
@@ -2129,9 +2129,9 @@ CONTAINS
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                  WNMEAN, AMAX, UABS, UDIRR,             &
 #ifdef W3_FLX5
-            TAUA, TAUADIR, RHOAIR,           &
+                 TAUA, TAUADIR, RHOAIR,           &
 #endif
-            USTAR, USTD, TAUWX, TAUWY, CD, Z0,     &
+                 USTAR, USTD, TAUWX, TAUWY, CD, Z0,     &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
 #endif
 #ifdef W3_ST6
@@ -2181,9 +2181,9 @@ CONTAINS
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,      &
                    WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-              TAUA, TAUADIR, RHOAIR,             &
+                   TAUA, TAUADIR, RHOAIR,             &
 #endif
-              USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
+                   USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                    CHARN, LLWS, FMEANWS,DLWMEAN )
               CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
                    DIA, IX, IY, LAMBDA, WHITECAP, DLWMEAN )
@@ -2309,9 +2309,9 @@ CONTAINS
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN,  FMEAN1,        &
                  WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-            TAUA, TAUADIR, RHOAIR,             &
+                 TAUA, TAUADIR, RHOAIR,             &
 #endif
-            USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
+                 USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
             CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
                  DIA, IX, IY, LAMBDA, WHITECAP, DLWMEAN )
@@ -2360,9 +2360,9 @@ CONTAINS
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                    WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-              TAUA, TAUADIR, RHOAIR,              &
+                   TAUA, TAUADIR, RHOAIR,              &
 #endif
-              USTAR, USTD,  TAUWX, TAUWY, CD, Z0,      &
+                   USTAR, USTD,  TAUWX, TAUWY, CD, Z0,      &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SIN4 (A, CG, WN2, UABS, USTAR, DAIR/DWAT,    &
                    ASO(J), UDIRR, Z0, CD, TAUWX, TAUWY,TAUWNX,&
@@ -2405,9 +2405,9 @@ CONTAINS
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,     &
                    WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-              TAUA, TAUADIR, RHOAIR,              &
+                   TAUA, TAUADIR, RHOAIR,              &
 #endif
-              USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
+                   USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
                    DIA, IX, IY, LAMBDA, WHITECAP, DLWMEAN )
@@ -2455,9 +2455,9 @@ CONTAINS
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                    WNMEAN, AMAX, UABS, UDIRR,                 &
 #ifdef W3_FLX5
-              TAUA, TAUADIR, RHOAIR,               &
+                   TAUA, TAUADIR, RHOAIR,               &
 #endif
-              USTAR, USTD, TAUWX, TAUWY, CD, Z0,         &
+                   USTAR, USTD, TAUWX, TAUWY, CD, Z0,         &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SDS4 ( A, WN, CG,  USTAR, USTD, DEPTH, DAIR, XDS, &
                    DIA, IX, IY, LAMBDA, WHITECAP , DLWMEAN)

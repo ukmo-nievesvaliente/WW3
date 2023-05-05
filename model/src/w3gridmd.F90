@@ -4850,10 +4850,10 @@ CONTAINS
     !
     CALL W3DIMX ( 1, NX, NY, NSEA, NDSE, NDST  &
 #ifdef W3_SMC
-    , NCel, NUFc, NVFc, NRLv, NBSMC  &
+         , NCel, NUFc, NVFc, NRLv, NBSMC  &
          , NARC, NBAC, NSPEC              &
 #endif
-    )
+         )
 #ifdef W3_SMC
     WRITE (NDSO,4021)   NCel
 #endif

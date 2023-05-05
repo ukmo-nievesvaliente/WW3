@@ -97,20 +97,20 @@ MODULE W3SNL1MD
 CONTAINS
   !/ ------------------------------------------------------------------- /
 
-  !>
-  !> @brief Calculate nonlinear interactions and the diagonal term of
-  !>  its derivative.
-  !>
-  !> @param[in] A       Action spectrum A(ISP) as a function of
-  !>                    direction (rad) and wavenumber.
-  !> @param[in] CG      Group velocities (dimension NK).
-  !> @param[in] KDMEAN  Mean relative depth.
-  !> @param[out] S      Source term.
-  !> @param[out] D      Diagonal term of derivative.
-  !>
-  !> @author H. L. Tolman
-  !> @date   06-Jun-2018
-  !>
+!>
+!> @brief Calculate nonlinear interactions and the diagonal term of
+!>  its derivative.
+!>
+!> @param[in] A       Action spectrum A(ISP) as a function of
+!>                    direction (rad) and wavenumber.
+!> @param[in] CG      Group velocities (dimension NK).
+!> @param[in] KDMEAN  Mean relative depth.
+!> @param[out] S      Source term.
+!> @param[out] D      Diagonal term of derivative.
+!>
+!> @author H. L. Tolman
+!> @date   06-Jun-2018
+!>
   SUBROUTINE W3SNL1 (A, CG, KDMEAN, S, D)
     !/
     !/                  +-----------------------------------+
@@ -470,15 +470,15 @@ CONTAINS
     !/ End of W3SNL1 ----------------------------------------------------- /
     !/
   END SUBROUTINE W3SNL1
-  !/ ------------------------------------------------------------------- /
-  !>
-  !> @brief Preprocessing for nonlinear interactions (weights).
-  !>
-  !> @param[in] IMOD  Model number.
-  !>
-  !> @author H. L. Tolman
-  !> @date   24-Dec-2004
-  !>
+!/ ------------------------------------------------------------------- /
+!>
+!> @brief Preprocessing for nonlinear interactions (weights).
+!>
+!> @param[in] IMOD  Model number.
+!>
+!> @author H. L. Tolman
+!> @date   24-Dec-2004
+!>
   SUBROUTINE INSNL1 ( IMOD )
     !/
     !/                  +-----------------------------------+

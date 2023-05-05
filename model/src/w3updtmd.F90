@@ -1734,24 +1734,24 @@ CONTAINS
     !/
   END SUBROUTINE W3UIC5
   !/ ------------------------------------------------------------------- /
-  !>
-  !> @brief Update ice map in the wave model.
-  !>
-  !> @details Points with an ice concentration larger than FICEN are
-  !>  removed from the sea map in the wave model. Such points are
-  !>  identified by negative numbers is the grid status map MAPSTA. For
-  !>  ice points spectra are set to zero. Points from which ice disappears
-  !>  are initialized with a "small" JONSWAP spectrum, based on the
-  !>  frequency SIG(NK-1) and the local wind direction.
-  !>
-  !>  In the case of icebergs, the iceberg attenuation coefficient is
-  !>  added to the subgrid obstruction map.
-  !>
-  !> @param[inout] VA  Spectra in 1-D or 2-D representation.
-  !>
-  !> @author H. L. Tolman
-  !> @date   28-Mar-2014
-  !>
+!>
+!> @brief Update ice map in the wave model.
+!>
+!> @details Points with an ice concentration larger than FICEN are
+!>  removed from the sea map in the wave model. Such points are
+!>  identified by negative numbers is the grid status map MAPSTA. For
+!>  ice points spectra are set to zero. Points from which ice disappears
+!>  are initialized with a "small" JONSWAP spectrum, based on the
+!>  frequency SIG(NK-1) and the local wind direction.
+!>
+!>  In the case of icebergs, the iceberg attenuation coefficient is
+!>  added to the subgrid obstruction map.
+!>
+!> @param[inout] VA  Spectra in 1-D or 2-D representation.
+!>
+!> @author H. L. Tolman
+!> @date   28-Mar-2014
+!>
   SUBROUTINE W3UICE ( VA )
     !/
     !/                  +-----------------------------------+
@@ -2264,10 +2264,10 @@ CONTAINS
         WLVeff    = WLV(ISEA)
 
 #ifdef W3_SETUP
-        IF (DO_CHANGE_WLV) THEN
-          WLVeff    = WLVeff + ZETA_SETUP(ISEA)
-          WLV(ISEA) = WLVeff
-        END IF
+       IF (DO_CHANGE_WLV) THEN
+         WLVeff    = WLVeff + ZETA_SETUP(ISEA)
+         WLV(ISEA) = WLVeff
+       END IF
 #endif
 #ifdef W3_TIDE
       ENDIF
@@ -2303,9 +2303,9 @@ CONTAINS
           !
           !   Calculate wavenumbers and group velocities.
 #ifdef W3_PDLIB
-          CALL WAVNU3(SIG(IK),DEPTH,WN(IK,ISEA),CG(IK,ISEA))
+              CALL WAVNU3(SIG(IK),DEPTH,WN(IK,ISEA),CG(IK,ISEA))
 #else
-          CALL WAVNU1(SIG(IK),DEPTH,WN(IK,ISEA),CG(IK,ISEA))
+              CALL WAVNU1(SIG(IK),DEPTH,WN(IK,ISEA),CG(IK,ISEA))
 #endif
         END DO
         !

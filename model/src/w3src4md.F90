@@ -107,45 +107,45 @@ MODULE W3SRC4MD
 CONTAINS
   !/ ------------------------------------------------------------------- /
 
-  !>
-  !> @brief Calculate mean wave parameters for the use in the source term
-  !>  routines.
-  !>
-  !> @param[in]    A         Action density spectrum.
-  !> @param[in]    CG        Group velocities.
-  !> @param[in]    WN        Wavenumbers.
-  !> @param[out]   EMEAN     Energy.
-  !> @param[out]   FMEAN     Mean frequency for determination of tail.
-  !> @param[out]   FMEAN1    Mean frequency (fm0,-1) used for reflection.
-  !> @param[out]   WNMEAN    Mean wavenumber.
-  !> @param[out]   AMAX      Maximum of action spectrum.
-  !> @param[in]    U         Wind speed.
-  !> @param[in]    UDIR      Wind direction.
-  !> @param[in]    TAUA      Atm total stress.
-  !> @param[in]    TAUADIR   Atm total stress direction.
-  !> @param[in]    DAIR      Air density.
-  !> @param[inout] USTAR     Friction velocity.
-  !> @param[inout] USDIR     Wind stress direction.
-  !> @param[in]    TAUWX     Component of wave-supported stress.
-  !> @param[in]    TAUWY     Component of wave-supported stress.
-  !> @param[out]   CD        Drag coefficient at wind level ZWND.
-  !> @param[out]   Z0        Corresponding z0.
-  !> @param[out]   CHARN     Corresponding Charnock coefficient.
-  !> @param[in]    LLWS      Wind sea true/false array for each component.
-  !> @param[out]   FMEANWS   Mean frequency of wind sea, used for tail.
-  !> @param[out]   DLWMEAN   Mean Long wave direction  (L. Romero 2019).
-  !>
-  !> @author F. Ardhuin
-  !> @author H. L. Tolman
-  !> @date   22-Feb-2020
-  !>
+!>
+!> @brief Calculate mean wave parameters for the use in the source term
+!>  routines.
+!>
+!> @param[in]    A         Action density spectrum.
+!> @param[in]    CG        Group velocities.
+!> @param[in]    WN        Wavenumbers.
+!> @param[out]   EMEAN     Energy.
+!> @param[out]   FMEAN     Mean frequency for determination of tail.
+!> @param[out]   FMEAN1    Mean frequency (fm0,-1) used for reflection.
+!> @param[out]   WNMEAN    Mean wavenumber.
+!> @param[out]   AMAX      Maximum of action spectrum.
+!> @param[in]    U         Wind speed.
+!> @param[in]    UDIR      Wind direction.
+!> @param[in]    TAUA      Atm total stress.
+!> @param[in]    TAUADIR   Atm total stress direction.
+!> @param[in]    DAIR      Air density.
+!> @param[inout] USTAR     Friction velocity.
+!> @param[inout] USDIR     Wind stress direction.
+!> @param[in]    TAUWX     Component of wave-supported stress.
+!> @param[in]    TAUWY     Component of wave-supported stress.
+!> @param[out]   CD        Drag coefficient at wind level ZWND.
+!> @param[out]   Z0        Corresponding z0.
+!> @param[out]   CHARN     Corresponding Charnock coefficient.
+!> @param[in]    LLWS      Wind sea true/false array for each component.
+!> @param[out]   FMEANWS   Mean frequency of wind sea, used for tail.
+!> @param[out]   DLWMEAN   Mean Long wave direction  (L. Romero 2019).
+!>
+!> @author F. Ardhuin
+!> @author H. L. Tolman
+!> @date   22-Feb-2020
+!>
   SUBROUTINE W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1, WNMEAN,     &
        AMAX, U, UDIR,                                    &
 #ifdef W3_FLX5
-    TAUA, TAUADIR, DAIR,                              &
+       TAUA, TAUADIR, DAIR,                              &
 #endif
-    USTAR, USDIR,                                     &
-         TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
+       USTAR, USDIR,                                     &
+       TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
     !/
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH III                SHOM |
@@ -503,9 +503,9 @@ CONTAINS
     !/ ------------------------------------------------------------------- /
     USE CONSTANTS, ONLY: GRAV,nu_air,KAPPA,TPI,FWTABLE,SIZEFWTABLE, &
 #ifdef W3_T
-    RADE,                                      &
+         RADE,                                      &
 #endif
-    DELAB,ABMIN
+         DELAB,ABMIN
     USE W3GDATMD, ONLY: NK, NTH, NSPEC, DDEN, SIG, SIG2, TH,         &
          ESIN, ECOS, EC2, ZZWND, AALPHA, BBETA, ZZALP,&
          TTAUWSHELTER, SSWELLF, DDEN2, DTH, SSINTHP,  &

@@ -1017,15 +1017,15 @@ PROGRAM W3OUTP
 CONTAINS
   !/ ------------------------------------------------------------------- /
 
-  !>
-  !> @brief Perform actual point output.
-  !>
-  !> @author H. L. Tolman
-  !> @author J. H. Alves
-  !> @author F. Ardhuin
-  !> @author A. Chawla
-  !> @date   06-Feb-2014
-  !>
+!>
+!> @brief Perform actual point output.
+!>
+!> @author H. L. Tolman
+!> @author J. H. Alves
+!> @author F. Ardhuin
+!> @author A. Chawla
+!> @date   06-Feb-2014
+!>
   SUBROUTINE W3EXPO
     !/
     !/                  +-----------------------------------+
@@ -1704,9 +1704,9 @@ CONTAINS
           CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN,  FMEAN1,      &
                WNMEAN, AMAX, UABS, UDIRR,             &
 #ifdef W3_FLX5
-          TAUA, TAUADIR, RHOAIR,           &
+               TAUA, TAUADIR, RHOAIR,           &
 #endif
-          USTAR, USTD, TAUWX, TAUWY, CD, Z0,     &
+               USTAR, USTD, TAUWX, TAUWY, CD, Z0,     &
                CHARN, LLWS, FMEANWS, DLWMEAN )
 #endif
 #ifdef W3_ST6
@@ -1759,9 +1759,9 @@ CONTAINS
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN,  FMEAN1,      &
                  WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-            TAUA, TAUADIR, RHOAIR,             &
+                 TAUA, TAUADIR, RHOAIR,             &
 #endif
-            USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
+                 USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
 #endif
 #ifdef W3_FLX2
@@ -1881,9 +1881,9 @@ CONTAINS
           CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN,  FMEAN1,        &
                WNMEAN, AMAX, UABS, UDIRR,               &
 #ifdef W3_FLX5
-          TAUA, TAUADIR, RHOAIR,             &
+               TAUA, TAUADIR, RHOAIR,             &
 #endif
-          USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
+               USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                CHARN, LLWS, FMEANWS, DLWMEAN )
 #endif
 #ifdef W3_ST6
@@ -1930,9 +1930,9 @@ CONTAINS
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,        &
                  WNMEAN, AMAX, UABS, UDIRR,              &
 #ifdef W3_FLX5
-            TAUA, TAUADIR, RHOAIR,            &
+                 TAUA, TAUADIR, RHOAIR,            &
 #endif
-            USTAR, USTD, TAUWX, TAUWY, CD, Z0,      &
+                 USTAR, USTD, TAUWX, TAUWY, CD, Z0,      &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
             CALL W3SIN4 ( A, CG, WN2, UABS, USTAR, DAIR/DWAT,&
                  ASO(J), UDIRR, Z0, CD,TAUWX, TAUWY, &

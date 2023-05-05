@@ -1325,9 +1325,9 @@ CONTAINS
     USE CONSTANTS, ONLY: GRAV, TPI
     USE W3GDATMD, ONLY: NSPEC, NTH, NK, DDELTA1, DDELTA2,   &
 #ifdef W3_T0
-    SIG,                                &
+         SIG,                                &
 #endif
-    SSDSC1
+         SSDSC1
 #ifdef W3_S
     USE W3SERVMD, ONLY: STRACE
 #endif

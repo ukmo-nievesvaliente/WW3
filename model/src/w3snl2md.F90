@@ -97,21 +97,21 @@ MODULE W3SNL2MD
 
   !/
 CONTAINS
-  !/ ------------------------------------------------------------------- /
-  !>
-  !> @brief Interface to exact interactions.
-  !>
-  !> @param[in] A      Action spectrum A(ITH,IK) as a function of
-  !>                   direction (rad)  and wavenumber.
-  !> @param[in] CG     Group velocities (dimension NK).
-  !> @param[in] DEPTH  Water depth in meters.
-  !> @param[out] S     Source term.
-  !> @param[out] D     Diagonal term of derivative.
-  !>
-  !> @author H. L. Tolman
-  !> @author G. Ph. van Vledder
-  !> @date   24-Dec-2004
-  !>
+!/ ------------------------------------------------------------------- /
+!>
+!> @brief Interface to exact interactions.
+!>
+!> @param[in] A      Action spectrum A(ITH,IK) as a function of
+!>                   direction (rad)  and wavenumber.
+!> @param[in] CG     Group velocities (dimension NK).
+!> @param[in] DEPTH  Water depth in meters.
+!> @param[out] S     Source term.
+!> @param[out] D     Diagonal term of derivative.
+!>
+!> @author H. L. Tolman
+!> @author G. Ph. van Vledder
+!> @date   24-Dec-2004
+!>
   SUBROUTINE W3SNL2 (  A, CG, WN, DEPTH, S, D )
     !/
     !/                  +-----------------------------------+
@@ -228,6 +228,7 @@ CONTAINS
     REAL                    :: A2(NK,NTH), S2(NK,NTH), D2(NK,NTH)
     REAL                    :: CONX
     REAL, INTENT(IN)        :: A(NTH,NK), CG(NK), WN(NK), DEPTH
+#ifdef W3_T0
     REAL                    :: SOUT(NK,NK), DOUT(NK,NK)
 #endif
     !/

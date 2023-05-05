@@ -530,19 +530,19 @@ PROGRAM W3OUTF
 CONTAINS
   !/ ------------------------------------------------------------------- /
 
-  !>
-  !> @brief Perform actual grid output.
-  !>
-  !> @details Note that arrays CX and CY of the main program now contain
-  !>  the absolute current speed and direction respectively.
-  !>
-  !> @param NX   X grid dimension
-  !> @param NY   Y grid dimension
-  !> @param NSEA Number of sea points
-  !>
-  !> @author H. L. Tolman
-  !> @date   22-Mar-2021
-  !>
+!>
+!> @brief Perform actual grid output.
+!>
+!> @details Note that arrays CX and CY of the main program now contain
+!>  the absolute current speed and direction respectively.
+!>
+!> @param NX   X grid dimension
+!> @param NY   Y grid dimension
+!> @param NSEA Number of sea points
+!>
+!> @author H. L. Tolman
+!> @date   22-Mar-2021
+!>
   SUBROUTINE W3EXGO ( NX, NY, NSEA )
     !/
     !/                  +-----------------------------------+

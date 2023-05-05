@@ -1560,10 +1560,10 @@ CONTAINS
   !/ ------------------------------------------------------------------- /
   SUBROUTINE W3DIMX  ( IMOD, MX, MY, MSEA, NDSE, NDST   &
 #ifdef W3_SMC
-    , MCel, MUFc, MVFc, MRLv, MBSMC    &
-         , MARC, MBAC, MSPEC                &
+       , MCel, MUFc, MVFc, MRLv, MBSMC    &
+       , MARC, MBAC, MSPEC                &
 #endif
-    )
+       )
     !/
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH III           NOAA/NCEP |
@@ -1712,9 +1712,9 @@ CONTAINS
          GRIDS(IMOD)%MAPSF(MSEA,3),  &
          GRIDS(IMOD)%FLAGST(MSEA),   &
 #ifdef W3_RTD
-    GRIDS(IMOD)%AnglD(MSEA),    &
+         GRIDS(IMOD)%AnglD(MSEA),    &
 #endif
-    GRIDS(IMOD)%CLATS(0:MSEA),  &
+         GRIDS(IMOD)%CLATS(0:MSEA),  &
          GRIDS(IMOD)%CLATIS(0:MSEA), &
          GRIDS(IMOD)%CTHG0S(0:MSEA), &
          GRIDS(IMOD)%TRNX(MY,MX),    &
@@ -3013,10 +3013,10 @@ CONTAINS
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &
-           #if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
-      COSA=COSA,                                      &
+#if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
+           COSA=COSA,                                      &
 #endif
-      RC=ISTAT )
+           RC=ISTAT )
       IF ( ISTAT.NE.0 ) THEN
         WRITE (NDSE,1004) GTYPE
         CALL EXTCDE (4)
@@ -3028,10 +3028,10 @@ CONTAINS
            DXDP=DXDP, DYDP=DYDP, DXDQ=DXDQ, DYDQ=DYDQ,     &
            DPDX=DPDX, DPDY=DPDY, DQDX=DQDX, DQDY=DQDY,     &
            HPFC=HPFAC, HQFC=HQFAC, GSQR=GSQRT,             &
-           #if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
-      COSA=COSA,                                      &
+#if defined(TEST_W3GDATMD) || defined(TEST_W3GDATMD_W3GNTX)
+           COSA=COSA,                                      &
 #endif
-      RC=ISTAT )
+           RC=ISTAT )
       IF ( ISTAT.NE.0 ) THEN
         WRITE (NDSE,1004) GTYPE
         CALL EXTCDE (4)

@@ -566,9 +566,9 @@ CONTAINS
          WDATAS(IMOD)%ICE(0:NSEA),                            &
          WDATAS(IMOD)%RHOAIR(NSEA),                           &
 #ifdef W3_SETUP
-    WDATAS(IMOD)%ZETA_SETUP(NSEA),                       &
+         WDATAS(IMOD)%ZETA_SETUP(NSEA),                       &
 #endif
-    WDATAS(IMOD)%BERG(NSEA),                             &
+         WDATAS(IMOD)%BERG(NSEA),                             &
          WDATAS(IMOD)%ICEH(0:NSEA),                           &
          WDATAS(IMOD)%ICEF(0:NSEA),                           &
          WDATAS(IMOD)%ICEDMAX(NSEA),                          &

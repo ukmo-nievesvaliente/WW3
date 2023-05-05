@@ -192,16 +192,16 @@ CONTAINS
        ALPHA, WN1, CG1, CLATSL,                    &
        D_INP, U10ABS, U10DIR,                      &
 #ifdef W3_FLX5
-    TAUA, TAUADIR,                              &
+       TAUA, TAUADIR,                              &
 #endif
-    AS, USTAR, USTDIR,                          &
-         CX, CY,  ICE, ICEH, ICEF, ICEDMAX,          &
-         REFLEC, REFLED, DELX, DELY, DELA, TRNX,     &
-         TRNY, BERG, FPI, DTDYN, FCUT, DTG, TAUWX,   &
-         TAUWY, TAUOX, TAUOY, TAUWIX, TAUWIY, TAUWNX,&
-         TAUWNY, PHIAW, CHARN, TWS, PHIOC, WHITECAP, &
-         D50, PSIC, BEDFORM , PHIBBL, TAUBBL, TAUICE,&
-         PHICE, TAUOCX, TAUOCY, WNMEAN, DAIR, COEF)
+       AS, USTAR, USTDIR,                          &
+       CX, CY,  ICE, ICEH, ICEF, ICEDMAX,          &
+       REFLEC, REFLED, DELX, DELY, DELA, TRNX,     &
+       TRNY, BERG, FPI, DTDYN, FCUT, DTG, TAUWX,   &
+       TAUWY, TAUOX, TAUOY, TAUWIX, TAUWIY, TAUWNX,&
+       TAUWNY, PHIAW, CHARN, TWS, PHIOC, WHITECAP, &
+       D50, PSIC, BEDFORM , PHIBBL, TAUBBL, TAUICE,&
+       PHICE, TAUOCX, TAUOCY, WNMEAN, DAIR, COEF)
     !/
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH III           NOAA/NCEP |
@@ -743,46 +743,46 @@ CONTAINS
          VSNL(NSPEC), VDNL(NSPEC),            &
          VSDS(NSPEC), VDDS(NSPEC),            &
 #ifdef W3_ST6
-    VSWL(NSPEC), VDWL(NSPEC),            &
+         VSWL(NSPEC), VDWL(NSPEC),            &
 #endif
-    VSBT(NSPEC), VDBT(NSPEC),            &
+         VSBT(NSPEC), VDBT(NSPEC),            &
 #ifdef W3_IC1
-    VSIC(NSPEC), VDIC(NSPEC),            &
+         VSIC(NSPEC), VDIC(NSPEC),            &
 #endif
 #ifdef W3_IC2
-    VSIC(NSPEC), VDIC(NSPEC),            &
+         VSIC(NSPEC), VDIC(NSPEC),            &
 #endif
 #ifdef W3_IC3
-    VSIC(NSPEC), VDIC(NSPEC),            &
+         VSIC(NSPEC), VDIC(NSPEC),            &
 #endif
 #ifdef W3_IC4
-    VSIC(NSPEC), VDIC(NSPEC),            &
+         VSIC(NSPEC), VDIC(NSPEC),            &
 #endif
 #ifdef W3_IC5
-    VSIC(NSPEC), VDIC(NSPEC),            &
+         VSIC(NSPEC), VDIC(NSPEC),            &
 #endif
 #ifdef W3_DB1
-    VSDB(NSPEC), VDDB(NSPEC),            &
+         VSDB(NSPEC), VDDB(NSPEC),            &
 #endif
 #ifdef W3_TR1
-    VSTR(NSPEC), VDTR(NSPEC),            &
+         VSTR(NSPEC), VDTR(NSPEC),            &
 #endif
 #ifdef W3_BS1
-    VSBS(NSPEC), VDBS(NSPEC),            &
+         VSBS(NSPEC), VDBS(NSPEC),            &
 #endif
 #ifdef W3_REF1
-    VREF(NSPEC),                         &
+         VREF(NSPEC),                         &
 #endif
 #ifdef W3_IS1
-    VSIR(NSPEC), VDIR(NSPEC),            &
+         VSIR(NSPEC), VDIR(NSPEC),            &
 #endif
 #ifdef W3_IS2
-    VSIR(NSPEC), VDIR(NSPEC),VDIR2(NSPEC), &
+         VSIR(NSPEC), VDIR(NSPEC),VDIR2(NSPEC), &
 #endif
 #ifdef W3_UOST
-    VSUO(NSPEC), VDUO(NSPEC),            &
+         VSUO(NSPEC), VDUO(NSPEC),            &
 #endif
-    VS(NSPEC), VD(NSPEC), EB(NK)
+         VS(NSPEC), VD(NSPEC), EB(NK)
 #ifdef W3_ST3
     LOGICAL                 :: LLWS(NSPEC)
 #endif
@@ -1079,9 +1079,9 @@ CONTAINS
       CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
            AMAX, U10ABS, U10DIR,                           &
 #ifdef W3_FLX5
-      TAUA, TAUADIR, DAIR,                             &
+           TAUA, TAUADIR, DAIR,                             &
 #endif
-      USTAR, USTDIR,                                  &
+           USTAR, USTDIR,                                  &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
 
@@ -1122,9 +1122,9 @@ CONTAINS
     CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
          AMAX, U10ABS, U10DIR,                         &
 #ifdef W3_FLX5
-    TAUA, TAUADIR, DAIR,                    &
+         TAUA, TAUADIR, DAIR,                    &
 #endif
-    USTAR, USTDIR,                                &
+         USTAR, USTDIR,                                &
          TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
     TWS = 1./FMEANWS
 #endif
@@ -1833,9 +1833,9 @@ CONTAINS
       CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN,&
            AMAX, U10ABS, U10DIR,                          &
 #ifdef W3_FLX5
-      TAUA, TAUADIR, DAIR,                     &
+           TAUA, TAUADIR, DAIR,                     &
 #endif
-      USTAR, USTDIR,                                 &
+           USTAR, USTDIR,                                 &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
 #ifdef W3_ST6
@@ -1956,9 +1956,9 @@ CONTAINS
         DO ITH=1, NTH
           SPEC(ITH+(IK-1)*NTH) = SPEC(ITH+(IK-2)*NTH) * FACHFA         &
 #ifdef W3_ST2
-          * FACDIA + FACPAR * SPEC(ITH+(IK-1)*NTH)            &
+               * FACDIA + FACPAR * SPEC(ITH+(IK-1)*NTH)            &
 #endif
-          + 0.
+               + 0.
         END DO
       END DO
       !
@@ -1976,9 +1976,9 @@ CONTAINS
       IF (SINTAILPAR(4).LT.0.5) CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN,&
            AMAX, U10ABS, U10DIR,                          &
 #ifdef W3_FLX5
-      TAUA, TAUADIR, DAIR,                     &
+           TAUA, TAUADIR, DAIR,                     &
 #endif
-      USTAR, USTDIR,                                 &
+           USTAR, USTDIR,                                 &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
 
@@ -2284,427 +2284,427 @@ CONTAINS
 #ifdef W3_PDLIB
         IF (IOBP_LOC(JSEA).EQ.0) THEN
 #else
-          IF (IOBP(IX).EQ.0) THEN
+        IF (IOBP(IX).EQ.0) THEN
 #endif
-            !AR: this can be further simplified let's do some simple tests 1st ...
+          !AR: this can be further simplified let's do some simple tests 1st ...
 #ifdef W3_REF1
-            IF (IOBP(IX).EQ.0) THEN
-              DO IK=1, NK
-                DO ITH=1, NTH
-                  ISP = ITH+(IK-1)*NTH
+          IF (IOBP(IX).EQ.0) THEN
+            DO IK=1, NK
+              DO ITH=1, NTH
+                ISP = ITH+(IK-1)*NTH
 #ifdef W3_PDLIB
-                  IF (IOBPD_LOC(ITH,JSEA).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
+                IF (IOBPD_LOC(ITH,JSEA).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
 #else
-                  IF (IOBPD(ITH,IX).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
+                IF (IOBPD(ITH,IX).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
 #endif
-                END DO
               END DO
-            ELSE
-              IF (IOBDP(IX) .EQ. -1) THEN
-                SPEC(:) = SPEC(:) + DTG * VREF(:)
-              ENDIF
-            ENDIF
+            END DO
           ELSE
-            SPEC(:) = SPEC(:) + DTG * VREF(:)
-          END IF
+            IF (IOBDP(IX) .EQ. -1) THEN
+              SPEC(:) = SPEC(:) + DTG * VREF(:)
+            ENDIF
+          ENDIF
+        ELSE
+          SPEC(:) = SPEC(:) + DTG * VREF(:)
         END IF
+      END IF
 #endif
 
-        !
+    !
 #ifdef W3_DEBUGSRC
-        IF (IX .eq. DEBUG_NODE) THEN
-          WRITE(740+IAPROC,*) '6 : sum(SPEC)=', sum(SPEC)
-        END IF
+    IF (IX .eq. DEBUG_NODE) THEN
+      WRITE(740+IAPROC,*) '6 : sum(SPEC)=', sum(SPEC)
+    END IF
 #endif
 
-        FIRST  = .FALSE.
+    FIRST  = .FALSE.
 
-        IF (IT.EQ.0) SPEC = SPECINIT
+    IF (IT.EQ.0) SPEC = SPECINIT
 
-        SPEC = MAX(0., SPEC)
-        !
-        RETURN
-        !
-        ! Formats
-        !
+    SPEC = MAX(0., SPEC)
+    !
+    RETURN
+    !
+    ! Formats
+    !
 #ifdef W3_NNT
-8000    FORMAT (/' *** ERROR W3SRCE : ERROR IN OPENING FILE ',A,' ***'/ &
-             '                    IOSTAT = ',I10/)
-8001    FORMAT (/' *** ERROR W3SRCE : ERROR IN WRITING TO FILE ***'/    &
-             '                    IOSTAT = ',I10/)
+8000 FORMAT (/' *** ERROR W3SRCE : ERROR IN OPENING FILE ',A,' ***'/ &
+         '                    IOSTAT = ',I10/)
+8001 FORMAT (/' *** ERROR W3SRCE : ERROR IN WRITING TO FILE ***'/    &
+         '                    IOSTAT = ',I10/)
 #endif
-        !
+    !
 #ifdef W3_T
-9000    FORMAT (' TEST W3SRCE : COUNTERS   : NO LONGER AVAILABLE')
-9001    FORMAT (' TEST W3SRCE : DEPTH      :',F8.1/                     &
-             '               WIND SPEED :',F8.1/                     &
-             '               WIND DIR   :',F8.1)
+9000 FORMAT (' TEST W3SRCE : COUNTERS   : NO LONGER AVAILABLE')
+9001 FORMAT (' TEST W3SRCE : DEPTH      :',F8.1/                     &
+         '               WIND SPEED :',F8.1/                     &
+         '               WIND DIR   :',F8.1)
 #endif
 #ifdef W3_ST1
-9004    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
-             ' ------------- ')
+9004 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
+         ' ------------- ')
 #endif
 #ifdef W3_ST2
-9005    FORMAT (' TEST W3SRCE : FHIGH      : ',F8.4/                    &
-             ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
-             ' ------------- ')
+9005 FORMAT (' TEST W3SRCE : FHIGH      : ',F8.4/                    &
+         ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
+         ' ------------- ')
 #endif
 #ifdef W3_ST3
-9006    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
-             ' ------------- ')
+9006 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
+         ' ------------- ')
 #endif
 #ifdef W3_ST4
-9006    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
-             ' ------------- ')
+9006 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         ' ------------- NEW DYNAMIC INTEGRATION LOOP',          &
+         ' ------------- ')
 #endif
-        !
+    !
 #ifdef W3_T
-9020    FORMAT (' TEST W3SRCE : NSTEP : ',I4,'    DTTOT :',F6.1)
-9021    FORMAT (' TEST W3SRCE : NKH (3X)   : ',2I3,I6)
+9020 FORMAT (' TEST W3SRCE : NSTEP : ',I4,'    DTTOT :',F6.1)
+9021 FORMAT (' TEST W3SRCE : NKH (3X)   : ',2I3,I6)
 #endif
-        !
+    !
 #ifdef W3_T
-9040    FORMAT (' TEST W3SRCE : DTRAW, DT, SHAVE :',2F6.1,2X,L1)
+9040 FORMAT (' TEST W3SRCE : DTRAW, DT, SHAVE :',2F6.1,2X,L1)
 #endif
-        !
+    !
 #ifdef W3_ST1
-9060    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             '               NKH        : ',I3)
+9060 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         '               NKH        : ',I3)
 #endif
 #ifdef W3_ST2
-9061    FORMAT (' TEST W3SRCE : FHIGH (2X) : ',2F8.4/                   &
-             '               NKH        : ',I3)
+9061 FORMAT (' TEST W3SRCE : FHIGH (2X) : ',2F8.4/                   &
+         '               NKH        : ',I3)
 #endif
 #ifdef W3_ST3
-9062    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             '               NKH        : ',I3)
+9062 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         '               NKH        : ',I3)
 #endif
 #ifdef W3_ST4
-9062    FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
-             '               NKH        : ',I3)
+9062 FORMAT (' TEST W3SRCE : FHIGH (3X) : ',3F8.4/                   &
+         '               NKH        : ',I3)
 #endif
 #ifdef W3_ST6
-9063    FORMAT (' TEST W3SRCE : FHIGH      : ',F8.4/                    &
-             '               NKH        : ',I3)
+9063 FORMAT (' TEST W3SRCE : FHIGH      : ',F8.4/                    &
+         '               NKH        : ',I3)
 #endif
-        !/
-        !/ End of W3SRCE ----------------------------------------------------- /
-        !/
-      END SUBROUTINE W3SRCE
-      !/ ------------------------------------------------------------------- /
+    !/
+    !/ End of W3SRCE ----------------------------------------------------- /
+    !/
+  END SUBROUTINE W3SRCE
+  !/ ------------------------------------------------------------------- /
 
-      !>
-      !> @brief Calculate equivalent peak frequency.
-      !>
-      !> @details Tolman and Chalikov (1996), equivalent peak frequency from source.
-      !>
-      !> @param[in]  A    Action density spectrum (1-D).
-      !> @param[in]  CG   Group velocities for k-axis of spectrum.
-      !> @param[out]  FPI  Input 'peak' frequency.
-      !> @param[in] S    Source term (1-D version).
-      !>
-      !> @author Jessica Meixner
-      !> @date   06-Jun-2018
-      !>
-      SUBROUTINE CALC_FPI( A, CG, FPI, S )
-        !/
-        !/                  +-----------------------------------+
-        !/                  | WAVEWATCH III           NOAA/NCEP |
-        !/                  |          Jessica Meixner          |
-        !/                  |                                   |
-        !/                  |                        FORTRAN 90 |
-        !/                  | Last update :         06-Jun-2018 |
-        !/                  +-----------------------------------+
-        !/
-        !/    06-Jul-2016 : Origination                         ( version 5.12 )
-        !/    06-Jul-2016 : Add SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3
-        !/                  Add optional DEBUGSRC/PDLIB           ( version 6.04 )
-        !/
-        !  1. Purpose :
-        !
-        !     Calculate equivalent peak frequency
-        !
-        !  2. Method :
-        !
-        !     Tolman and Chalikov (1996), equivalent peak frequency from source
+  !>
+  !> @brief Calculate equivalent peak frequency.
+  !>
+  !> @details Tolman and Chalikov (1996), equivalent peak frequency from source.
+  !>
+  !> @param[in]  A    Action density spectrum (1-D).
+  !> @param[in]  CG   Group velocities for k-axis of spectrum.
+  !> @param[out]  FPI  Input 'peak' frequency.
+  !> @param[in] S    Source term (1-D version).
+  !>
+  !> @author Jessica Meixner
+  !> @date   06-Jun-2018
+  !>
+  SUBROUTINE CALC_FPI( A, CG, FPI, S )
+    !/
+    !/                  +-----------------------------------+
+    !/                  | WAVEWATCH III           NOAA/NCEP |
+    !/                  |          Jessica Meixner          |
+    !/                  |                                   |
+    !/                  |                        FORTRAN 90 |
+    !/                  | Last update :         06-Jun-2018 |
+    !/                  +-----------------------------------+
+    !/
+    !/    06-Jul-2016 : Origination                         ( version 5.12 )
+    !/    06-Jul-2016 : Add SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3
+    !/                  Add optional DEBUGSRC/PDLIB           ( version 6.04 )
+    !/
+    !  1. Purpose :
+    !
+    !     Calculate equivalent peak frequency
+    !
+    !  2. Method :
+    !
+    !     Tolman and Chalikov (1996), equivalent peak frequency from source
 
-        !  3. Parameters :
-        !
-        !     Parameter list
-        !     ----------------------------------------------------------------
-        !       A       R.A.  I   Action density spectrum (1-D).
-        !       CG      R.A.  I   Group velocities for k-axis of spectrum.
-        !       FPI     R.A.  O   Input 'peak' frequency.
-        !       S       R.A.  I   Source term (1-D version).
-        !     ----------------------------------------------------------------
-        !
-        !  4. Subroutines used :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !      STRACE    Subr. W3SERVMD Subroutine tracing.
-        !     ----------------------------------------------------------------
-        !
-        !  5. Called by :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !      W3SRCE Subr.
-        !     ----------------------------------------------------------------
-        !
-        !  6. Error messages :
-        !
-        !  7. Remarks :
-        !
-        !  8. Structure :
-        !
-        !     See source code.
-        !
-        !  9. Switches :
-        !
-        !       !/S      Enable subroutine tracing.
-        !
-        ! 10. Source code :
-        !
-        !/ ------------------------------------------------------------------- /
-        USE CONSTANTS
-        USE W3GDATMD, ONLY: NK, NTH, NSPEC, XFR, DDEN, SIG,FTE, FTTR
+    !  3. Parameters :
+    !
+    !     Parameter list
+    !     ----------------------------------------------------------------
+    !       A       R.A.  I   Action density spectrum (1-D).
+    !       CG      R.A.  I   Group velocities for k-axis of spectrum.
+    !       FPI     R.A.  O   Input 'peak' frequency.
+    !       S       R.A.  I   Source term (1-D version).
+    !     ----------------------------------------------------------------
+    !
+    !  4. Subroutines used :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !      STRACE    Subr. W3SERVMD Subroutine tracing.
+    !     ----------------------------------------------------------------
+    !
+    !  5. Called by :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !      W3SRCE Subr.
+    !     ----------------------------------------------------------------
+    !
+    !  6. Error messages :
+    !
+    !  7. Remarks :
+    !
+    !  8. Structure :
+    !
+    !     See source code.
+    !
+    !  9. Switches :
+    !
+    !       !/S      Enable subroutine tracing.
+    !
+    ! 10. Source code :
+    !
+    !/ ------------------------------------------------------------------- /
+    USE CONSTANTS
+    USE W3GDATMD, ONLY: NK, NTH, NSPEC, XFR, DDEN, SIG,FTE, FTTR
 #ifdef W3_S
-        USE W3SERVMD, ONLY: STRACE
+    USE W3SERVMD, ONLY: STRACE
 #endif
-        !
-        IMPLICIT NONE
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Parameter list
-        !/
-        REAL, INTENT(IN)        :: A(NSPEC), CG(NK), S(NSPEC)
-        REAL, INTENT(OUT)       :: FPI
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Local parameters
-        !/
-        INTEGER                 :: IS, IK
+    !
+    IMPLICIT NONE
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Parameter list
+    !/
+    REAL, INTENT(IN)        :: A(NSPEC), CG(NK), S(NSPEC)
+    REAL, INTENT(OUT)       :: FPI
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Local parameters
+    !/
+    INTEGER                 :: IS, IK
 #ifdef W3_S
-        INTEGER, SAVE           :: IENT = 0
+    INTEGER, SAVE           :: IENT = 0
 #endif
-        REAL                    ::  M0, M1, SIN1A(NK)
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/
+    REAL                    ::  M0, M1, SIN1A(NK)
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/
 #ifdef W3_S
-        CALL STRACE (IENT, 'CALC_FPI')
+    CALL STRACE (IENT, 'CALC_FPI')
 #endif
-        !
-        !     Calculate FPI: equivalent peak frequncy from wind source term
-        !     input
-        !
-        DO IK=1, NK
-          SIN1A(IK) = 0.
-          DO IS=(IK-1)*NTH+1, IK*NTH
-            SIN1A(IK) = SIN1A(IK) + MAX ( 0. , S(IS) )
-          END DO
-        END DO
-        !
-        M0     = 0.
-        M1     = 0.
-        DO IK=1, NK
-          SIN1A(IK) = SIN1A(IK) * DDEN(IK) / ( CG(IK) * SIG(IK)**3 )
-          M0        = M0 + SIN1A(IK)
-          M1        = M1 + SIN1A(IK)/SIG(IK)
-        END DO
-        !
-        SIN1A(NK) = SIN1A(NK) / DDEN(NK)
-        M0        = M0 + SIN1A(NK) * FTE
-        M1        = M1 + SIN1A(NK) * FTTR
-        IF ( M1 .LT. 1E-20 ) THEN
-          FPI    = XFR * SIG(NK)
-        ELSE
-          FPI    = M0 / M1
-        END IF
+    !
+    !     Calculate FPI: equivalent peak frequncy from wind source term
+    !     input
+    !
+    DO IK=1, NK
+      SIN1A(IK) = 0.
+      DO IS=(IK-1)*NTH+1, IK*NTH
+        SIN1A(IK) = SIN1A(IK) + MAX ( 0. , S(IS) )
+      END DO
+    END DO
+    !
+    M0     = 0.
+    M1     = 0.
+    DO IK=1, NK
+      SIN1A(IK) = SIN1A(IK) * DDEN(IK) / ( CG(IK) * SIG(IK)**3 )
+      M0        = M0 + SIN1A(IK)
+      M1        = M1 + SIN1A(IK)/SIG(IK)
+    END DO
+    !
+    SIN1A(NK) = SIN1A(NK) / DDEN(NK)
+    M0        = M0 + SIN1A(NK) * FTE
+    M1        = M1 + SIN1A(NK) * FTTR
+    IF ( M1 .LT. 1E-20 ) THEN
+      FPI    = XFR * SIG(NK)
+    ELSE
+      FPI    = M0 / M1
+    END IF
 
-      END SUBROUTINE CALC_FPI
-      !/ ------------------------------------------------------------------- /!
+  END SUBROUTINE CALC_FPI
+  !/ ------------------------------------------------------------------- /!
 
-      !>
-      !> @brief Put source term in matrix same as done always.
-      !>
-      !> @param[in]    SPEC
-      !> @param[inout] VS
-      !> @param[inout] VD
-      !>
-      !> @author Aron Roland
-      !> @author Mathieu Dutour-Sikiric
-      !> @date   01-Jun-2018
-      !>
-      SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3(SPEC, VS, VD)
-        !/
-        !/                  +-----------------------------------+
-        !/                  | WAVEWATCH III           NOAA/NCEP |
-        !/                  |                                   |
-        !/                  | Aron Roland (BGS IT&E GmbH)       |
-        !/                  | Mathieu Dutour-Sikiric (IRB)      |
-        !/                  |                                   |
-        !/                  |                        FORTRAN 90 |
-        !/                  | Last update :        01-June-2018 |
-        !/                  +-----------------------------------+
-        !/
-        !/    01-June-2018 : Origination.                        ( version 6.04 )
-        !/
-        !  1. Purpose : Put source term in matrix same as done always
-        !  2. Method :
-        !  3. Parameters :
-        !
-        !     Parameter list
-        !     ----------------------------------------------------------------
-        !     ----------------------------------------------------------------
-        !
-        !  4. Subroutines used :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !      STRACE    Subr. W3SERVMD Subroutine tracing.
-        !     ----------------------------------------------------------------
-        !
-        !  5. Called by :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !     ----------------------------------------------------------------
-        !
-        !  6. Error messages :
-        !  7. Remarks
-        !  8. Structure :
-        !  9. Switches :
-        !
-        !     !/S  Enable subroutine tracing.
-        !
-        ! 10. Source code :
-        !
-        !/ ------------------------------------------------------------------- /
+  !>
+  !> @brief Put source term in matrix same as done always.
+  !>
+  !> @param[in]    SPEC
+  !> @param[inout] VS
+  !> @param[inout] VD
+  !>
+  !> @author Aron Roland
+  !> @author Mathieu Dutour-Sikiric
+  !> @date   01-Jun-2018
+  !>
+  SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3(SPEC, VS, VD)
+    !/
+    !/                  +-----------------------------------+
+    !/                  | WAVEWATCH III           NOAA/NCEP |
+    !/                  |                                   |
+    !/                  | Aron Roland (BGS IT&E GmbH)       |
+    !/                  | Mathieu Dutour-Sikiric (IRB)      |
+    !/                  |                                   |
+    !/                  |                        FORTRAN 90 |
+    !/                  | Last update :        01-June-2018 |
+    !/                  +-----------------------------------+
+    !/
+    !/    01-June-2018 : Origination.                        ( version 6.04 )
+    !/
+    !  1. Purpose : Put source term in matrix same as done always
+    !  2. Method :
+    !  3. Parameters :
+    !
+    !     Parameter list
+    !     ----------------------------------------------------------------
+    !     ----------------------------------------------------------------
+    !
+    !  4. Subroutines used :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !      STRACE    Subr. W3SERVMD Subroutine tracing.
+    !     ----------------------------------------------------------------
+    !
+    !  5. Called by :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !     ----------------------------------------------------------------
+    !
+    !  6. Error messages :
+    !  7. Remarks
+    !  8. Structure :
+    !  9. Switches :
+    !
+    !     !/S  Enable subroutine tracing.
+    !
+    ! 10. Source code :
+    !
+    !/ ------------------------------------------------------------------- /
 #ifdef W3_S
-        USE W3SERVMD, ONLY: STRACE
+    USE W3SERVMD, ONLY: STRACE
 #endif
-        !
-        USE W3GDATMD, only : NTH, NK, NSPEC
-        IMPLICIT NONE
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Parameter list
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Local PARAMETERs
-        !/
+    !
+    USE W3GDATMD, only : NTH, NK, NSPEC
+    IMPLICIT NONE
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Parameter list
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Local PARAMETERs
+    !/
 #ifdef W3_S
-        INTEGER, SAVE           :: IENT = 0
+    INTEGER, SAVE           :: IENT = 0
 #endif
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/
 
-        INTEGER             :: ISP, ITH, IK, IS
-        REAL, INTENT(IN)    :: SPEC(NSPEC)
-        REAL, INTENT(INOUT) :: VS(NSPEC), VD(NSPEC)
+    INTEGER             :: ISP, ITH, IK, IS
+    REAL, INTENT(IN)    :: SPEC(NSPEC)
+    REAL, INTENT(INOUT) :: VS(NSPEC), VD(NSPEC)
 #ifdef W3_S
-        CALL STRACE (IENT, 'SIGN_VSD_SEMI_IMPLICIT_WW3')
+    CALL STRACE (IENT, 'SIGN_VSD_SEMI_IMPLICIT_WW3')
 #endif
-        DO IS=1,NSPEC
-          VD(IS) = MIN(0., VD(IS))
-        END DO
-      END SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3
-      !/ ------------------------------------------------------------------- /
+    DO IS=1,NSPEC
+      VD(IS) = MIN(0., VD(IS))
+    END DO
+  END SUBROUTINE SIGN_VSD_SEMI_IMPLICIT_WW3
+  !/ ------------------------------------------------------------------- /
 
-      !>
-      !> @brief Put source term in matrix Patankar style (experimental).
-      !>
-      !> @param[in]    SPEC
-      !> @param[inout] VS
-      !> @param[inout] VD
-      !>
-      !> @author Aron Roland
-      !> @author Mathieu Dutour-Sikiric
-      !> @date   01-Jun-2018
-      !>
-      SUBROUTINE SIGN_VSD_PATANKAR_WW3(SPEC, VS, VD)
-        !/
-        !/                  +-----------------------------------+
-        !/                  | WAVEWATCH III           NOAA/NCEP |
-        !/                  |                                   |
-        !/                  | Aron Roland (BGS IT&E GmbH)       |
-        !/                  | Mathieu Dutour-Sikiric (IRB)      |
-        !/                  |                                   |
-        !/                  |                        FORTRAN 90 |
-        !/                  | Last update :        01-June-2018 |
-        !/                  +-----------------------------------+
-        !/
-        !/    01-June-2018 : Origination.                        ( version 6.04 )
-        !/
-        !  1. Purpose : Put source term in matrix Patankar style (experimental)
-        !  2. Method :
-        !  3. Parameters :
-        !
-        !     Parameter list
-        !     ----------------------------------------------------------------
-        !     ----------------------------------------------------------------
-        !
-        !  4. Subroutines used :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !      STRACE    Subr. W3SERVMD Subroutine tracing.
-        !     ----------------------------------------------------------------
-        !
-        !  5. Called by :
-        !
-        !      Name      Type  Module   Description
-        !     ----------------------------------------------------------------
-        !     ----------------------------------------------------------------
-        !
-        !  6. Error messages :
-        !  7. Remarks
-        !  8. Structure :
-        !  9. Switches :
-        !
-        !     !/S  Enable subroutine tracing.
-        !
-        ! 10. Source code :
-        !
-        !/ ------------------------------------------------------------------- /
+  !>
+  !> @brief Put source term in matrix Patankar style (experimental).
+  !>
+  !> @param[in]    SPEC
+  !> @param[inout] VS
+  !> @param[inout] VD
+  !>
+  !> @author Aron Roland
+  !> @author Mathieu Dutour-Sikiric
+  !> @date   01-Jun-2018
+  !>
+  SUBROUTINE SIGN_VSD_PATANKAR_WW3(SPEC, VS, VD)
+    !/
+    !/                  +-----------------------------------+
+    !/                  | WAVEWATCH III           NOAA/NCEP |
+    !/                  |                                   |
+    !/                  | Aron Roland (BGS IT&E GmbH)       |
+    !/                  | Mathieu Dutour-Sikiric (IRB)      |
+    !/                  |                                   |
+    !/                  |                        FORTRAN 90 |
+    !/                  | Last update :        01-June-2018 |
+    !/                  +-----------------------------------+
+    !/
+    !/    01-June-2018 : Origination.                        ( version 6.04 )
+    !/
+    !  1. Purpose : Put source term in matrix Patankar style (experimental)
+    !  2. Method :
+    !  3. Parameters :
+    !
+    !     Parameter list
+    !     ----------------------------------------------------------------
+    !     ----------------------------------------------------------------
+    !
+    !  4. Subroutines used :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !      STRACE    Subr. W3SERVMD Subroutine tracing.
+    !     ----------------------------------------------------------------
+    !
+    !  5. Called by :
+    !
+    !      Name      Type  Module   Description
+    !     ----------------------------------------------------------------
+    !     ----------------------------------------------------------------
+    !
+    !  6. Error messages :
+    !  7. Remarks
+    !  8. Structure :
+    !  9. Switches :
+    !
+    !     !/S  Enable subroutine tracing.
+    !
+    ! 10. Source code :
+    !
+    !/ ------------------------------------------------------------------- /
 #ifdef W3_S
-        USE W3SERVMD, ONLY: STRACE
+    USE W3SERVMD, ONLY: STRACE
 #endif
-        !
+    !
 
-        USE W3GDATMD, only : NTH, NK, NSPEC
-        IMPLICIT NONE
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Parameter list
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/ Local PARAMETERs
-        !/
+    USE W3GDATMD, only : NTH, NK, NSPEC
+    IMPLICIT NONE
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Parameter list
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/ Local PARAMETERs
+    !/
 #ifdef W3_S
-        INTEGER, SAVE           :: IENT = 0
+    INTEGER, SAVE           :: IENT = 0
 #endif
-        !/
-        !/ ------------------------------------------------------------------- /
-        !/
-        INTEGER             :: ISP, ITH, IK, IS
-        REAL, INTENT(IN)    :: SPEC(NSPEC)
-        REAL, INTENT(INOUT) :: VS(NSPEC), VD(NSPEC)
+    !/
+    !/ ------------------------------------------------------------------- /
+    !/
+    INTEGER             :: ISP, ITH, IK, IS
+    REAL, INTENT(IN)    :: SPEC(NSPEC)
+    REAL, INTENT(INOUT) :: VS(NSPEC), VD(NSPEC)
 #ifdef W3_S
-        CALL STRACE (IENT, 'SIGN_VSD_PATANKAR_WW3')
+    CALL STRACE (IENT, 'SIGN_VSD_PATANKAR_WW3')
 #endif
-        DO IS=1,NSPEC
-          VD(IS) = MIN(0., VD(IS))
-          VS(IS) = MAX(0., VS(IS))
-        END DO
-      END SUBROUTINE SIGN_VSD_PATANKAR_WW3
-      !/
-      !/ End of module W3SRCEMD -------------------------------------------- /
-      !/
-    END MODULE W3SRCEMD
+    DO IS=1,NSPEC
+      VD(IS) = MIN(0., VD(IS))
+      VS(IS) = MAX(0., VS(IS))
+    END DO
+  END SUBROUTINE SIGN_VSD_PATANKAR_WW3
+  !/
+  !/ End of module W3SRCEMD -------------------------------------------- /
+  !/
+END MODULE W3SRCEMD

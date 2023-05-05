@@ -2432,7 +2432,7 @@ CONTAINS
           IDINP(I,J) = IDSTR(J)
           IF ( INPMAP(I,J) .LT. 0 ) CYCLE
           CALL W3FLDO ('READ', IDINP(I,J), MDSF(I,J), MDST, MDSE2,&
-                                !!Li     NX, NY, GTYPE, IERR, MNAMES(I),           &
+               !!Li     NX, NY, GTYPE, IERR, MNAMES(I),           &
                NX, NY,   JJJ, IERR, MNAMES(I),           &
                TRIM(FNMPRE) )
           IF ( IERR .NE. 0 ) GOTO 2080
@@ -2602,16 +2602,16 @@ CONTAINS
              CALL W3DIMX  ( I, NX, NY, NSEA, MDSE, MDST      &
 #endif
 #ifdef W3_SMC
-             !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
-             !!  so all dimensions are minimised to 1.  JGLi29Mar2021
+                                !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
+                                !!  so all dimensions are minimised to 1.  JGLi29Mar2021
 #endif
 #ifdef W3_MPI
 #ifdef W3_SMC
-             !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
-             !!Li        , NARC, NBAC, NSPEC              &
-        , 1, 1, 1, 1, 1, 1, 1, 1         &
+                                !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
+                                !!Li        , NARC, NBAC, NSPEC              &
+             , 1, 1, 1, 1, 1, 1, 1, 1         &
 #endif
-        )
+             )
         CALL MPI_BCAST ( HQFAC, NX*NY, MPI_REAL, 0,          &
              MPI_COMM_BCT, IERR_MPI )
         CALL MPI_BCAST ( HPFAC, NX*NY, MPI_REAL, 0,          &
@@ -5705,16 +5705,16 @@ CONTAINS
              CALL W3DIMX  ( I, NX, NY, NSEA, MDSE, MDST      &
 #endif
 #ifdef W3_SMC
-             !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
-             !!  so all dimensions are minimised to 1.  JGLi29Mar2021
+                                !!  SMC grid related variables are not needed beyond MPI_COMM_GRD
+                                !!  so all dimensions are minimised to 1.  JGLi29Mar2021
 #endif
 #ifdef W3_MPI
 #ifdef W3_SMC
-             !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
-             !!Li        , NARC, NBAC, NSPEC              &
-        , 1, 1, 1, 1, 1, 1, 1, 1         &
+                                !!Li        , NCel, NUFc, NVFc, NRLv, NBSMC  &
+                                !!Li        , NARC, NBAC, NSPEC              &
+             , 1, 1, 1, 1, 1, 1, 1, 1         &
 #endif
-        )
+             )
         CALL MPI_BCAST ( HQFAC, NX*NY, MPI_REAL, 0,          &
              MPI_COMM_BCT, IERR_MPI )
         CALL MPI_BCAST ( HPFAC, NX*NY, MPI_REAL, 0,          &
