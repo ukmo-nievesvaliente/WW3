@@ -1,5 +1,24 @@
+!> @file
+!> @brief Diffusion source term.
+!>
+!> @author S. Zieger
+!> @date   20-Dec-2013
+!>
+
 #include "w3macros.h"
 !/ ------------------------------------------------------------------- /
+
+!>
+!> @brief Diffusion source term.
+!>
+!> @author S. Zieger
+!> @date   20-Dec-2013
+!>
+!> @copyright Copyright 2009-2022 National Weather Service (NWS),
+!>       National Oceanic and Atmospheric Administration.  All rights
+!>       reserved.  WAVEWATCH III is a trademark of the NWS.
+!>       No unauthorized use without permission.
+!>
 MODULE W3SIS1MD
   !/
   !/                  +-----------------------------------+
@@ -42,6 +61,16 @@ MODULE W3SIS1MD
   !/
 CONTAINS
   !/ ------------------------------------------------------------------- /
+  !>
+  !> @brief Spectral reflection due to ice.
+  !>
+  !> @param[in]  A    Action density spectrum (1-D).
+  !> @param[in]  ICE  Sea ice concentration.
+  !> @param[out] S    Source term (1-D version).
+  !>
+  !> @author S. Zieger
+  !> @date
+  !>
   SUBROUTINE W3SIS1 (A, ICE, S)
     !/
     !/                  +-----------------------------------+
@@ -185,9 +214,6 @@ CONTAINS
           SOUT(IK,ITH) = S(IS)
         END DO
       END DO
-#endif
-      !
-#ifdef W3_T
       CALL PRT2DS (NDST, NK, NK, NTH, SOUT, SIG(1:NK), '  ', 1.,    &
            0.0, 0.001, 'Diag Sir1', ' ', 'NONAME')
 #endif

@@ -1,5 +1,23 @@
+!> @file
+!> @brief Nonlinear interaction based `smoother' for high frequencies.
+!>
+!> @author H. L. Tolman
+!> @date   13-Jul-2012
+!>
+
 #include "w3macros.h"
 !/ ------------------------------------------------------------------- /
+!>
+!> @brief Nonlinear interaction based `smoother' for high frequencies.
+!>
+!> @author H. L. Tolman
+!> @date   13-Jul-2012
+!>
+!> @copyright Copyright 2009-2022 National Weather Service (NWS),
+!>       National Oceanic and Atmospheric Administration.  All rights
+!>       reserved.  WAVEWATCH III is a trademark of the NWS.
+!>       No unauthorized use without permission.
+!>
 MODULE W3SNLSMD
   !/
   !/                  +-----------------------------------+
@@ -86,6 +104,30 @@ MODULE W3SNLSMD
   !/
 CONTAINS
   !/ ------------------------------------------------------------------- /
+  !>
+  !> @brief High-frequeny filter based on the nonlinear interactions for
+  !>  an uresolved quadruplet.
+  !>
+  !> @details Compute interactions for a quadruplet that is not resolved
+  !>  by the discrete spectral rsolution, and then reduces to a simple
+  !>  five-point stencil. Furthermore interactions are filtered by
+  !>  frequency to allow for high-frequency impact only, and the
+  !>  integration schem is embedded, and reduces to a filter technique
+  !>  for large time steps or strong interactions.
+  !>
+  !> @param[in]  A      Action spectrum A(ITH,IK) as a function of
+  !>                    direction (rad)  and wavenumber.
+  !> @param[in]  CG     Group velocities (dimension NK).
+  !> @param[in]  WN     Wavenumbers (dimension NK).
+  !> @param[in]  DEPTH  Water depth in meters.
+  !> @param[in]  UABS   Wind speed (m/s).
+  !> @param[in]  DT     Numerical time step (s).
+  !> @param[out] SNL    Nonlinear source term.
+  !> @param[out] AA     Averaged spectrum.
+  !>
+  !> @author H. L. Tolman
+  !> @date   04-Aug-2008
+  !>
   SUBROUTINE W3SNLS (  A, CG, WN, DEPTH, UABS, DT, SNL, AA )
     !/
     !/                  +-----------------------------------+
@@ -530,25 +572,28 @@ CONTAINS
     !
 #ifdef W3_T
 9000 FORMAT (/' TEST W3SNLS: DEPTH, UABS, DT :',F9.2,F7.2,F7.2)
-#endif
-    !
-#ifdef W3_T
 9010 FORMAT ( '              IFRMIN, FP  :',I4,F8.4)
+9030 FORMAT ( ' TEST W3SNLS: SOURCE TERM REQUESTED : ',A)
+9040 FORMAT ( ' TEST W3SNLS: AVERAGING REQUESTED   : ',A)
 #endif
 #ifdef W3_T1
 9011 FORMAT ( ' TEST W3SNLS: IFR, FR, C, E1, FILT :')
 9012 FORMAT (13X,I4,F10.4,2F10.2,F10.4)
-#endif
-    !
-#ifdef W3_T
-9030 FORMAT ( ' TEST W3SNLS: SOURCE TERM REQUESTED : ',A)
-9040 FORMAT ( ' TEST W3SNLS: AVERAGING REQUESTED   : ',A)
 #endif
     !/
     !/ Embedded subroutines
     !/
   CONTAINS
     !/ ------------------------------------------------------------------- /
+    !>
+    !> @brief Expand spectrum to simplify indirect addressing.
+    !>
+    !> @param[out] PSPC  Expanded spectrum.
+    !> @param[out] SPEC  Expanded spectrum.
+    !>
+    !> @author H. L. Tolman
+    !> @date   23-Jul-2008
+    !>
     SUBROUTINE EXPAND ( PSPC, SPEC )
       !/
       !/                  +-----------------------------------+
@@ -609,6 +654,15 @@ CONTAINS
     !/
   END SUBROUTINE W3SNLS
   !/ ------------------------------------------------------------------- /
+  !>
+  !> @brief Initializations for the Snl / filter source term for high
+  !>  frequencies.
+  !>
+  !> @details Precompute weight functions and store in array.
+  !>
+  !> @author H. L. Tolman
+  !> @date   04-Aug-2008
+  !>
   SUBROUTINE INSNLS
     !/
     !/                  +-----------------------------------+

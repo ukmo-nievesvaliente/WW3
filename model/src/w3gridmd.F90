@@ -836,8 +836,8 @@
 #endif
 !
 #ifdef W3_ST4
-      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF, SINTABLE, TAUWBUG
-      REAL 		   :: SDSBCHOICE, VISCSTRESS
+      INTEGER                 :: SWELLFPAR, SDSISO, SDSBRFDF
+      REAL 		   :: SDSBCHOICE
       REAL                    :: ZWND, ALPHA0, Z0MAX, BETAMAX, SINTHP,&
                                  ZALP, Z0RAT, TAUWSHELTER, SWELLF,    &
                                  SWELLF2,SWELLF3,SWELLF4, SWELLF5,    &
@@ -849,11 +849,10 @@
                                  SDSBR, SDSP, SDSBT, SDS4A, SDKOF,    &
                                  SDSCOS, SDSDTH, SDSBCK, SDSABK,      &
                                  SDSPBK, SDSBINT, SDSHCK,             &               
-                                 SDSBRF1, CUMSIGP,                    &
+                                 SDSBRF1,                             &
                                  SDSBM0, SDSBM1, SDSBM2, SDSBM3,      &
                                  SDSBM4, SDSFACMTF, SDSCUMP,  SDSNUW, &
-                                 SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF, &
-                                 SINTAIL1, SINTAIL2
+                                 SDSL, SDSMWD, SDSMWPOW, SPMSS, SDSNMTF
 #endif
 !
 #ifdef W3_ST6
@@ -901,35 +900,36 @@
 #ifdef W3_PR3
       REAL                    :: WDTHCG, WDTHTH
 #endif
-           LOGICAL :: JGS_TERMINATE_MAXITER = .TRUE.
-           LOGICAL :: JGS_TERMINATE_DIFFERENCE = .TRUE.
-           LOGICAL :: JGS_TERMINATE_NORM = .TRUE.
-           LOGICAL :: JGS_LIMITER = .FALSE.
-           LOGICAL :: JGS_BLOCK_GAUSS_SEIDEL = .TRUE.
-           LOGICAL :: JGS_USE_JACOBI = .TRUE.
-           LOGICAL :: JGS_SOURCE_NONLINEAR = .FALSE.
-           LOGICAL :: UGOBCAUTO = .FALSE.
-           LOGICAL :: UGBCCFL   = .FALSE.
-           LOGICAL :: EXPFSN    = .TRUE.
-           LOGICAL :: EXPFSPSI  = .FALSE.
-           LOGICAL :: EXPFSFCT  = .FALSE.
-           LOGICAL :: IMPFSN    = .FALSE.
-           LOGICAL :: EXPTOTAL  = .FALSE.
-           LOGICAL :: IMPTOTAL  = .FALSE.
-           LOGICAL :: IMPREFRACTION = .FALSE.
-           LOGICAL :: IMPFREQSHIFT = .FALSE.
-           LOGICAL :: IMPSOURCE = .FALSE.
-           LOGICAL :: SETUP_APPLY_WLV = .FALSE.
-           INTEGER :: JGS_MAXITER=100
+  LOGICAL :: JGS_TERMINATE_MAXITER
+  LOGICAL :: JGS_TERMINATE_DIFFERENCE
+  LOGICAL :: JGS_TERMINATE_NORM
+  LOGICAL :: JGS_LIMITER
+  INTEGER :: JGS_LIMITER_FUNC
+  LOGICAL :: JGS_BLOCK_GAUSS_SEIDEL
+  LOGICAL :: JGS_USE_JACOBI
+  LOGICAL :: JGS_SOURCE_NONLINEAR
+  LOGICAL :: UGOBCAUTO
+  LOGICAL :: UGBCCFL
+  LOGICAL :: EXPFSN
+  LOGICAL :: EXPFSPSI
+  LOGICAL :: EXPFSFCT
+  LOGICAL :: IMPFSN
+  LOGICAL :: EXPTOTAL
+  LOGICAL :: IMPTOTAL
+  LOGICAL :: IMPREFRACTION
+  LOGICAL :: IMPFREQSHIFT
+  LOGICAL :: IMPSOURCE
+  LOGICAL :: SETUP_APPLY_WLV
+  INTEGER :: JGS_MAXITER
            INTEGER :: nbSel
            INTEGER :: UNSTSCHEMES(6)
            INTEGER :: UNSTSCHEME
-           INTEGER :: JGS_NLEVEL = 0
-           REAL*8  :: JGS_PMIN = 0.
-           REAL*8  :: JGS_DIFF_THR = 1.E-10
-           REAL*8  :: JGS_NORM_THR = 1.E-20
-           REAL*8  :: SOLVERTHR_SETUP = 1.E-20
-           REAL*8  :: CRIT_DEP_SETUP = 0.
+  INTEGER :: JGS_NLEVEL
+  REAL*8  :: JGS_PMIN
+  REAL*8  :: JGS_DIFF_THR
+  REAL*8  :: JGS_NORM_THR
+  REAL*8  :: SOLVERTHR_SETUP
+  REAL*8  :: CRIT_DEP_SETUP
 !
            CHARACTER               :: UGOBCFILE*60
            REAL                    :: UGOBCDEPTH 
@@ -1085,6 +1085,7 @@
                            JGS_TERMINATE_DIFFERENCE,                  &
                            JGS_TERMINATE_NORM,                        &
                            JGS_LIMITER,                               &
+                           JGS_LIMITER_FUNC,                          &
                            JGS_USE_JACOBI,                            &
                            JGS_BLOCK_GAUSS_SEIDEL,                    &
                            JGS_MAXITER,                               &
@@ -1611,9 +1612,6 @@
 #endif
 #ifdef W3_FLX2
       WRITE (NDSO,810)
-#endif
-!
-#ifdef W3_FLX2
       CINXSI =    0.20
       NITTIN =    3
 #endif
@@ -1622,9 +1620,6 @@
       NITTIN =    3
       CDMAX  =    2.5E-3
       CTYPE  =    0
-#endif
-!
-#ifdef W3_FLX3
       CALL READNL ( NDSS, 'FLX3', STATUS )
       WRITE (NDSO,810) STATUS
       CDMAX  = MAX ( 0. , CDMAX )
@@ -1663,9 +1658,6 @@
       CLIN   = 80.
       RFPM   =  1.
       RFHF   =  0.5
-#endif
-!
-#ifdef W3_LN1
       CALL READNL ( NDSS, 'SLN1', STATUS )
       WRITE (NDSO,820) STATUS
       CLIN   = MAX (0.,CLIN)
@@ -1848,9 +1840,6 @@
         ELSE
           NLPROP =  2.78E7
         END IF
-#endif
-!
-#ifdef W3_NL1
       KDCONV =  0.75
       KDMIN  =  0.50
       SNLCS1 =  5.5
@@ -1868,9 +1857,6 @@
       GQAMP2=0.002
       GQAMP3=1.
       GQAMP4=1.
-#endif
-!
-#ifdef W3_NL1
       CALL READNL ( NDSS, 'SNL1', STATUS )
       WRITE (NDSO,922) STATUS
       WRITE (NDSO,923) LAMBDA, NLPROP, KDCONV, KDMIN,            &
@@ -1961,18 +1947,16 @@
       WRITE (NDSO,922) STATUS
       TAILNL = MIN ( MAX ( TAILNL, -6. ) , -4. )
       IF ( IQTYPE .EQ. 3 ) THEN
-          WRITE (NDSO,923) 'Shallow water WRT', TAILNL
-        ELSE IF ( IQTYPE .EQ. 2 ) THEN
-          WRITE (NDSO,923) 'Deep water WRT with scaling', TAILNL
-        ELSE  IF ( IQTYPE .EQ. 1 ) THEN
-          WRITE (NDSO,923) 'Deep water WRT', TAILNL
-        ELSE
-          WRITE (NDSO,923) 'Deep water GQM with scaling', TAILNL
-          IQTYPE = -2
-        END IF
-#endif
-!
-#ifdef W3_NL2
+        WRITE (NDSO,923) 'Shallow water WRT', TAILNL
+      ELSE IF ( IQTYPE .EQ. 2 ) THEN
+        WRITE (NDSO,923) 'Deep water WRT with scaling', TAILNL
+      ELSE  IF ( IQTYPE .EQ. 1 ) THEN
+        WRITE (NDSO,923) 'Deep water WRT', TAILNL
+      ELSE
+        WRITE (NDSO,923) 'Deep water GQM with scaling', TAILNL
+        IQTYPE = -2
+      END IF
+      !
       IF ( IQTYPE .NE. 3 ) THEN
           NDEPTH = 1
           ALLOCATE ( MPARS(1)%SNLPS%DPTHNL(NDEPTH) )
@@ -2013,15 +1997,10 @@
 #ifdef W3_NL3
       CALL READNL ( NDSS, 'SNL3', STATUS )
       WRITE (NDSO,922) STATUS
-#endif
-!!/NL3      MSC    = MAX ( 0. , MIN ( 8. , MSC ) )  ! Disabled HLT ca. 2009
-#ifdef W3_NL3
       KDFD   = MAX ( 0.001 , MIN ( 10. , KDFD ) )
       KDFS   = MAX ( KDFD , MIN ( 10. , KDFS ) )
       WRITE (NDSO,923) MSC, NSC, KDFD, KDFS
-#endif
 !
-#ifdef W3_NL3
       NQDEF  = MAX ( 0 , NQDEF )
       IF ( NQDEF .EQ. 0 ) THEN
           NQDEF  = 1
@@ -2152,7 +2131,7 @@
       SDSBR     = 0.90E-3     ! 0.005 for Romero                                
       SDSBRFDF  = 0
       SDSBRF1   = 0.5
-      SDSP      = 2.          ! this is now fixed in w3sds4, should be cleaned up 
+      SDSP      = 2.   ! this is now fixed in w3sds4, should be cleaned up 
       SDSDTH    = 80.
       SDSCOS    = 2.
       SDSISO    = 2
@@ -2263,7 +2242,7 @@
       SSDSC(8)   = SDSSTRAIN   ! Straining constant ... 
       SSDSC(9)   = SDSL
       SSDSC(10)  = SDSSTRAINA*NTH/360. ! angle for enhanced straining
-      SSDSC(11)  = SDSSTRAIN2          ! straining constant for directional part 
+      SSDSC(11)  = SDSSTRAIN2  ! straining constant for directional part 
       SSDSC(12)  = CUMSIGP
       SSDSC(13)  = SDSMWD
       SSDSC(14)  = SPMSS
@@ -2274,14 +2253,15 @@
       SSDSC(19)  = SDSNMTF 
       SSDSC(20)  = SDSCUMP 
       SSDSC(21)  = SDSNUW 
-      SSDSBR     = SDSBR
-      SSDSBRF1   = SDSBRF1
-      SSDSBRFDF  = SDSBRFDF
-      SSDSBM(0)  = SDSBM0
-      SSDSBM(1)  = SDSBM1
-      SSDSBM(2)  = SDSBM2
-      SSDSBM(3)  = SDSBM3
-      SSDSBM(4)  = SDSBM4
+      !
+      SSDSBR   = SDSBR
+      SSDSBRF1 = SDSBRF1
+      SSDSBRFDF= SDSBRFDF
+      SSDSBM(0)   = SDSBM0
+      SSDSBM(1)   = SDSBM1
+      SSDSBM(2)   = SDSBM2
+      SSDSBM(3)   = SDSBM3
+      SSDSBM(4)   = SDSBM4
       SSDSBT   = SDSBT
       SSDSISO  = SDSISO
       SSDSCOS  = SDSCOS
@@ -2336,9 +2316,6 @@
 !
 #ifdef W3_BT1
       GAMMA  = -0.067
-#endif
-!
-#ifdef W3_BT1
       CALL READNL ( NDSS, 'SBT1', STATUS )
       WRITE (NDSO,926) STATUS
       WRITE (NDSO,927) GAMMA
@@ -2380,9 +2357,6 @@
       BJALFA = 1.
       BJGAM  = 0.73
       BJFLAG = .TRUE.
-#endif
-!
-#ifdef W3_DB1
       CALL READNL ( NDSS, 'SDB1', STATUS )
       WRITE (NDSO,928) STATUS
       BJALFA = MAX ( 0. , BJALFA )
@@ -2480,13 +2454,14 @@
        IMPREFRACTION = .FALSE.
        IMPFREQSHIFT = .FALSE.
        IMPSOURCE = .FALSE.
-       SETUP_APPLY_WLV = .FALSE.
-       SOLVERTHR_SETUP=1E-14
+    SETUP_APPLY_WLV = .TRUE.
+    SOLVERTHR_SETUP=1E-6
        CRIT_DEP_SETUP=0.1
        JGS_TERMINATE_MAXITER = .TRUE.
        JGS_TERMINATE_DIFFERENCE = .TRUE.
        JGS_TERMINATE_NORM = .FALSE.
        JGS_LIMITER = .FALSE.
+    JGS_LIMITER_FUNC = 1
        JGS_BLOCK_GAUSS_SEIDEL = .TRUE.
        JGS_USE_JACOBI = .TRUE.
        JGS_MAXITER=100
@@ -2503,6 +2478,7 @@
        B_JGS_TERMINATE_DIFFERENCE = JGS_TERMINATE_DIFFERENCE
        B_JGS_TERMINATE_NORM = JGS_TERMINATE_NORM
        B_JGS_LIMITER = JGS_LIMITER
+    B_JGS_LIMITER_FUNC = JGS_LIMITER_FUNC
        B_JGS_BLOCK_GAUSS_SEIDEL = JGS_BLOCK_GAUSS_SEIDEL
        B_JGS_MAXITER = JGS_MAXITER
        B_JGS_PMIN = JGS_PMIN
@@ -2662,9 +2638,6 @@
       WRITE (NDSO,1950)
       WRITE (NDSO,1951) PNSMC
       WRITE (NDSO,1953) CFLSM, DTIMS/3600., RFMAXD
-#endif
-!
-#ifdef W3_SMC
       FUNO3  = UNO3
       FVERG  = AVERG
       FSWND  = SEAWND
@@ -2849,9 +2822,7 @@
       IS2DAMP=0.
       IS2CREEPB=0.
       IS2CREEPC=0.4     ! This gives an impact of break-up over a wider freq. range
-#endif
 !                            ! compared to the 0.2 value in Boutin et al. 2018
-#ifdef W3_IS2
       IS2CREEPD=0.5
       IS2CREEPN=3.0
       IS2BREAKE=1.
@@ -2880,9 +2851,7 @@
       REFSUBGRID=0.
       REFICEBERG=0.
       REFUNSTSOURCE=0.
-#endif
 !
-#ifdef W3_REF1
       CALL READNL ( NDSS, 'REF1', STATUS )
       WRITE (NDSO,969) STATUS
 #endif
@@ -2899,9 +2868,6 @@
        IGKDMIN = 1.1
        IGFIXEDDEPTH = 0.
        IGEMPIRICAL = 0.00125
-#endif
-!
-#ifdef W3_IG1
       CALL READNL ( NDSS, 'SIG1 ', STATUS )
       WRITE (NDSO,970) STATUS
 #endif
@@ -3270,8 +3236,8 @@
           WRITE (NDSO,2922) LAMBDA, NLPROP, KDCONV, KDMIN,       &
                             SNLCS1, SNLCS2, SNLCS3,              &
                             IQTYPE, TAILNL, GQMNF1,              &
-                         GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU,&
-                         GQAMP1, GQAMP2, GQAMP3, GQAMP4
+                           GQMNT1, GQMNQ_OM2, GQMTHRSAT, GQMTHRCOU,&
+                           GQAMP1, GQAMP2, GQAMP3, GQAMP4
 #endif
 #ifdef W3_NL2
           WRITE (NDSO,2922) IQTYPE, TAILNL, NDEPTH, GQMNF1,      &
@@ -3370,6 +3336,7 @@
                           JGS_TERMINATE_DIFFERENCE,                   &
                           JGS_TERMINATE_NORM,                         &
                           JGS_LIMITER,                                &
+                          JGS_LIMITER_FUNC,                           & 
                           JGS_USE_JACOBI,                             &
                           JGS_BLOCK_GAUSS_SEIDEL,                     &
                           JGS_MAXITER,                                &
@@ -3704,6 +3671,10 @@
           FSTOTALEXP = EXPTOTAL 
           PNAME2 = 'N Explicit (Fluctuation Splitting) for one exchange explicit DC HPCF '
         END SELECT
+
+        IF (FSTOTALIMP .or. FSTOTALEXP) THEN
+          LPDLIB = .TRUE. 
+        ENDIF
 !
         IF (SUM(UNSTSCHEMES).GT.1) WRITE(NDSO,1035)
         WRITE (NDSO,2951) PNAME2
@@ -3732,7 +3703,7 @@
         END IF
         IF (SETUP_APPLY_WLV) THEN
           DO_CHANGE_WLV = SETUP_APPLY_WLV
-          PNAME2 = ' we change WLV'
+        PNAME2 = 'Wave setup is added to the WLV'
           WRITE (NDSO,2952) PNAME2
         END IF
         SOLVERTHR_STP = SOLVERTHR_SETUP
@@ -4209,9 +4180,7 @@
  !! Overwrite 2 parameters for SMC grid.  JGLi03Mar2021
        DTMS   = DTIMS 
        CTMAX  = CFLSM
-#endif
 !
-#ifdef W3_SMC
        IF (FLGNML) THEN
          NDSTR = NML_SMC%MCELS%IDF
          IDLA = NML_SMC%MCELS%IDLA
@@ -4356,10 +4325,7 @@
        WRITE (NDSO,4014) NBISMC, NBICelin(NBISMC)
        WRITE (NDSO,*) ' '
        ENDIF
-
-#endif
 !
-#ifdef W3_SMC
  !! 7.j  Read Arctic grid cell and boundary cell integer arrays.  
        IF( ARCTC ) THEN    
 
@@ -4934,9 +4900,7 @@
 #ifdef W3_T
       ALLOCATE ( MAPOUT(NX,NY) )
       MAPOUT = 0
-#endif
 !
-#ifdef W3_T
       IX3    = 1 + NX/60
       IY3    = 1 + NY/60
       CALL PRTBLK (NDST, NX, NY, NX, ZBIN, MAPOUT, 1, 0.,          &
@@ -4997,9 +4961,6 @@
 #ifdef W3_SMC
  !!Li SMC grid definition of mapping arrays.
       ELSE 
-#endif
-!
-#ifdef W3_SMC
  !!Li  Pass refined level cell and face counts to NLv*(NRLv)
        NLvCel(0)=0
        NLvUFc(0)=0
@@ -5174,10 +5135,6 @@
           MAPST2(IY:IY+JS-1,IX:IX+IK-1)  = 0
        ENDDO
        ENDIF
- 
-#endif
-!
-#ifdef W3_SMC
  !Li   Define rotation angle for Arctic cells.
        IF( ARCTC ) THEN
  
@@ -5207,9 +5164,6 @@
        WRITE (NDSO,4037)  NARC 
        WRITE (NDSO,4038) (ANGARC(ix), ix=1,NARC,NARC/8)
 
-#endif
-!
-#ifdef W3_SMC
  !Li   Mapping Arctic boundary cells with inner model cells
        DO IP=1, NBAC 
              IX=IJKCel(1,IP+NGLO)
@@ -5232,9 +5186,6 @@
           CTHG0S(NCel)=0.0
        
        ENDIF  !! ARCTC section.
-#endif
-!
-#ifdef W3_SMC
       ENDIF  !! (GTYPE .NE. SMCTYPE) ELSE SMCTYPE block. 
 #endif
 !
@@ -5523,16 +5474,11 @@
             IY = MAPSF(ISEA,2)
             REFLC(3,ISEA) = REFS(IX,IY)*REFMAP
             END DO
-#endif
-!
-#ifdef W3_REF1
           NMAPB  = 1 + (NX-1)/NCOL
           WRITE (NDSO,1105) NMAPB
 #endif
-#ifdef W3_T
-#ifdef W3_REF1
+#if defined W3_T && defined W3_REF1
                WRITE(NDSO,*) 'Maximum slope for reflection:',MAXVAL(REFS*REFMAP)
-#endif
 #endif
 !
 #ifdef W3_REF1
@@ -5540,12 +5486,10 @@
             IX0    = 1 + (IMAPB-1)*NCOL
             IXN    = MIN ( NX , IMAPB*NCOL )
 #endif
-#ifdef W3_T
-#ifdef W3_REF1
+#if defined W3_T && defined W3_REF1
             DO IY=NY,1,-1
               WRITE (NDSO,1101) (NINT(100.*REFS(IX,IY)*REFMAP),IX=IX0,IXN)
               END DO
-#endif
 #endif
 #ifdef W3_REF1
             WRITE (NDSO,*) ' '
@@ -6711,6 +6655,7 @@
                ',  JGS_TERMINATE_DIFFERENCE=', L3,                    &
                ',  JGS_TERMINATE_NORM=', L3,                          &
                ',  JGS_LIMITER=', L3,                                 &
+               ',  JGS_LIMITER_FUNC=', I3,                            &
                ',  JGS_USE_JACOBI=', L3,                              &
                ',  JGS_BLOCK_GAUSS_SEIDEL=', L3,                      &
                ',  JGS_MAXITER=', I5,                                 &
@@ -7110,9 +7055,6 @@
  1014 FORMAT (/' *** WAVEWATCH-III ERROR IN W3GRID :'/                &
                '   SMC CELL LONGITUDE RANGE OUTSIDE BASE GRID RANGE:'/&
                '   ISEA =', I6, '; IX =', I4, ':', I4,'; NX =', I4/)
-#endif
-!
-#ifdef W3_SMC
  1015 FORMAT (/' *** WAVEWATCH-III ERROR IN W3GRID :'/                &
                '   SMC CELL LATITUDE RANGE OUTSIDE BASE GRID RANGE: '/&
                '   ISEA =', I6, '; IY =', I4, ':', I4,'; NY =', I4/)
@@ -7156,9 +7098,6 @@
  1052 FORMAT (/' *** WAVEWATCH III ERROR IN W3GRID :'/                &
                '     WITH NAMELIST VALUE PLAT == 90, PLON MUST BE -180'/ &
                '     AND UNROT MUST BE .FALSE.' )
-#endif
-!
-#ifdef W3_RTD
  1053 FORMAT (/' *** WAVEWATCH III ERROR IN W3GRID :'/                &
                '     WITH NAMELIST VALUE BPLAT == 90, BPLON MUST BE -180')
 #endif

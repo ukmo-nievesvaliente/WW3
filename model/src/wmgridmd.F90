@@ -5692,7 +5692,7 @@ CONTAINS
 #endif
 #endif
 #ifdef W3_SMC
-          WRITE(MDSE,1060) I, NT, J, NTL
+               WRITE(MDSE,1060) I, NT, J, NTL
 #endif
           !
           ! ... End of loops J in 1.c
@@ -6007,7 +6007,7 @@ CONTAINS
 #endif
 #endif
 #ifdef W3_SMC
-    WRITE(MDSE,*) " *** WMSMCEQL completed from PE ", IMPROC
+         WRITE(MDSE,*) " *** WMSMCEQL completed from PE ", IMPROC
 #endif
 
     RETURN

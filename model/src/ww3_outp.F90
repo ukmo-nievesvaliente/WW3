@@ -1,5 +1,38 @@
+!> @file
+!> @brief Post-processing of point output.
+!>
+!> @author H. L. Tolman
+!> @author J.H. Alves
+!> @author A. Chawla
+!> @author F. Ardhuin
+!> @author E. Rogers
+!> @author T. Campbell
+!> @date   27-Aug-2015
+!>
+
 #include "w3macros.h"
 !/ ------------------------------------------------------------------- /
+
+!>
+!> @brief Post-processing of point output.
+!>
+!> @details Data is read from the grid output file out_pnt.ww3 (raw data)
+!>  and from the file ww3_outp.inp ( NDSI, output requests ). Model
+!>  definition and raw data files are read using WAVEWATCH III subroutines.
+!>
+!> @author H. L. Tolman
+!> @author J.H. Alves
+!> @author A. Chawla
+!> @author F. Ardhuin
+!> @author E. Rogers
+!> @author T. Campbell
+!> @date   27-Aug-2015
+!>
+!> @copyright Copyright 2009-2022 National Weather Service (NWS),
+!>       National Oceanic and Atmospheric Administration.  All rights
+!>       reserved.  WAVEWATCH III is a trademark of the NWS.
+!>       No unauthorized use without permission.
+!>
       PROGRAM W3OUTP
 !/
 !/                  +-----------------------------------+
@@ -1944,7 +1977,7 @@
                       CALL W3SNL1 ( A, CG, WNMEAN*DEPTH,  XNL, DIA )
                     ELSE 
                       CALL W3SNLGQM ( A, CG, WN, DEPTH,  XNL, DIA )
-                      END IF
+                    END IF
 #endif
 #ifdef W3_NL2
                     CALL W3SNL2 ( A, CG, WN, DEPTH,     XNL, DIA )

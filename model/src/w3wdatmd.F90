@@ -159,7 +159,6 @@ MODULE W3WDATMD
     REAL, POINTER     :: VAOLD(:,:)
     LOGICAL, POINTER  :: SHAVETOT(:)
 #endif
-    !!/PDLIB     REAL, POINTER     :: VAOLD(:,:)
     LOGICAL               :: DINIT, FL_ALL
   END TYPE WDATA
   !
@@ -193,7 +192,6 @@ MODULE W3WDATMD
   REAL, POINTER           :: VAOLD(:,:)
   LOGICAL, POINTER        :: SHAVETOT(:)
 #endif
-  !!/PDLIB      REAL, POINTER           :: VAOLD(:,:)
   LOGICAL, POINTER        :: DINIT, FL_ALL
   !/
 CONTAINS
@@ -568,9 +566,9 @@ CONTAINS
          WDATAS(IMOD)%ICE(0:NSEA),                            &
          WDATAS(IMOD)%RHOAIR(NSEA),                           &
 #ifdef W3_SETUP
-    WDATAS(IMOD)%ZETA_SETUP(NSEA),                       &
+         WDATAS(IMOD)%ZETA_SETUP(NSEA),                       &
 #endif
-    WDATAS(IMOD)%BERG(NSEA),                             &
+         WDATAS(IMOD)%BERG(NSEA),                             &
          WDATAS(IMOD)%ICEH(0:NSEA),                           &
          WDATAS(IMOD)%ICEF(0:NSEA),                           &
          WDATAS(IMOD)%ICEDMAX(NSEA),                          &
@@ -787,7 +785,6 @@ CONTAINS
         QC5INT0 => WDATAS(IMOD)%QC5INT0
         QR5TMIX => WDATAS(IMOD)%QR5TMIX
 #endif
-        !!/PDLIB            VAOLD     => WDATAS(IMOD)%VAOLD
 #ifdef W3_PDLIB
         SHAVETOT     => WDATAS(IMOD)%SHAVETOT
         VSTOT     => WDATAS(IMOD)%VSTOT

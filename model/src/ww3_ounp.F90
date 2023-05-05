@@ -249,7 +249,10 @@
       INTEGER, SAVE           :: IENT   = 0
 #endif
 #ifdef W3_NCO
-      INTEGER                 :: NDSTAB, NDST
+  INTEGER                 :: NDSTAB
+#endif
+#if defined W3_NCO && !defined W3_T
+  INTEGER                 :: NDST
 #endif
 !
       INTEGER, ALLOCATABLE    :: INDREQ(:), INDREQTMP(:)
@@ -329,7 +332,9 @@
       NDSI   = 11
       NDSO   =  6
       NDSE   = NDSO
+# ifndef W3_T
       NDST   = NDSO
+# endif
       NDSM   = 12
       NDSOP  = 13
 #endif
@@ -2421,7 +2426,7 @@
                       CALL W3SNL1 ( A, CG, WNMEAN*DEPTH,  XNL, DIA )
                     ELSE 
                       CALL W3SNLGQM ( A, CG, WN, DEPTH,  XNL, DIA )
-                      END IF
+                    END IF
 #endif
 #ifdef W3_NL2
                     CALL W3SNL2 ( A, CG, WN, DEPTH,     XNL, DIA )
