@@ -1016,6 +1016,16 @@
 !/
       CONTAINS
 !/ ------------------------------------------------------------------- /
+
+!>
+!> @brief Perform actual point output.
+!>
+!> @author H. L. Tolman
+!> @author J. H. Alves
+!> @author F. Ardhuin
+!> @author A. Chawla
+!> @date   06-Feb-2014
+!>
       SUBROUTINE W3EXPO
 !/
 !/                  +-----------------------------------+

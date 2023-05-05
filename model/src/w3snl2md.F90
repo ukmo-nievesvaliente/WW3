@@ -39,7 +39,7 @@
 !/    25-Sep-2003 : Exact-NL version 5.0                ( version 3.05 )
 !/    24-Dec-2004 : Multiple model version.             ( version 3.06 )
 !/    29-May-2009 : Preparing distribution version.     ( version 3.14 )
-  !/    19-Nov-2022 : Adding GQM method as an option      ( version 7.xx )
+!/    19-Nov-2022 : Adding GQM method as an option      ( version 7.xx )
 !/
 !/    Copyright 2009 National Weather Service (NWS),
 !/       National Oceanic and Atmospheric Administration.  All rights
@@ -48,8 +48,8 @@
 !/
 !  1. Purpose :
 !
-  !     Interface module to exact nonlinear interactions (WRT method see separate module)
-  !      and GQM method as implemented by M. Benoit (self-contained in this module)
+!     Interface module to exact nonlinear interactions (WRT method see separate module)
+!      and GQM method as implemented by M. Benoit (self-contained in this module)
 !
 !  2. Variables and types :
 !
@@ -59,8 +59,8 @@
 !     ----------------------------------------------------------------
 !      W3SNL2    Subr. Public   Interface to Xnl calculation routines.
 !      INSNL2    Subr. Public   Initialization of Xnl routines.
-  !      W3SNLGQM  Subr. Public   Snl computation using GQM
-  !      INSNLGQM  Subr. Public   precomputation of Xnl-GQM tables
+!      W3SNLGQM  Subr. Public   Snl computation using GQM
+!      INSNLGQM  Subr. Public   precomputation of Xnl-GQM tables
 !     ----------------------------------------------------------------
 !
 !  4. Subroutines and functions used :
@@ -82,8 +82,8 @@
 !/
       PUBLIC
 !/
-  !/ These are the arrays and variables used for GQM method
-  !/
+!/ These are the arrays and variables used for GQM method
+!/
   INTEGER              :: NCONF
   INTEGER, ALLOCATABLE :: K_IF2 (:,:,:) , K_IF3 (:,:,:) , K_1P2P(:,:,:) , &
        K_1P3M(:,:,:) , K_1P2M(:,:,:) , K_1P3P(:,:,:) , &
@@ -95,7 +95,7 @@
   DOUBLE PRECISION, ALLOCATABLE :: TB_V24(:,:,:) , TB_V34(:,:,:) ,        &
        TB_TPM(:,:,:) , TB_TMP(:,:,:) , TB_FAC(:,:,:)
 
-  !/
+!/
       CONTAINS
 !/ ------------------------------------------------------------------- /
 !>
@@ -215,7 +215,7 @@
 !/ ------------------------------------------------------------------- /
 !/ Parameter list
 !/
-      REAL, INTENT(INOUT)        :: A(NTH,NK), CG(NK), WN(NK), DEPTH  ! WARNING NEED TO REMOVE THE OUT AFTER TEST
+      REAL, INTENT(IN)        :: A(NTH,NK), CG(NK), WN(NK), DEPTH
       REAL, INTENT(OUT)       :: S(NTH,NK), D(NTH,NK)
 !/
 !/ ------------------------------------------------------------------- /
@@ -226,8 +226,8 @@
       INTEGER, SAVE           :: IENT = 0
 #endif
       REAL                    :: A2(NK,NTH), S2(NK,NTH), D2(NK,NTH)
-    REAL                    :: CONX
-    REAL, INTENT(INOUT)        :: A(NTH,NK), CG(NK), WN(NK), DEPTH  ! WARNING NEED TO REMOVE THE OUT AFTER TEST
+      REAL                    :: CONX
+      REAL, INTENT(IN)        :: A(NTH,NK), CG(NK), WN(NK), DEPTH
       REAL                    :: SOUT(NK,NK), DOUT(NK,NK)
 #endif
 !/
@@ -443,7 +443,6 @@
     ELSE
       IERR = 0
       CALL INSNLGQM
-
     END IF
 !
       IF ( IERR .NE. 0 ) GOTO 800

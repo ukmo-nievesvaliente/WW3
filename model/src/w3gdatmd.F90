@@ -434,8 +434,8 @@
 !                                1 : Deep water         
 !                                2 : Deep water / WAM scaling
 !                                3 : Finite water depth 
-  !      GQNF1     Int.  Public   Gaussian quadrature resolution
-  !      GQNT1
+!      GQNF1     Int.  Public   Gaussian quadrature resolution
+!      GQNT1
 !      NDPTHS    Int.  Public   Number of depth for which integration
 !                               space needs to be computed.
 !      NLTAIL    Real  Public   Tail factor for parametric tail.
@@ -888,7 +888,7 @@
         REAL,     POINTER     :: DCKI(:,:), SATWEIGHTS(:,:),CUMULW(:,:),QBI(:,:)
         REAL                  :: AALPHA, BBETA, ZZ0MAX, ZZ0RAT, ZZALP,&
                                  SSINTHP, TTAUWSHELTER, SSWELLF(1:7), &
-         SINTAILPAR(1:10), SSDSC(1:21), SSDSBR,&
+                                 SINTAILPAR(1:10), SSDSC(1:21), SSDSBR,&
                                  SSDSP, WWNMEANP, SSTXFTF, SSTXFTWN,  &
                                  FFXPM, FFXFM, FFXFA,   &
                                  SSDSBRF1, SSDSBRF2, SSDSBINT,SSDSBCK,&
@@ -912,8 +912,8 @@
 #ifdef W3_NL1
         REAL                  :: SNLC1, LAM, KDCON, KDMN,             &
                                  SNLS1, SNLS2, SNLS3
-    INTEGER               :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
-    REAL                  :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(4)
+        INTEGER               :: IQTPE, GQNF1, GQNT1, GQNQ_OM2
+        REAL                  :: NLTAIL, GQTHRSAT, GQTHRCOU, GQAMP(4)
 #endif
 #ifdef W3_NL2
         INTEGER               :: IQTPE, NDPTHS, GQNF1, GQNT1, GQNQ_OM2
@@ -1038,6 +1038,7 @@
          LOGICAL :: B_JGS_USE_JACOBI
          LOGICAL :: B_JGS_BLOCK_GAUSS_SEIDEL 
          INTEGER :: B_JGS_MAXITER 
+         INTEGER :: B_JGS_LIMITER_FUNC
          REAL*8  :: B_JGS_PMIN
          REAL*8  :: B_JGS_DIFF_THR 
          REAL*8  :: B_JGS_NORM_THR 
@@ -2707,7 +2708,6 @@
       GQTHRSAT => MPARS(IMOD)%SNLPS%GQTHRSAT
       GQTHRCOU=> MPARS(IMOD)%SNLPS%GQTHRCOU
       GQAMP=> MPARS(IMOD)%SNLPS%GQAMP
-
 #endif
 #ifdef W3_NL2
       IQTPE  => MPARS(IMOD)%SNLPS%IQTPE

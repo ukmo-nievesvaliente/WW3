@@ -1123,9 +1123,9 @@
       CASE('QP')
         I = 8
         J = 5
-    CASE('QKK')
-      I = 8
-      J = 6
+      CASE('QKK')
+        I = 8
+        J = 6
 !
 ! Group 9
 !

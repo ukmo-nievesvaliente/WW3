@@ -28,7 +28,7 @@
 !/                  | WAVEWATCH III           NOAA/NCEP |
 !/                  |           H. L. Tolman            |
 !/                  |                        FORTRAN 90 |
-  !/                  | Last update :         28-Feb-2023 |
+!/                  | Last update :         28-Feb-2023 |
 !/                  +-----------------------------------+
 !/
 !/    04-Feb-2000 : Origination.                        ( version 2.00 )
@@ -36,7 +36,7 @@
 !/    24-Dec-2004 : Multiple grid version.              ( version 3.06 )
 !/    29-May-2009 : Preparing distribution version.     ( version 3.14 )
 !/    03-Sep-2012 : Clean up of test output T0, T1      ( version 4.07 )
-  !/    28-Feb-2023 : Adds GQM separate routines          ( version 7.07 )
+!/    28-Feb-2023 : Adds GQM separate routines          ( version 7.07 )
 !/
 !/    Copyright 2009 National Weather Service (NWS),
 !/       National Oceanic and Atmospheric Administration.  All rights
@@ -78,23 +78,22 @@
 !
 !/ ------------------------------------------------------------------- /
 !/
-  !/
+!/
       PUBLIC
 !/
-  !/ These are the arrays and variables used for GQM method
-  !/
-  INTEGER              :: NCONF
-  INTEGER, ALLOCATABLE :: K_IF2 (:,:,:) , K_IF3 (:,:,:) , K_1P2P(:,:,:) , &
-       K_1P3M(:,:,:) , K_1P2M(:,:,:) , K_1P3P(:,:,:) , &
-       K_1M2P(:,:,:) , K_1M3M(:,:,:) , K_1M2M(:,:,:) , &
-       K_1M3P(:,:,:)
-  INTEGER, ALLOCATABLE :: F_POIN(:) , T_POIN(:) , K_IF1(:) , K_1P(:,:) ,  &
-       K_1M(:,:) , IDCONF(:,:)
-  DOUBLE PRECISION, ALLOCATABLE :: F_COEF(:) , F_PROJ(:) , TB_SCA(:) , TB_V14(:)
-  DOUBLE PRECISION, ALLOCATABLE :: TB_V24(:,:,:) , TB_V34(:,:,:) ,        &
-       TB_TPM(:,:,:) , TB_TMP(:,:,:) , TB_FAC(:,:,:)
-
-  !/
+!/ These are the arrays and variables used for GQM method
+!/
+INTEGER              :: NCONF
+INTEGER, ALLOCATABLE :: K_IF2 (:,:,:) , K_IF3 (:,:,:) , K_1P2P(:,:,:) , &
+     K_1P3M(:,:,:) , K_1P2M(:,:,:) , K_1P3P(:,:,:) , &
+     K_1M2P(:,:,:) , K_1M3M(:,:,:) , K_1M2M(:,:,:) , &
+     K_1M3P(:,:,:)
+INTEGER, ALLOCATABLE :: F_POIN(:) , T_POIN(:) , K_IF1(:) , K_1P(:,:) ,  &
+     K_1M(:,:) , IDCONF(:,:)
+DOUBLE PRECISION, ALLOCATABLE :: F_COEF(:) , F_PROJ(:) , TB_SCA(:) , TB_V14(:)
+DOUBLE PRECISION, ALLOCATABLE :: TB_V24(:,:,:) , TB_V34(:,:,:) ,        &
+     TB_TPM(:,:,:) , TB_TMP(:,:,:) , TB_FAC(:,:,:)
+!/
       CONTAINS
 !/ ------------------------------------------------------------------- /
 
