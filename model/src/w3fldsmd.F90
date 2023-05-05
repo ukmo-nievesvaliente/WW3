@@ -954,10 +954,10 @@ CONTAINS
   SUBROUTINE W3FLDG (INXOUT, IDFLD, NDS, NDST, NDSE, MX, MY,      &
        NX, NY, T0, TN, TF0, FX0, FY0, FA0,          &
        TFN, FXN, FYN, FAN, IERR, FLAGSC             &
-#ifdef W3_OASIS
-       , COUPL_COMM                                 &
-#endif
-       )
+       #ifdef W3_OASIS
+    , COUPL_COMM                                 &
+         #endif
+    )
     !/
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH III           NOAA/NCEP |

@@ -173,9 +173,9 @@ PROGRAM W3GRID_INTERP
   REAL                    :: XXX !< Dummy Value for w3iors call
   LOGICAL                 :: OUTorREST !< True interpolate out_grd or False restart
   INTEGER                 :: INTYPE !check if this can be removed
-  INTEGER, ALLOCATABLE    :: MAPSTA_NG(:,:),MAPST2_NG(:,:) 
-  INTEGER, ALLOCATABLE    :: NOINT(:),NOINT2(:),MAPSTATMP(:,:) 
-  INTEGER                 :: iNOINT,iNOINT2,JSEA,iloops 
+  INTEGER, ALLOCATABLE    :: MAPSTA_NG(:,:),MAPST2_NG(:,:)
+  INTEGER, ALLOCATABLE    :: NOINT(:),NOINT2(:),MAPSTATMP(:,:)
+  INTEGER                 :: iNOINT,iNOINT2,JSEA,iloops
   CHARACTER(LEN=8)        :: WORDS(5)
   CHARACTER(LEN=80)       :: LINEIN
   !
@@ -227,10 +227,10 @@ PROGRAM W3GRID_INTERP
   READ(WORDS( 4 ), * ) NOUT
 
   ! Set flag OUTorREST for out_grd (True) or restart.* (FALSE)
-  IF (WORDS(5) .EQ. 'F') THEN 
+  IF (WORDS(5) .EQ. 'F') THEN
     OUTorREST = .false.
-  ELSE 
-    OUTorREST = .true. 
+  ELSE
+    OUTorREST = .true.
   ENDIF
 
   DTREQ  = MAX ( 0. , DTREQ )
@@ -277,11 +277,11 @@ PROGRAM W3GRID_INTERP
     IF ( IG .NE. NG .AND. NOSWLL_MIN .GE. OUTPTS(IG)%NOSWLL ) THEN
       NOSWLL_MIN = OUTPTS(IG)%NOSWLL
     END IF
-    IF ( IG .EQ. NG) THEN 
-      ALLOCATE(MAPSTA_NG(NY,NX),MAPST2_NG(NY,NX)) 
+    IF ( IG .EQ. NG) THEN
+      ALLOCATE(MAPSTA_NG(NY,NX),MAPST2_NG(NY,NX))
       MAPSTA_NG=MAPSTA
       MAPST2_NG=MAPST2
-    END IF 
+    END IF
   END DO
   IF ( NOSWLL_MIN .NE. OUTPTS(NG)%NOSWLL ) THEN
     WRITE (NDSO,907) NOSWLL_MIN, OUTPTS(NG)%NOSWLL
@@ -291,7 +291,7 @@ PROGRAM W3GRID_INTERP
   READ (NDSI,'(I1)',END=2001,ERR=2002) INTMETHOD
   WRITE (NDSO,917) INTMETHOD
   CLOSE(NDSI)
- 
+
   !
   ! 3.e Allocate memory for integration map and initialize with grid status map
   !
@@ -314,7 +314,7 @@ PROGRAM W3GRID_INTERP
   !
   CALL W3SETG( NG, 6, 6)
   WRITE (NDSO,908) NSEA
-  NSEAL=NSEA ! Set for reading restarts 
+  NSEAL=NSEA ! Set for reading restarts
   !
   ALLOCATE ( GR_INTS(NSEA) )
   !
@@ -322,8 +322,8 @@ PROGRAM W3GRID_INTERP
     IF ( MINVAL ( XGRD ) .LT. 0 .OR.                                     &
          MAXVAL ( XGRD ) .GT. 180.0 ) L360 = .TRUE.
   END IF
-          
-  ALLOCATE ( NOINT(NSEA) )           
+
+  ALLOCATE ( NOINT(NSEA) )
   iNOINT=0
   !
   ! 4.b Check if weight files exist or create it
@@ -756,8 +756,8 @@ PROGRAM W3GRID_INTERP
 #ifdef W3_T
         WRITE (NDSO,909)IX, IY
 #endif
-        iNOINT=iNOINT+1 
-        NOINT(iNOINT)=ISEA 
+        iNOINT=iNOINT+1
+        NOINT(iNOINT)=ISEA
         MAPINT = 1
         MAPST2(IY,IX) = MAPST2(IY,IX) + MAPINT*16
         MAPSTA(IY,IX) = -ABS ( MAPSTA(IY,IX) )
@@ -801,11 +801,11 @@ PROGRAM W3GRID_INTERP
   !
   CALL W3SETA(NG, 6, 6)
   CALL W3DIMA(NG, 6, 6, .TRUE.)
-  IF (OUTorREST) THEN 
+  IF (OUTorREST) THEN
     CALL W3DIMW(NG, 6, 6, .TRUE.)
-  ELSE 
+  ELSE
     CALL W3DIMW(NG, 6, 6)
-  END IF 
+  END IF
   ALLOCATE(FIDOUT(NG))
   DO IG = 1,NG
     FIDOUT(IG) = 30 + (IG-1)*10
@@ -820,7 +820,7 @@ PROGRAM W3GRID_INTERP
       CALL W3IOGO('READ',FIDOUT(IG),IOTST,IG)
       IF ( IOTST .NE. 0 ) THEN
         GO TO 2111
-       ENDIF
+      ENDIF
     END DO
     !
     ! 5.c Setup the output flag options for the target grid
@@ -895,11 +895,11 @@ PROGRAM W3GRID_INTERP
       IF ( IOUT .GE. NOUT ) EXIT
     END DO
     GOTO 2222
-  ! --- if Restart file --------
-  ELSE !OUTorREST=.FALSE. 
-   !
-   ! 5.b Initialize and read the first set of restarts for base grids
-   !
+    ! --- if Restart file --------
+  ELSE !OUTorREST=.FALSE.
+    !
+    ! 5.b Initialize and read the first set of restarts for base grids
+    !
     DO IG = 1,NG-1
       WDATAS(IG)%TIME = TOUT
       CALL W3SETG(IG, 6, 6)
@@ -909,7 +909,7 @@ PROGRAM W3GRID_INTERP
 #ifdef W3_WRST
       CALL W3DIMI(IG, 6, 6)
 #endif
-      NSEAL=NSEA ! Set for reading restarts 
+      NSEAL=NSEA ! Set for reading restarts
 
       !To use an older model version restart file (add a w3iorsold)
       !CALL W3IORSOLD ( 'READ', 56, XXX, INTYPE, IG )
@@ -1016,7 +1016,7 @@ CONTAINS
   !> @author A. Chawla @date 22-Mar-2021
   !
   SUBROUTINE W3EXGI ( NGRD, NSEA, NOSWLL_MIN, INTMETHOD, OUTorRESTflag, &
-                      MAPSTA_NG,MAPST2_NG )
+       MAPSTA_NG,MAPST2_NG )
     !/                  +-----------------------------------+
     !/                  | WAVEWATCH-III           NOAA/NCEP |
     !/                  |             A. Chawla             |
@@ -1145,10 +1145,10 @@ CONTAINS
     LOGICAL       :: ACTIVE
     LOGICAL       :: USEGRID(NGRD)
     !
-    !variables for restart 
+    !variables for restart
     LOGICAL                 :: OUTorRESTflag
     REAL                    :: VAAUX(NSPEC), SUMRES(NSPEC)
-    INTEGER                 :: INTYPE 
+    INTEGER                 :: INTYPE
     REAL                    :: XXX
     INTEGER                 :: MAPSTA_NG(NY,NX),MAPST2_NG(NY,NX)
     !/
@@ -1293,7 +1293,7 @@ CONTAINS
     ! Restart variables
     IF (.NOT.(OUTorRESTflag)) THEN
       VA       = UNDEF
-    ENDIF 
+    ENDIF
     !
     !-------------------------------------------------------------------
     ! 2.  Loop through output points
@@ -1351,7 +1351,7 @@ CONTAINS
             IF ( LMAPLND .EQ. 1 ) NMAPLND = NMAPLND + 1
             IF ( LMAPMSK .EQ. 1 ) NMAPMSK = NMAPMSK + 1
           END DO
-          IF (GR_INTS(ISEA)%IND_WTS(IG)%NP>0) THEN 
+          IF (GR_INTS(ISEA)%IND_WTS(IG)%NP>0) THEN
             NMAPICE = NMAPICE*100/GR_INTS(ISEA)%IND_WTS(IG)%NP
             NMAPDRY = NMAPDRY*100/GR_INTS(ISEA)%IND_WTS(IG)%NP
             NMAPLND = NMAPLND*100/GR_INTS(ISEA)%IND_WTS(IG)%NP
@@ -1547,16 +1547,16 @@ CONTAINS
             MSCDAUX2    = UNDEF
             QPAUX       = UNDEF
             SUMWT8      = 0
-            ! 
-            ! Restart variables 
-            ! 
-            IF (.NOT.(OUTorRESTflag)) THEN 
-              !If restarts, set all FLOGRD 
-              !to false to avoid unneeded computations 
+            !
+            ! Restart variables
+            !
+            IF (.NOT.(OUTorRESTflag)) THEN
+              !If restarts, set all FLOGRD
+              !to false to avoid unneeded computations
               FLOGRD=.FALSE.
-              VAAUX       = UNDEF 
+              VAAUX       = UNDEF
               SUMRES      = 0
-            ENDIF 
+            ENDIF
             !
             ! Loop through the points per grid to obtain interpolated values
             !
@@ -3415,8 +3415,8 @@ CONTAINS
               QP(ISEA) = QP(ISEA) + QPAUX / REAL( SUMWT8(5)*SUMGRD )
             END IF
             !
-            ! Restart varaibles  
-            ! 
+            ! Restart varaibles
+            !
             IF (.NOT.OUTorRESTflag) THEN
               DO IK = 1,NSPEC
                 IF ( VAAUX(IK) .NE. UNDEF ) THEN
@@ -3428,7 +3428,7 @@ CONTAINS
                   END IF
                 END IF
               END DO
-            ENDIF 
+            ENDIF
             !
           END IF !/ ( USEGRID(IG) )
           !
@@ -3472,31 +3472,31 @@ CONTAINS
       !/ End of main loop through output points
     END DO   !/ ISEA = 1, NSEA
 
-    ! Check to make sure VA is positive for restart file 
+    ! Check to make sure VA is positive for restart file
     ! and do nearest neighbor for points w/out interpolation
     !
     IF (.NOT.(OUTorRESTflag)) THEN
       ALLOCATE( MAPSTATMP(0:(NY+1),0:(NX+1)))
       ALLOCATE( NOINT2(iNOINT) )
       MAPSTATMP=0
-      MAPSTATMP(1:NY,1:NX)=MAPSTA          
+      MAPSTATMP(1:NY,1:NX)=MAPSTA
 
       iloops=0
-      DO WHILE ( iloops < 6 .AND. iNOINT > 0 ) 
+      DO WHILE ( iloops < 6 .AND. iNOINT > 0 )
         iNOINT2=0
-        DO JSEA=1,iNOINT 
+        DO JSEA=1,iNOINT
 
-          ISEA=NOINT(JSEA) 
-          !look in the box surrounding the point for a 
-          !neighboring point 
+          ISEA=NOINT(JSEA)
+          !look in the box surrounding the point for a
+          !neighboring point
           IX = MAPSF(ISEA,1)
           IY = MAPSF(ISEA,2)
 
-          IF     ( MAPSTATMP(IY+1,IX)   .EQ. 1 ) THEN 
+          IF     ( MAPSTATMP(IY+1,IX)   .EQ. 1 ) THEN
             VA(:,ISEA)=VA(:,MAPFS(IY+1,IX))
             MAPSTATMP(IY,IX)=1
           ELSEIF ( MAPSTATMP(IY,IX+1)   .EQ. 1 ) THEN
-            VA(:,ISEA)=VA(:,MAPFS(IY+1,IX)) 
+            VA(:,ISEA)=VA(:,MAPFS(IY+1,IX))
             MAPSTATMP(IY,IX)=1
           ELSEIF ( MAPSTATMP(IY-1,IX)   .EQ. 1 ) THEN
             VA(:,ISEA)=VA(:,MAPFS(IY-1,IX))
@@ -3516,28 +3516,28 @@ CONTAINS
           ELSEIF ( MAPSTATMP(IY+1,IX-1) .EQ. 1 ) THEN
             VA(:,ISEA)=VA(:,MAPFS(IY+1,IX-1))
             MAPSTATMP(IY,IX)=1
-          ELSE 
-            !The immediate box surrounding the point 
+          ELSE
+            !The immediate box surrounding the point
             !has no active sea point
             iNOINT2=iNOINT2+1
             NOINT2(iNOINT2)=ISEA
           ENDIF
-        END DO 
+        END DO
         iNOINT=iNOINT2
         NOINT(1:iNOINT2)=NOINT2(1:iNOINT2)
-        iloops=iloops+1 
+        iloops=iloops+1
       END DO
 
-      DEALLOCATE (NOINT,NOINT2,MAPSTATMP)  
+      DEALLOCATE (NOINT,NOINT2,MAPSTATMP)
 
       DO ISEA = 1, NSEA
         DO IK = 1,NSPEC
-          IF ( VA(IK,ISEA) < 0. ) THEN 
+          IF ( VA(IK,ISEA) < 0. ) THEN
             VA(IK,ISEA) = 0.
           END IF
         END DO
       END DO
- 
+
       MAPST2=MAPST2_NG
       MAPSTA=MAPSTA_NG
 
@@ -3546,12 +3546,12 @@ CONTAINS
     !
     !------------------------------------------------------------------------------
     ! 3. Write out interpolated data to target output file
-    ! 
-    IF (OUTorRESTflag) THEN 
+    !
+    IF (OUTorRESTflag) THEN
       CALL W3IOGO('WRITE',FIDOUT(NG),IOTST,NG)
     ELSE
-      ! A potential future improvement could be to also interpolate other fields 
-      ! in addition to VA for the restart interpolation.  For now these are 
+      ! A potential future improvement could be to also interpolate other fields
+      ! in addition to VA for the restart interpolation.  For now these are
       ! set to zero.
       TICE(1)=-1
       TICE(2)=0
@@ -3562,13 +3562,13 @@ CONTAINS
       UST=0.
       USTDIR=0.
       ASF=0.
-      FPIS=0. 
+      FPIS=0.
 #ifdef W3_WRST
       WXN=0.
       WYN=0.
-#endif 
-      CALL W3IORS ( 'HOT', 55, XXX, NG) 
-    END IF 
+#endif
+      CALL W3IORS ( 'HOT', 55, XXX, NG)
+    END IF
     !
     RETURN
     !

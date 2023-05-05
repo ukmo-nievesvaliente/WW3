@@ -1970,10 +1970,10 @@ PROGRAM W3SHEL
     !
     IF ( IAPROC .EQ. NAPOUT ) WRITE (NDSO,960)
     CALL W3WAVE ( 1, ODAT, TIMEN                      &
-#ifdef W3_OASIS
-         , .TRUE., .FALSE., MPI_COMM, TIMEN     &
-#endif
-         )
+         #ifdef W3_OASIS
+    , .TRUE., .FALSE., MPI_COMM, TIMEN     &
+         #endif
+    )
     !
     GOTO 2222
     !
@@ -2105,10 +2105,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                  TTT, XXX, XXX, XXX, TI1, XXX, XXX, ICEP1,  &
                  IERR, FLAGSC(J)                            &
-#ifdef W3_OASICM
-                 , COUPL_COMM                       &
-#endif
-                 )
+                 #ifdef W3_OASICM
+            , COUPL_COMM                       &
+                 #endif
+            )
           END IF
           IF ( IERR .LT. 0 ) FLLST_ALL(J) = .TRUE.
 
@@ -2172,10 +2172,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                  TTT, XXX, XXX, XXX, TI5, XXX, XXX, ICEP5,  &
                  IERR, FLAGSC(J)                            &
-#ifdef W3_OASICM
-                 , COUPL_COMM                       &
-#endif
-                 )
+                 #ifdef W3_OASICM
+            , COUPL_COMM                       &
+                 #endif
+            )
           END IF
           IF ( IERR .LT. 0 )FLLST_ALL(J) = .TRUE.
 
@@ -2248,10 +2248,10 @@ PROGRAM W3SHEL
                    NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                    TTT, XXX, XXX, XXX, TLN, XXX, XXX, WLEV,   &
                    IERR, FLAGSC(J)                            &
-#ifdef W3_OASOCM
-                   , COUPL_COMM                       &
-#endif
-                   )
+                   #ifdef W3_OASOCM
+              , COUPL_COMM                       &
+                   #endif
+              )
 #ifdef W3_TIDE
             END IF
 #endif
@@ -2296,10 +2296,10 @@ PROGRAM W3SHEL
                    NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                    TC0, CX0, CY0, XXX, TCN, CXN, CYN, XXX,    &
                    IERR, FLAGSC(J)                            &
-#ifdef W3_OASOCM
-                   , COUPL_COMM                       &
-#endif
-                   )
+                   #ifdef W3_OASOCM
+              , COUPL_COMM                       &
+                   #endif
+              )
 #ifdef W3_TIDE
             END IF
 #endif
@@ -2332,10 +2332,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                  TW0, WX0, WY0, DT0, TWN, WXN, WYN, DTN,    &
                  IERR, FLAGSC(J)                            &
-#ifdef W3_OASACM
-                 , COUPL_COMM                       &
-#endif
-                 )
+                 #ifdef W3_OASACM
+            , COUPL_COMM                       &
+                 #endif
+            )
           END IF
 
           ! ICE : ice conc.
@@ -2356,10 +2356,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN,    &
                  TTT, XXX, XXX, XXX, TIN, XXX, BERGI, ICEI,    &
                  IERR, FLAGSC(J)                               &
-#ifdef W3_OASICM
-                 , COUPL_COMM                          &
-#endif
-                 )
+                 #ifdef W3_OASICM
+            , COUPL_COMM                          &
+                 #endif
+            )
             IF ( IERR .LT. 0 ) FLLSTI = .TRUE.
             !could be:      IF ( IERR .LT. 0 ) FLLST_ALL(J) = .TRUE.
           END IF
@@ -2391,10 +2391,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                  TU0, UX0, UY0, XXX, TUN, UXN, UYN, XXX,    &
                  IERR, FLAGSC(J)                            &
-#ifdef W3_OASACM
-                 , COUPL_COMM                               &
-#endif
-                 )
+                 #ifdef W3_OASACM
+            , COUPL_COMM                               &
+                 #endif
+            )
           END IF
 
           ! RHO : air density
@@ -2423,10 +2423,10 @@ PROGRAM W3SHEL
                  NDST, NDSEN, NX, NY, NX, NY, TIME0, TIMEN, &
                  TR0, XXX, XXX, RH0, TRN, XXX, XXX, RHN,    &
                  IERR, FLAGSC(J)                            &
-#ifdef W3_OASACM
-                 , COUPL_COMM                               &
-#endif
-                 )
+                 #ifdef W3_OASACM
+            , COUPL_COMM                               &
+                 #endif
+            )
             IF ( IERR .LT. 0 ) FLLSTR = .TRUE.
           END IF
 
@@ -2568,10 +2568,10 @@ PROGRAM W3SHEL
   TIME0  = TTIME
   !
   CALL W3WAVE ( 1, ODAT, TIME0                                    &
-#ifdef W3_OASIS
-       , .TRUE., .FALSE., MPI_COMM, TIMEN                         &
-#endif
-       )
+       #ifdef W3_OASIS
+  , .TRUE., .FALSE., MPI_COMM, TIMEN                         &
+       #endif
+  )
   call print_memcheck(memunit, 'memcheck_____:'//' WW3_SHEL SECTION 9')
   !
   ! The following lines prevents us from trying to read past the end
@@ -2611,10 +2611,10 @@ PROGRAM W3SHEL
     IF ( DTTST .EQ. 0. ) THEN
       IF ( IAPROC .EQ. NAPOUT ) WRITE (NDSO,*) ' '
       CALL W3WAVE ( 1, ODAT, TIME0                                 &
-#ifdef W3_OASIS
-           , .TRUE., .FALSE., MPI_COMM, TIMEN              &
-#endif
-           )
+           #ifdef W3_OASIS
+      , .TRUE., .FALSE., MPI_COMM, TIMEN              &
+           #endif
+      )
     END IF
   END IF
   !

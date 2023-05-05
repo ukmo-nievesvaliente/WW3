@@ -554,13 +554,13 @@ CONTAINS
               ! point 1:
               FLAGOK = ( ABS(GRIDS(J)%MAPSTA(JVER(1),IVER(1))).GE.1 .OR.  &
                    RW(1).LT.0.05 ) .AND.      &
-                   ! point 2:
+                                ! point 2:
                    ( ABS(GRIDS(J)%MAPSTA(JVER(2),IVER(2))).GE.1 .OR.  &
                    RW(2).LT.0.05 ) .AND.      &
-                   ! point 4:
+                                ! point 4:
                    ( ABS(GRIDS(J)%MAPSTA(JVER(4),IVER(4))).GE.1 .OR.  &
                    RW(4)   .LT.0.05 ) .AND.      &
-                   ! point 3:
+                                ! point 3:
                    ( ABS(GRIDS(J)%MAPSTA(JVER(3),IVER(3))).GE.1 .OR.  &
                    RW(3)   .LT.0.05 )
               !
@@ -5689,10 +5689,10 @@ CONTAINS
 #ifdef W3_MPI
 #ifdef W3_SMC
           IF( IMPROC .EQ. NMPERR )              &
-#endif
+               #endif
 #endif
 #ifdef W3_SMC
-               WRITE(MDSE,1060) I, NT, J, NTL
+          WRITE(MDSE,1060) I, NT, J, NTL
 #endif
           !
           ! ... End of loops J in 1.c
@@ -6004,10 +6004,10 @@ CONTAINS
 #ifdef W3_MPI
 #ifdef W3_SMC
     IF( IMPROC .EQ. NMPERR )              &
-#endif
+         #endif
 #endif
 #ifdef W3_SMC
-         WRITE(MDSE,*) " *** WMSMCEQL completed from PE ", IMPROC
+    WRITE(MDSE,*) " *** WMSMCEQL completed from PE ", IMPROC
 #endif
 
     RETURN

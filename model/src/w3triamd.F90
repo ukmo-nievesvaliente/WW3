@@ -964,14 +964,14 @@ CONTAINS
       I2 = TRIGP(2,K)
       I3 = TRIGP(3,K)
 
-!AR: todo call this only for global grid 
+      !AR: todo call this only for global grid
       CALL FIX_PERIODCITY(I1,I2,I3,XGRD,YGRD,PT)
       !
       ! cross product of edge-vector  (orientated anticlockwise)
       !
-      TRIA(K) = REAL( (PT(2,2)-PT(1,2)) & 
-           *(PT(1,1)-PT(3,1))      &    
-           +(PT(3,2)-PT(1,2))      &    
+      TRIA(K) = REAL( (PT(2,2)-PT(1,2)) &
+           *(PT(1,1)-PT(3,1))      &
+           +(PT(3,2)-PT(1,2))      &
            *(PT(2,1)-PT(1,1))      )*0.5
       !
       ! test on negative triangle area, which means that the orientiation is not as assumed to be anticw.
@@ -2796,7 +2796,7 @@ CONTAINS
   END SUBROUTINE TRIANG_INDEXES
 
   !/ ------------------------------------------------------------------- /
-  
+
   !>
   !> @brief Redefines the values of the boundary points and angle pointers
   !>  based on the MAPSTA array.
@@ -2875,10 +2875,10 @@ CONTAINS
          NK, NTH, DTH, XFR, MAPSTA, COUNTRI,         &
          ECOS, ESIN, IEN, NTRI, TRIGP,               &
          IOBP,IOBPD, IOBPA,                          &
-#ifdef W3_REF1
-         REFPARS, REFLC, REFLD,                      &
-#endif
-         ANGLE0, ANGLE
+         #ifdef W3_REF1
+    REFPARS, REFLC, REFLD,                      &
+         #endif
+    ANGLE0, ANGLE
 
     USE W3ODATMD, ONLY: TBPI0, TBPIN, FLBPI
     USE W3ADATMD, ONLY: CG, CX, CY, ATRNX, ATRNY, ITIME, CFLXYMAX

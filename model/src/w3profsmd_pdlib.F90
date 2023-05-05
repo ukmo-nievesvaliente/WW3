@@ -937,19 +937,19 @@ CONTAINS
     USE yowRankModule, only : IPGL_npa
 
     INTEGER, INTENT(IN)    :: ISP        ! Actual Frequency/Wavenumber,
-                                         ! actual Wave Direction
+    ! actual Wave Direction
     REAL,    INTENT(IN)    :: DT         ! Time intervall for which the
-                                         ! advection should be computed
-                                         ! for the given velocity field
+    ! advection should be computed
+    ! for the given velocity field
     REAL,    INTENT(IN)    :: C(npa,2)   ! Velocity field in it's
-                                         ! X- and Y- Components,
+    ! X- and Y- Components,
     REAL,    INTENT(INOUT) :: AC(npa)    ! Wave Action before and
-                                         ! after advection
+    ! after advection
     REAL,    INTENT(IN)    :: RD10, RD20 ! Time interpolation
-                                         ! coefficients for boundary
-                                         ! conditions
+    ! coefficients for boundary
+    ! conditions
     LOGICAL, INTENT(IN)    :: LCALC      ! Switch for the calculation of
-                                         ! the max. Global Time step
+    ! the max. Global Time step
 #ifdef W3_S
     INTEGER, SAVE           :: IENT = 0
 #endif
@@ -1265,19 +1265,19 @@ CONTAINS
     USE yowRankModule, only : IPGL_npa
     IMPLICIT NONE
     INTEGER, INTENT(IN)    :: ISP        ! Actual Frequency/Wavenumber,
-                                         ! actual Wave Direction
+    ! actual Wave Direction
     REAL,    INTENT(IN)    :: DT         ! Time intervall for which the
-                                         ! advection should be computed
-                                         ! for the given velocity field
+    ! advection should be computed
+    ! for the given velocity field
     REAL,    INTENT(IN)    :: C(npa,2)   ! Velocity field in it's
-                                         ! X- and Y- Components,
+    ! X- and Y- Components,
     REAL,    INTENT(INOUT) :: AC(npa)    ! Wave Action before and
-                                         ! after advection
+    ! after advection
     REAL,    INTENT(IN)    :: RD10, RD20 ! Time interpolation
-                                         ! coefficients for boundary
-                                         ! conditions
+    ! coefficients for boundary
+    ! conditions
     LOGICAL, INTENT(IN)    :: LCALC      ! Switch for the calculation of
-                                         ! the max. Global Time step
+    ! the max. Global Time step
 #ifdef W3_S
     INTEGER, SAVE           :: IENT = 0
 #endif
@@ -1562,19 +1562,19 @@ CONTAINS
 
     IMPLICIT NONE
     INTEGER, INTENT(IN)    :: ISP        ! Actual Frequency/Wavenumber,
-                                         ! actual Wave Direction
+    ! actual Wave Direction
     REAL,    INTENT(IN)    :: DT         ! Time intervall for which the
-                                         ! advection should be computed
-                                         ! for the given velocity field
+    ! advection should be computed
+    ! for the given velocity field
     REAL,    INTENT(IN)    :: C(npa,2)   ! Velocity field in it's
-                                         ! X- and Y- Components,
+    ! X- and Y- Components,
     REAL,    INTENT(INOUT) :: AC(npa)    ! Wave Action before and
-                                         ! after advection
+    ! after advection
     REAL,    INTENT(IN)    :: RD10, RD20 ! Time interpolation
-                                         ! coefficients for boundary
-                                         ! conditions
+    ! coefficients for boundary
+    ! conditions
     LOGICAL, INTENT(IN)    :: LCALC      ! Switch for the calculation of
-                                         ! the max. Global Time step
+    ! the max. Global Time step
 #ifdef W3_S
     INTEGER, SAVE           :: IENT = 0
 #endif
@@ -6247,10 +6247,10 @@ CONTAINS
 #ifdef W3_ST4
           CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
                AMAX, U10(ISEA), U10D(ISEA),                           &
-#ifdef W3_FLX5
-               TAUA, TAUADIR, DAIR,                             &
-#endif
-               USTAR, USTDIR,                                  &
+               #ifdef W3_FLX5
+          TAUA, TAUADIR, DAIR,                             &
+               #endif
+          USTAR, USTDIR,                                  &
                TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
 
@@ -7055,10 +7055,10 @@ CONTAINS
          NK, NTH, DTH, XFR, MAPSTA, COUNTRI,         &
          ECOS, ESIN, IEN, NTRI, TRIGP,               &
          IOBP,IOBPD, IOBPA,                          &
-#ifdef W3_REF1
-         REFPARS, REFLC, REFLD,                      &
-#endif
-         ANGLE0, ANGLE, NSEAL
+         #ifdef W3_REF1
+    REFPARS, REFLC, REFLD,                      &
+         #endif
+    ANGLE0, ANGLE, NSEAL
 
     USE W3ODATMD, only: TBPI0, TBPIN, FLBPI
     USE W3ADATMD, only: CG, CX, CY, ATRNX, ATRNY, ITIME, CFLXYMAX
