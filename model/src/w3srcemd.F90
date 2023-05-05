@@ -191,9 +191,9 @@ CONTAINS
        SPECOLD, SPEC, VSIO, VDIO, SHAVEIO,         &
        ALPHA, WN1, CG1, CLATSL,                    &
        D_INP, U10ABS, U10DIR,                      &
-       #ifdef W3_FLX5
+#ifdef W3_FLX5
     TAUA, TAUADIR,                              &
-         #endif
+#endif
     AS, USTAR, USTDIR,                          &
          CX, CY,  ICE, ICEH, ICEF, ICEDMAX,          &
          REFLEC, REFLED, DELX, DELY, DELA, TRNX,     &
@@ -742,46 +742,46 @@ CONTAINS
          VSIN(NSPEC), VDIN(NSPEC),            &
          VSNL(NSPEC), VDNL(NSPEC),            &
          VSDS(NSPEC), VDDS(NSPEC),            &
-         #ifdef W3_ST6
+#ifdef W3_ST6
     VSWL(NSPEC), VDWL(NSPEC),            &
-         #endif
+#endif
     VSBT(NSPEC), VDBT(NSPEC),            &
-         #ifdef W3_IC1
+#ifdef W3_IC1
     VSIC(NSPEC), VDIC(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_IC2
     VSIC(NSPEC), VDIC(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_IC3
     VSIC(NSPEC), VDIC(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_IC4
     VSIC(NSPEC), VDIC(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_IC5
     VSIC(NSPEC), VDIC(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_DB1
     VSDB(NSPEC), VDDB(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_TR1
     VSTR(NSPEC), VDTR(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_BS1
     VSBS(NSPEC), VDBS(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_REF1
     VREF(NSPEC),                         &
-         #endif
+#endif
 #ifdef W3_IS1
     VSIR(NSPEC), VDIR(NSPEC),            &
-         #endif
+#endif
 #ifdef W3_IS2
     VSIR(NSPEC), VDIR(NSPEC),VDIR2(NSPEC), &
-         #endif
+#endif
 #ifdef W3_UOST
     VSUO(NSPEC), VDUO(NSPEC),            &
-         #endif
+#endif
     VS(NSPEC), VD(NSPEC), EB(NK)
 #ifdef W3_ST3
     LOGICAL                 :: LLWS(NSPEC)
@@ -1078,9 +1078,9 @@ CONTAINS
     ELSE
       CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
            AMAX, U10ABS, U10DIR,                           &
-           #ifdef W3_FLX5
+#ifdef W3_FLX5
       TAUA, TAUADIR, DAIR,                             &
-           #endif
+#endif
       USTAR, USTDIR,                                  &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
@@ -1121,9 +1121,9 @@ CONTAINS
 #ifdef W3_ST4
     CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
          AMAX, U10ABS, U10DIR,                         &
-         #ifdef W3_FLX5
+#ifdef W3_FLX5
     TAUA, TAUADIR, DAIR,                    &
-         #endif
+#endif
     USTAR, USTDIR,                                &
          TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
     TWS = 1./FMEANWS
@@ -1832,9 +1832,9 @@ CONTAINS
 #ifdef W3_ST4
       CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN,&
            AMAX, U10ABS, U10DIR,                          &
-           #ifdef W3_FLX5
+#ifdef W3_FLX5
       TAUA, TAUADIR, DAIR,                     &
-           #endif
+#endif
       USTAR, USTDIR,                                 &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
@@ -1955,9 +1955,9 @@ CONTAINS
 #endif
         DO ITH=1, NTH
           SPEC(ITH+(IK-1)*NTH) = SPEC(ITH+(IK-2)*NTH) * FACHFA         &
-               #ifdef W3_ST2
+#ifdef W3_ST2
           * FACDIA + FACPAR * SPEC(ITH+(IK-1)*NTH)            &
-               #endif
+#endif
           + 0.
         END DO
       END DO
@@ -1975,9 +1975,9 @@ CONTAINS
            VSIN, VDIN, LLWS, IX, IY, BRLAMBDA )
       IF (SINTAILPAR(4).LT.0.5) CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN,&
            AMAX, U10ABS, U10DIR,                          &
-           #ifdef W3_FLX5
+#ifdef W3_FLX5
       TAUA, TAUADIR, DAIR,                     &
-           #endif
+#endif
       USTAR, USTDIR,                                 &
            TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif

@@ -242,9 +242,9 @@ MODULE W3IDATMD
   REAL, POINTER           :: GA0, GD0, GAN, GDN
   REAL, POINTER           :: WX0(:,:), WY0(:,:), DT0(:,:),        &
        WXN(:,:), WYN(:,:), DTN(:,:),        &
-       #ifdef W3_WRST
+#ifdef W3_WRST
   WXNwrst(:,:),WYNwrst(:,:),           &
-       #endif
+#endif
   CX0(:,:), CY0(:,:), CXN(:,:),        &
        CYN(:,:), WLEV(:,:), ICEI(:,:),      &
        UX0(:,:), UY0(:,:), UXN(:,:),        &

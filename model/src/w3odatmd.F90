@@ -359,9 +359,9 @@ MODULE W3ODATMD
 #endif
     REAL, POINTER         :: PTLOC(:,:), PTIFAC(:,:),             &
          DPO(:), WAO(:), WDO(:), ASO(:),      &
-         #ifdef W3_FLX5
+#ifdef W3_FLX5
     TAUAO(:), TAUDO(:), DAIRO(:),        &
-         #endif
+#endif
     CAO(:), CDO(:), ICEO(:), ICEHO(:),   &
          ICEFO(:), SPCO(:,:)
     REAL, POINTER         :: ZET_SETO(:)  ! For the wave setup.
@@ -491,9 +491,9 @@ MODULE W3ODATMD
 #endif
   REAL, POINTER           :: PTLOC(:,:), PTIFAC(:,:),             &
        DPO(:), WAO(:), WDO(:), ASO(:),      &
-       #ifdef W3_FLX5
+#ifdef W3_FLX5
   TAUAO(:), TAUDO(:), DAIRO(:),        &
-       #endif
+#endif
   CAO(:), CDO(:), ICEO(:), ICEHO(:),   &
        ICEFO(:), SPCO(:,:)
   REAL, POINTER           :: ZET_SETO(:)
@@ -1078,11 +1078,11 @@ CONTAINS
          OUTPTS(IMOD)%OUT2%ZET_SETO(NPT)   ,                  &
          OUTPTS(IMOD)%OUT2%WDO(NPT)        ,                  &
          OUTPTS(IMOD)%OUT2%ASO(NPT)        ,                  &
-         #ifdef W3_FLX5
+#ifdef W3_FLX5
     OUTPTS(IMOD)%OUT2%TAUAO(NPT)      ,                  &
          OUTPTS(IMOD)%OUT2%TAUDO(NPT)      ,                  &
          OUTPTS(IMOD)%OUT2%DAIRO(NPT)      ,                  &
-         #endif
+#endif
     OUTPTS(IMOD)%OUT2%CAO(NPT)        ,                  &
          OUTPTS(IMOD)%OUT2%CDO(NPT)        ,                  &
          OUTPTS(IMOD)%OUT2%ICEO(NPT)       ,                  &

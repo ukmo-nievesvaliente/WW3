@@ -226,9 +226,9 @@ CONTAINS
   !>
 
   SUBROUTINE W3WAVE ( IMOD, ODAT, TEND, STAMP, NO_OUT &
-       #ifdef W3_OASIS
+#ifdef W3_OASIS
     ,ID_LCOMM, TIMEN                 &
-         #endif
+#endif
     )
     !/
     !/                  +-----------------------------------+
@@ -1527,9 +1527,9 @@ CONTAINS
                  ALPHA(1:NK,JSEA), WN(1:NK,ISEA),                   &
                  CG(1:NK,ISEA), CLATS(ISEA), DW(ISEA), U10(ISEA),   &
                  U10D(ISEA),                                        &
-                 #ifdef W3_FLX5
+#ifdef W3_FLX5
             TAUA(ISEA), TAUADIR(ISEA),                         &
-                 #endif
+#endif
             AS(ISEA), UST(ISEA),                               &
                  USTDIR(ISEA), CX(ISEA), CY(ISEA),                  &
                  ICE(ISEA), ICEH(ISEA), ICEF(ISEA),                 &
@@ -2201,9 +2201,9 @@ CONTAINS
                        ALPHA(1:NK,JSEA), WN(1:NK,ISEA),                  &
                        CG(1:NK,ISEA), CLATS(ISEA), DW(ISEA), U10(ISEA),  &
                        U10D(ISEA),                                       &
-                       #ifdef W3_FLX5
+#ifdef W3_FLX5
                   TAUA(ISEA), TAUADIR(ISEA),                        &
-                       #endif
+#endif
                   AS(ISEA), UST(ISEA),                              &
                        USTDIR(ISEA), CX(ISEA), CY(ISEA),                 &
                        ICE(ISEA), ICEH(ISEA), ICEF(ISEA),                &
@@ -2227,9 +2227,9 @@ CONTAINS
                        ALPHA(1:NK,JSEA), WN(1:NK,ISEA),                  &
                        CG(1:NK,ISEA), CLATS(ISEA), DW(ISEA), U10(ISEA),  &
                        U10D(ISEA),                                       &
-                       #ifdef W3_FLX5
+#ifdef W3_FLX5
                   TAUA(ISEA), TAUADIR(ISEA),                        &
-                       #endif
+#endif
                   AS(ISEA), UST(ISEA),                              &
                        USTDIR(ISEA), CX(ISEA), CY(ISEA),                 &
                        ICE(ISEA), ICEH(ISEA), ICEF(ISEA),                &
@@ -2554,9 +2554,9 @@ CONTAINS
             !
             IF ( DTTST .EQ. 0. ) THEN
               IF ( ( J .EQ. 1 )              &
-                   #ifdef W3_SBS
+#ifdef W3_SBS
                 .OR. ( J .EQ. 7 )         &
-                     #endif
+#endif
                 ) THEN
                 IF ( IAPROC .EQ. NAPFLD ) THEN
 #ifdef W3_MPI

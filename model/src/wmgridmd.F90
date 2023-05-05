@@ -5689,7 +5689,7 @@ CONTAINS
 #ifdef W3_MPI
 #ifdef W3_SMC
           IF( IMPROC .EQ. NMPERR )              &
-               #endif
+#endif
 #endif
 #ifdef W3_SMC
           WRITE(MDSE,1060) I, NT, J, NTL
@@ -6004,7 +6004,7 @@ CONTAINS
 #ifdef W3_MPI
 #ifdef W3_SMC
     IF( IMPROC .EQ. NMPERR )              &
-         #endif
+#endif
 #endif
 #ifdef W3_SMC
     WRITE(MDSE,*) " *** WMSMCEQL completed from PE ", IMPROC

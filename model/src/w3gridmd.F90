@@ -4849,10 +4849,10 @@ CONTAINS
     ! 8.f Set up all maps
     !
     CALL W3DIMX ( 1, NX, NY, NSEA, NDSE, NDST  &
-         #ifdef W3_SMC
+#ifdef W3_SMC
     , NCel, NUFc, NVFc, NRLv, NBSMC  &
          , NARC, NBAC, NSPEC              &
-         #endif
+#endif
     )
 #ifdef W3_SMC
     WRITE (NDSO,4021)   NCel

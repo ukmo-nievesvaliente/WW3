@@ -1370,23 +1370,23 @@ CONTAINS
         IL(I) = 0
         WRITE (NDSOP)                                            &
              IW(I), II(I), IL(I), DPO(I), WAO(I), WDO(I),      &
-             #ifdef W3_FLX5
+#ifdef W3_FLX5
         TAUAO(I), TAUDO(I), DAIRO(I),                     &
-             #endif
+#endif
 #ifdef W3_SETUP
         ZET_SETO(I),                                      &
-             #endif
+#endif
         ASO(I), CAO(I), CDO(I), ICEO(I), ICEHO(I),        &
              ICEFO(I), GRDID(I), (SPCO(J,I),J=1,NSPEC)
       ELSE
         READ (NDSOP,END=801,ERR=802,IOSTAT=IERR)                 &
              IW(I), II(I), IL(I), DPO(I), WAO(I), WDO(I),      &
-             #ifdef W3_FLX5
+#ifdef W3_FLX5
         TAUAO(I), TAUDO(I), DAIRO(I),                     &
-             #endif
+#endif
 #ifdef W3_SETUP
         ZET_SETO(I),                                      &
-             #endif
+#endif
         ASO(I), CAO(I), CDO(I), ICEO(I), ICEHO(I),        &
              ICEFO(I), GRDID(I), (SPCO(J,I),J=1,NSPEC)
       END IF

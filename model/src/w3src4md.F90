@@ -141,9 +141,9 @@ CONTAINS
   !>
   SUBROUTINE W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1, WNMEAN,     &
        AMAX, U, UDIR,                                    &
-       #ifdef W3_FLX5
+#ifdef W3_FLX5
     TAUA, TAUADIR, DAIR,                              &
-         #endif
+#endif
     USTAR, USDIR,                                     &
          TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
     !/
@@ -502,9 +502,9 @@ CONTAINS
     !
     !/ ------------------------------------------------------------------- /
     USE CONSTANTS, ONLY: GRAV,nu_air,KAPPA,TPI,FWTABLE,SIZEFWTABLE, &
-         #ifdef W3_T
+#ifdef W3_T
     RADE,                                      &
-         #endif
+#endif
     DELAB,ABMIN
     USE W3GDATMD, ONLY: NK, NTH, NSPEC, DDEN, SIG, SIG2, TH,         &
          ESIN, ECOS, EC2, ZZWND, AALPHA, BBETA, ZZALP,&

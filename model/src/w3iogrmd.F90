@@ -803,10 +803,10 @@ CONTAINS
            GTYPE, FLAGLL, ICLOSE
       !!Li      IF (.NOT.GINIT) CALL W3DIMX ( IGRD, NX, NY, NSEA, NDSE, NDST )
       IF (.NOT.GINIT) CALL W3DIMX ( IGRD, NX, NY, NSEA, NDSE, NDST &
-           #ifdef W3_SMC
+#ifdef W3_SMC
       , NCel, NUFc, NVFc, NRLv, NBSMC  &
            , NARC, NBAC, NSPEC              &
-           #endif
+#endif
       )
       !
       ! Reads different kind of information depending on grid type

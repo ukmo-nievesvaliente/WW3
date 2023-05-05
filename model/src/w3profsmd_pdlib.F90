@@ -6247,9 +6247,9 @@ CONTAINS
 #ifdef W3_ST4
           CALL W3SPR4 (SPEC, CG1, WN1, EMEAN, FMEAN, FMEAN1, WNMEAN, &
                AMAX, U10(ISEA), U10D(ISEA),                           &
-               #ifdef W3_FLX5
+#ifdef W3_FLX5
           TAUA, TAUADIR, DAIR,                             &
-               #endif
+#endif
           USTAR, USTDIR,                                  &
                TAUWX, TAUWY, CD, Z0, CHARN, LLWS, FMEANWS, DLWMEAN)
 #endif
@@ -7055,9 +7055,9 @@ CONTAINS
          NK, NTH, DTH, XFR, MAPSTA, COUNTRI,         &
          ECOS, ESIN, IEN, NTRI, TRIGP,               &
          IOBP,IOBPD, IOBPA,                          &
-         #ifdef W3_REF1
+#ifdef W3_REF1
     REFPARS, REFLC, REFLD,                      &
-         #endif
+#endif
     ANGLE0, ANGLE, NSEAL
 
     USE W3ODATMD, only: TBPI0, TBPIN, FLBPI

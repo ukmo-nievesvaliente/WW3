@@ -2128,9 +2128,9 @@ CONTAINS
 #ifdef W3_ST4
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                  WNMEAN, AMAX, UABS, UDIRR,             &
-                 #ifdef W3_FLX5
+#ifdef W3_FLX5
             TAUA, TAUADIR, RHOAIR,           &
-                 #endif
+#endif
             USTAR, USTD, TAUWX, TAUWY, CD, Z0,     &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
 #endif
@@ -2180,9 +2180,9 @@ CONTAINS
               IY=1
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,      &
                    WNMEAN, AMAX, UABS, UDIRR,               &
-                   #ifdef W3_FLX5
+#ifdef W3_FLX5
               TAUA, TAUADIR, RHOAIR,             &
-                   #endif
+#endif
               USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                    CHARN, LLWS, FMEANWS,DLWMEAN )
               CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
@@ -2308,9 +2308,9 @@ CONTAINS
 #ifdef W3_ST4
             CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN,  FMEAN1,        &
                  WNMEAN, AMAX, UABS, UDIRR,               &
-                 #ifdef W3_FLX5
+#ifdef W3_FLX5
             TAUA, TAUADIR, RHOAIR,             &
-                 #endif
+#endif
             USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                  CHARN, LLWS, FMEANWS, DLWMEAN )
             CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
@@ -2359,9 +2359,9 @@ CONTAINS
 #ifdef W3_ST4
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                    WNMEAN, AMAX, UABS, UDIRR,               &
-                   #ifdef W3_FLX5
+#ifdef W3_FLX5
               TAUA, TAUADIR, RHOAIR,              &
-                   #endif
+#endif
               USTAR, USTD,  TAUWX, TAUWY, CD, Z0,      &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SIN4 (A, CG, WN2, UABS, USTAR, DAIR/DWAT,    &
@@ -2404,9 +2404,9 @@ CONTAINS
 #ifdef W3_ST4
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,     &
                    WNMEAN, AMAX, UABS, UDIRR,               &
-                   #ifdef W3_FLX5
+#ifdef W3_FLX5
               TAUA, TAUADIR, RHOAIR,              &
-                   #endif
+#endif
               USTAR, USTD, TAUWX, TAUWY, CD, Z0,       &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SDS4 ( A, WN, CG, USTAR,  USTD, DEPTH, DAIR, XDS, &
@@ -2454,9 +2454,9 @@ CONTAINS
 #ifdef W3_ST4
               CALL W3SPR4 (A, CG, WN, EMEAN, FMEAN, FMEAN1,       &
                    WNMEAN, AMAX, UABS, UDIRR,                 &
-                   #ifdef W3_FLX5
+#ifdef W3_FLX5
               TAUA, TAUADIR, RHOAIR,               &
-                   #endif
+#endif
               USTAR, USTD, TAUWX, TAUWY, CD, Z0,         &
                    CHARN, LLWS, FMEANWS, DLWMEAN )
               CALL W3SDS4 ( A, WN, CG,  USTAR, USTD, DEPTH, DAIR, XDS, &
