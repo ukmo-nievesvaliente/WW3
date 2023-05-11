@@ -2286,28 +2286,21 @@ CONTAINS
 #else
         IF (IOBP(IX).EQ.0) THEN
 #endif
-          !AR: this can be further simplified let's do some simple tests 1st ...
-          IF (IOBP(IX).EQ.0) THEN
-            DO IK=1, NK
-              DO ITH=1, NTH
-                ISP = ITH+(IK-1)*NTH
+          DO IK=1, NK
+            DO ITH=1, NTH
+              ISP = ITH+(IK-1)*NTH
 #ifdef W3_PDLIB
-                IF (IOBPD_LOC(ITH,JSEA).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
+              IF (IOBPD_LOC(ITH,JSEA).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
 #else
-                IF (IOBPD(ITH,IX).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
+              IF (IOBPD(ITH,IX).EQ.0) SPEC(ISP) = DTG*VREF(ISP)
 #endif
-              END DO
             END DO
-          ELSE
-            IF (IOBDP(IX) .EQ. -1) THEN
-              SPEC(:) = SPEC(:) + DTG * VREF(:)
-            ENDIF
-          ENDIF
+          END DO
         ELSE
           SPEC(:) = SPEC(:) + DTG * VREF(:)
-        END IF
+        ENDIF
       ELSE
-       SPEC(:) = SPEC(:) + DTG * VREF(:)
+        SPEC(:) = SPEC(:) + DTG * VREF(:)
       END IF
     END IF
 #endif

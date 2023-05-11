@@ -1217,6 +1217,7 @@ CONTAINS
     ! 10. Source code :
     !
     !/ ------------------------------------------------------------------- /
+    USE CONSTANTS, ONLY: GRAV
     !
     DOUBLE PRECISION, INTENT(IN)    :: XK1   , YK1   , XK2   , YK2
     DOUBLE PRECISION, INTENT(IN)    :: XK3   , YK3
@@ -1229,12 +1230,11 @@ CONTAINS
     DOUBLE PRECISION WK3   , WK4   , S12   , S13   , S14   , S23
     DOUBLE PRECISION S24   , S34   , W1P2  , Q12   , W1M3  , Q13
     DOUBLE PRECISION W1M4  , Q14   , DDD   , COEF  , DENO13, NUME13
-    DOUBLE PRECISION DENO14, NUME14, ZERO, GRAVIT, PI
+    DOUBLE PRECISION DENO14, NUME14, ZERO, PI
 
     !
-    GRAVIT      = 9.806
     PI = ACOS(-1.)
-    COEF=PI*GRAVIT*GRAVIT/4.D0
+    COEF=PI*GRAV*GRAV/4.D0
     ZERO=1.D-10
     !
     RK1=SQRT(XK1*XK1+YK1*YK1)
@@ -1564,7 +1564,7 @@ CONTAINS
     DOUBLE PRECISION  RK2   , XK2P  , YK2P  , XK2M  , YK2M
     DOUBLE PRECISION  RK3   , XK3P  , YK3P  , XK3M  , YK3M
     DOUBLE PRECISION  D01P  , C_D01P, S_D01P, D0AP  , C_D0AP, S_D0AP
-    DOUBLE PRECISION  GA2P  , C_GA2P, S_GA2P, GA3P  , C_GA3P, S_GA3P, TWOPI, PI, GRAVIT , SEUIL1 , SEUIL2 , SEUIL
+    DOUBLE PRECISION  GA2P  , C_GA2P, S_GA2P, GA3P  , C_GA3P, S_GA3P, TWOPI, PI, SEUIL1 , SEUIL2 , SEUIL
     !
     !.....Variables related to the Gaussian quadratures
     DOUBLE PRECISION  W_CHE_TE1, W_CHE_OM2, C_LEG_OM2
@@ -1578,7 +1578,6 @@ CONTAINS
     PI = Acos(-1.)
     LBUF = 500
     DIMBUF = 2*LBUF+200
-    GRAVIT = GRAV
     TWOPI  = 2.*PI
     !
     ! Defines some threshold values for filtering (See Gagnaire-Renou Thesis,  p 52)
@@ -1780,7 +1779,7 @@ CONTAINS
     !     COMPUTES SCALE COEFFICIENTS FOR THE COUPLING COEFFICIENT
     !     Would be easier to pass these on from W3SRCE ???
     !=======================================================================
-    DP2SG=TWOPI*TWOPI/GRAVIT
+    DP2SG=TWOPI*TWOPI/GRAV
     DO JF=1,LBUF
       AUX=FREQ(1)/RAISF**(LBUF-JF+1)
       TB_SCA(JF)=(DP2SG*AUX**2)**6/(TWOPI**3*AUX)
