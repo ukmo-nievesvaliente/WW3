@@ -1711,7 +1711,8 @@ CONTAINS
         RETURN ! return everything is done for the implicit ...
 
       END IF ! srce_imp_pre
-#endif !W3_PDLIB
+!W3_PDLIB
+#endif
       !
 #ifdef W3_T
       WRITE (NDST,9040) DTRAW, DT, SHAVE
