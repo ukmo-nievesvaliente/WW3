@@ -1244,7 +1244,7 @@ CONTAINS
            SSDSPBK, SSDSBINT, FFXPM, FFXFM, FFXFA,           &
            SSDSHCK,                                          &
            IKTAB, DCKI, QBI, SATINDICES, SATWEIGHTS,         &
-           DIKCUMUL, CUMULW, SINTAILPAR
+           DIKCUMUL, CUMULW, SINTAILPAR, CAPCHNK
       IF (SINTAILPAR(1).GT.0.5) WRITE (NDSM) DELUST, DELTAIL,&
            DELTAUW, DELU, DELALP, TAUT, TAUHFT, TAUHFT2
     ELSE
@@ -1259,7 +1259,7 @@ CONTAINS
            SSDSPBK, SSDSBINT, FFXPM, FFXFM, FFXFA,           &
            SSDSHCK,                                          &
            IKTAB, DCKI, QBI, SATINDICES, SATWEIGHTS,         &
-           DIKCUMUL, CUMULW, SINTAILPAR
+           DIKCUMUL, CUMULW, SINTAILPAR, CAPCHNK
       IF (SINTAILPAR(1).GT.0.5) THEN
         CALL INSIN4(.FALSE.)
         READ (NDSM) DELUST, DELTAIL,                         &
